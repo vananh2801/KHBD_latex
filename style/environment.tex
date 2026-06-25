@@ -1,0 +1,58 @@
+\usepackage{paracol} % Gói lệnh chia cột song song
+\columnratio{0.5}    % Tỷ lệ 2 cột (0.5 là mỗi bên 50%)
+\globalcounter{paragraph}
+\setlength{\columnseprule}{1pt}
+
+\def\sbHD{}
+\newcommand{\doicot}{\switchcolumn\sbHD}
+
+% Tình huống gợi vấn đề
+\newenvironment{thgvd}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Mở đầu:}}\par}
+	\begin{paracol}{2}%
+	\sbHD%
+}{%
+	\end{paracol}
+}
+
+% Tìm tòi - khám phá
+\newenvironment{ttkp}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
+	\begin{paracol}{2}%
+	\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Ví dụ
+\newcounter{vidu}
+\newenvironment{vidu}{%
+	\refstepcounter{vidu}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Ví dụ \thevidu:}}\par}
+	\begin{paracol}{2}%
+	\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Luyện tập
+\newcounter{luyentap}
+\newenvironment{luyentap}{%
+	\refstepcounter{luyentap}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Luyện tập \theluyentap:}}\par}
+	\begin{paracol}{2}%
+	\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Tổ chức thực hiện
+\newenvironment{tcth}{%
+	\begin{itemize}
+}{%
+	\end{itemize}
+}
+\newcommand{\buocmot}{\item[]\hspace{-\leftmargin}\textbf{Bước 1.} Giao nhiệm vụ học tập}
+\newcommand{\buochai}{\item[]\hspace{-\leftmargin}\textbf{Bước 2.} Thực hiện nhiệm vụ}
+\newcommand{\buocba}{\item[]\hspace{-\leftmargin}\textbf{Bước 3.} Báo cáo, thảo luận}
+\newcommand{\buocbon}{\item[]\hspace{-\leftmargin}\textbf{Bước 4.} Kết luận, nhận định}
