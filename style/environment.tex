@@ -22,7 +22,7 @@
 
 % Tình huống gợi vấn đề
 \newenvironment{thgvd}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Mở đầu:}}\par}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tình huống gợi vấn đề:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -41,6 +41,15 @@
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Câu hỏi
+\newenvironment{cauhoi}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -68,6 +77,47 @@
 	}{%
 	\end{paracol}
 }
+
+% Thực hành
+\newcounter{thuchanh}
+\newenvironment{thuchanh}{%
+	\refstepcounter{thuchanh}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thực hành \thethuchanh:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Vận dụng
+\newcounter{vandung}
+\newenvironment{vandung}{%
+	\refstepcounter{vandung}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Vận dụng \thevandung:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Tranh luận
+\newenvironment{tranhluan}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tranh luận:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Thử thách nhỏ
+\newenvironment{thuthachnho}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thử thách nhỏ:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
+	}{%
+	\end{paracol}
+}
+
 
 % Tổ chức thực hiện
 \newenvironment{tcth}{%
