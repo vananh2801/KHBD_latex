@@ -51,6 +51,7 @@
 {0.5em}
 {#1}
 
+% Tiết
 \newcounter{lesson}
 \newcommand{\lesson}[1]{%
 	\needspace{3cm}
@@ -58,9 +59,18 @@
 	\begin{tcolorbox}[colback=white, colframe=black]
 		\hfil\bf Tiết \thelesson. #1%
 	\end{tcolorbox}
+	\vspace{2mm}
 }
 \makeatletter
 \@addtoreset{lesson}{section}
 \@addtoreset{paragraph}{lesson}
 \@addtoreset{subsubsection}{lesson}
 \makeatother
+
+% Phụ lục
+\newcommand{\phuluc}{%
+	\begin{tcolorbox}[colback=white, colframe=black]
+		\hfil\bf Phụ lục%
+	\end{tcolorbox}
+	\vspace{2mm}
+}
