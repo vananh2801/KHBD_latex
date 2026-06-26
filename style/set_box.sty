@@ -1,0 +1,2457 @@
+%%% Thông tin set_box.sty
+\ProvidesPackage{set_box}[06/07/2025 version 1.2026.03.06, Phan Van Anh]
+%%% Khai báo package
+\RequirePackage{xcolor}
+\RequirePackage{ifthen}
+\RequirePackage{tikz}
+\usetikzlibrary{shadows,angles,calc,positioning,shapes,shapes,decorations.pathmorphing, decorations.pathreplacing,decorations.shapes}
+\RequirePackage{calc}
+\RequirePackage{fontawesome}
+\@ifpackageloaded{tcolorbox}{}{
+	\RequirePackage{tcolorbox}
+}
+\tcbuselibrary{breakable,most,many,skins}
+\RequirePackage{etoolbox}
+\RequirePackage{environ}
+%%% Xử lý bổ sung cho gói ex_test
+\@ifpackageloaded{ex_test}
+{
+	% Bổ sung khai báo còn thiếu cho ex_test, hiện hình vuông cuối lời giải
+	\@ifpackageloaded{mathdesign}{}{
+		\RequirePackage{amssymb}
+	}
+	% Vá \immini
+	\renewcommand{\immini}[3][]{%
+		\savebox{\imbox}{#3}
+		\ifthenelse{\equal{#1}{thm}}
+			{\savebox{\imboxtext}{\vbox{#2}}\def\title{\protect\leavevmode\mbox{\labelthmfull}}
+				\xdef\saveFileAns{}\xdef\keyEX{}\setcounter{dapan}{0}}
+			{\par\noindent\def\title{}%
+				\ifthenelse{\equal{#1}{}}{}
+					{\def\IMheight{#1\linewidth}}}
+		\vspace{-\baselineskip+6pt} % Vá thêm
+		\tcbset{before={\parindent=0pt},before skip=\baselineskip-6pt}%
+		\tcbsidebyside[blanker, sidebyside adapt=right,
+		sidebyside align=top seam, sidebyside gap=\IMheight,
+		top=-5pt,left=0pt,right=0pt,bottom=-4pt,
+		]{{\ignorespaces\title}\ignorespaces#2}{\usebox{\imbox}}%
+	}%
+	\renewcommand{\imminiL}[3][0]{%
+		\savebox{\imbox}{#3}%
+		\ifthenelse{\equal{#1}{thm}}
+			{\savebox{\imboxtext}{\vbox{#2}}\def\title{\protect\leavevmode\mbox{\labelthmfull}}%
+				\xdef\saveFileAns{}\xdef\keyEX{}\setcounter{dapan}{0}}
+			{\par\noindent\def\title{}%
+				\ifthenelse{\equal{#1}{}}{}
+					{\def\IMheight{#1\linewidth}}}%
+		\vspace{-\baselineskip+6pt} % Vá thêm
+		\tcbset{before={\parindent=0pt},before skip=\baselineskip-6pt}%
+		\tcbsidebyside[blanker, sidebyside adapt=left,
+		sidebyside align=top seam, sidebyside gap=\IMheight,
+		top=-5pt,left=0pt,right=0pt,bottom=-4pt,
+		]{\usebox{\imbox}}{{\ignorespaces\title}\ignorespaces#2}%
+	}%
+	% Vá lại ex
+	\AtBeginEnvironment{ex}{%
+		\renewcommand{\sochc}[2][\fromchc]{%
+			\savebox{\imboxtext}{\vbox{#2}}\noindent%
+			\xdef\DGNL{1}%
+			\pgfmathsetmacro{\endchcs}{int(#2+\theex-1)}%
+			\xdef\numendchc{\endchcs}%
+			\gdef\numchc{#2}%
+			\par\noindent%
+			% Thêm \theorem@headerfont  để chỉnh font chữ
+			\textbf{\theorem@headerfont #1 \theex\tochc\numendchc.}\ %
+			\parchc\noindent\ignorespaces%
+			\addtocounter{ex}{-1}\ignorespaces%
+			% Xoá labelthmfull
+			\def\labelthmfull{}%
+			\def\sb@begin{}% Vá thêm
+		}%
+	}
+	% Vá lại chc
+	\BeforeBeginEnvironment{chc}{%
+		\ifsb@InTcolorbox\endbox\def\endbox{}\fi% Vá thêm
+		\let\labelthmex\labelthm%
+		\ifnum\DGNL=0\relax
+			\renewcommand{\thechc}{\theex\alph{chc}}%
+		\else
+			\let\chc\ex%
+			\renewcommand{\thechc}{\theex}%
+		\fi%
+	}
+	% Tạo theorem style mới tên nonumberimmini và nonumberinboxtitle
+	% Đây là các theorem style dùng cho các lệnh \newtheorem*, tức là không có đánh số
+	\@ifundefined{th@nonumberimmini}{%
+		\newtheoremstyle{nonumberimmini}%
+		{\item[\hskip\labelsep \theorem@headerfont ##1\theorem@separator]%
+			\def\thindent{%
+				\setbox0\vbox{\hbox{\leavevmode\unskip\theorem@headerfont ##1\theorem@separator\ignorespaces}}%
+				\hspace*{\wd0}%
+			}%
+			\gdef\labelthm{##1}%
+			\gdef\labelthmfull{\mbox{\theorem@headerfont ##1\theorem@separator\,\ }}%
+		}%
+		{%
+			\ifnum\exbreak=0\relax
+			\ifnum\explain=0\relax%
+			\setbox1\vbox{\hbox{\theorem@headerfont ##1\ (##3)\theorem@separator\ignorespaces}}% 
+			\ifdim\wd1>0.6\linewidth\relax%
+			\item\hbox to \linewidth{\theorem@headerfont ##1\ (##3)\theorem@separator\hfill}%
+			\def\hfillenum{}%
+			\def\thindent{}%
+			\gdef\labelthmfull{}%
+			\else
+			\item[\hskip\labelsep \theorem@headerfont ##1\ (##3)\theorem@separator]
+			\def\hfillenum{\hfill}%
+			\def\thindent{%
+				\setbox0\vbox{\hbox{\leavevmode\unskip\theorem@headerfont ##1\ (##3)\theorem@separator\ignorespaces}}%
+				\hspace*{\wd0}%
+			}%
+			\gdef\labelthmfull{\mbox{\theorem@headerfont ##1\ (##3)\theorem@separator\,\ }}%
+			\fi%
+			\gdef\labelex{}%
+			\else
+			\item[\hskip\labelsep \theorem@headerfont ##1\theorem@separator]
+			\def\hfillenum{\hfill}%
+			\def\thindent{%
+				\setbox0\vbox{\hbox{\leavevmode\unskip\theorem@headerfont ##1\theorem@separator\ignorespaces}}%
+				\hspace*{\wd0}%
+			}%
+			\gdef\labelthmfull{\mbox{\theorem@headerfont ##1\theorem@separator\,\ }}%
+			\gdef\labelex{%
+				\begin{flushright}
+					\vspace*{-5pt}
+					\textit{\color{red}\textbf{(##3)}}
+					\vspace*{-5pt}
+			\end{flushright}}%
+			\fi%
+			\else
+			\ifnum\explain=0\relax%
+			\item\hbox to \linewidth{\theorem@headerfont ##1\ (##3)\theorem@separator\hfill}%
+			\gdef\labelex{}%
+			\else
+			\item[\hskip\labelsep \theorem@headerfont ##1\theorem@separator]%
+			\gdef\labelex{%
+				\begin{flushright}
+					\vspace*{-5pt}
+					\textit{\color{red}\textbf{(##3)}}
+					\vspace*{-5pt}
+			\end{flushright}}%
+			\fi
+			\def\hfillenum{}%
+			\def\thindent{}%
+			\gdef\labelthmfull{}%
+			\fi%
+			\gdef\labelthm{##1}%
+		}
+	}{}
+	\@ifundefined{th@nonumberinboxtitle}{
+		\newtheoremstyle{nonumberinboxtitle}%
+		{\item[]\gdef\labelthm{##1}\gdef\sublabelthm{}\gdef\labelthmfull{}}%
+		{\item[]\gdef\labelthm{##1}\gdef\sublabelthm{##3}\gdef\labelthmfull{}%
+			\ifnum\explain=0\relax\gdef\labelex{}%
+			\else\gdef\sublabelthm{}\gdef\labelex{%
+				\begin{flushright}
+					\vspace*{-5pt}
+					\textit{\color{red}\textbf{(##3)}}
+					\vspace*{-5pt}
+			\end{flushright}}\fi}
+	}{}
+}
+{}
+%%% Màu khung
+\def\sb@defaultColframe{blue}
+\newcommand{\setboxColframe}[2]{
+	\expandafter\edef\csname sb@#1colframe\endcsname{#2}
+	\@ifpackageloaded{ex_test}
+	{
+		\ifthenelse{\equal{#1}{ex}}{
+			\setboxColframe{chc}{#2}
+		}{}
+	}{}
+}
+\newcommand{\setboxColframeSetDefault}[1]{\def\sb@defaultColframe{#1}}
+%%% Màu nền
+\def\sb@defaultColback{black!5}
+\newcommand{\setboxColback}[2]{
+	\expandafter\edef\csname sb@#1colback\endcsname{#2}
+	\@ifpackageloaded{ex_test}
+	{
+		\ifthenelse{\equal{#1}{ex}}{
+			\setboxColback{chc}{#2}
+		}{}
+	}{}
+}
+\newcommand{\setboxColbackSetDefault}[1]{\def\sb@defaultColback{#1}}
+%%% Màu nền tiêu đề
+\def\sb@defaultColbacktitle{blue!10}
+\newcommand{\setboxColbacktitle}[2]{
+	\expandafter\edef\csname sb@#1colbacktitle\endcsname{#2}
+	\@ifpackageloaded{ex_test}
+	{
+		\ifthenelse{\equal{#1}{ex}}{
+			\setboxColbacktitle{chc}{#2}
+		}{}
+	}{}
+}
+\newcommand{\setboxColbacktitleSetDefault}[1]{\def\sb@defaultColbacktitle{#1}}
+%%% Tạo biến kiểm tra có trong tcolorbox hay không, nguồn "ex_test"
+\newif\ifsb@InTcolorbox
+\sb@InTcolorboxfalse
+\newcounter{ifsb@tcbcounter}
+\BeforeBeginEnvironment{tcolorbox}{%
+	\stepcounter{ifsb@tcbcounter}%
+	\sb@InTcolorboxtrue%
+}
+\AfterEndEnvironment{tcolorbox}{%
+	\addtocounter{ifsb@tcbcounter}{-1}%
+	\ifnum\value{ifsb@tcbcounter}=0\relax
+	\sb@InTcolorboxfalse%
+	\fi%
+}
+%%% Tạo lệnh ẩn/hiện khung của môi trường khi ở trong tcolorbox khác
+\newif\Ifsb@hideboxInTcb
+\newcommand{\hideboxInTcb}[1]{
+	\@ifundefined{Ifsb@#1hideboxInTcb}{%
+		\expandafter\newif\csname Ifsb@#1hideboxInTcb\endcsname
+	}
+	{}
+	\csname sb@#1hideboxInTcbtrue\endcsname
+}
+\newcommand{\showboxInTcb}[1]{
+	\@ifundefined{Ifsb@#1hideboxInTcb}{%
+		\expandafter\newif\csname Ifsb@#1hideboxInTcb\endcsname
+	}
+	{}
+	\csname sb@#1hideboxInTcbfalse\endcsname
+}
+%%% Định nghĩa các lệnh độ dài mới dùng cho định dạng tiêu đề cho environment
+\newlength{\sb@titleWidth}
+\newlength{\sb@titleMaxWidth}
+%%% Lệnh áp dụng khung cho các environment.
+%%% Thêm các loại khung tại đây
+\newcommand{\sb@applyTheoBox}[1]{% style
+	% Khai báo beginbox, endbox
+	\ifcase#1 %0
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{}
+		\def\endbox{}
+	\or %1
+		\def\sb@begin{}
+		\def\endbox{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				breakable,
+				enhanced,
+				rounded corners=northeast,
+				arc=6pt,
+				boxrule=0.4mm,
+				left=3mm,
+				right=3mm,
+				colback=\sb@colback,
+				colframe=\sb@colframe
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %2
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\settowidth\sb@titleWidth{\sb@labelthmshort}
+			\begin{tcolorbox}[
+				breakable,
+				enhanced,
+				fonttitle=\normalfont\normalcolor,
+				attach boxed title to top left={
+					xshift=5mm,
+					yshift=-\tcboxedtitleheight
+					},
+				top=8mm,left=3mm,bottom=3mm,right=3mm,
+				boxrule=0.4mm,
+				colframe=\sb@colframe,
+				colback=\sb@colback,
+				rounded corners=southeast,
+				arc=6pt,
+				arc is curved,
+				title={\makebox[\sb@titleWidth][c]{}},
+				boxed title style={
+					interior empty,
+					frame code={
+						\draw[\sb@colframe,fill=\sb@colframe,line width=0.4mm] ([xshift=5mm]frame.north east) coordinate (B) arc (180:0:1mm)
+						([xshift=3mm]frame.north west) coordinate (A) arc(0:180:1mm);
+						\draw[draw=\sb@colframe,fill=\sb@colbacktitle,line width=0.4mm]
+						([shift={(-.115,.1)}]A)--([shift={(.1cm,.1)}]B)[rounded corners=1mm]--([shift={(0,0)}]B)--([shift={(-0.1cm,-15pt)}]B)
+						--([shift={(0.1cm,-15pt)}]A)
+						--([shift={(0,0)}]A)[rounded corners=1mm]--([shift={(-.115,.1)}]A);
+						\path ([shift={(0pt,-6pt)}]A)--([shift={(0,-6pt)}]B) 
+						node[midway]{\sb@labelthmshort};  
+						}
+					}	 	      
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@beginbox{}
+				\def\endbox{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+			\fi
+		\fi
+	\or %3
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+		\begin{tcolorbox}[
+			breakable,
+			enhanced,
+			fonttitle=\normalfont\normalcolor,
+			rounded corners=northeast,
+			arc=6pt,
+			boxrule=0.4mm,
+			top=3mm,left=3mm,bottom=3mm,right=3mm,
+			colback=\sb@colback,
+			colframe=\sb@colframe,
+			attach boxed title to top left={
+				xshift=5mm,
+				yshift=-0.25mm-\tcboxedtitleheight/2,
+				yshifttext=2mm-\tcboxedtitleheight/2
+			},
+			boxed title style={
+				boxrule=0.4mm,
+				frame code={
+				},
+				interior code={
+					\draw[\sb@colframe,fill=\sb@colbacktitle, rounded corners=6pt,line width=0.4mm]
+					(frame.north west) rectangle (frame.south east);
+				}
+			},
+			title={\normalfont\normalcolor\sb@labelthmshort}
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %4
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\settowidth\sb@titleWidth{\normalfont\normalcolor\sb@labelthmfull}
+			\setlength\sb@titleMaxWidth{0.7\linewidth}
+			\ifdim\sb@titleWidth>\sb@titleMaxWidth\relax\setlength{\sb@titleWidth}{\sb@titleMaxWidth}\fi
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				before skip=3mm,
+				after skip=3mm,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				colback=\sb@colback,
+				arc=6pt,
+				colframe=\sb@colframe,
+				boxrule=0.4mm,
+				attach boxed title to top center={
+					yshift=-0.25mm-\tcboxedtitleheight/2,
+					yshifttext=2mm-\tcboxedtitleheight/2
+				},
+				boxed title style={
+					boxrule=0.4mm,
+					frame code={
+						\path[tcb fill frame, \sb@colframe]
+						([xshift=-4mm]frame.west)
+						-- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+						-- (frame.south east) -- (frame.south west) -- cycle;
+					},
+					interior code={
+						\path[tcb fill interior,\sb@colbacktitle]
+						([xshift=-2mm]interior.west)
+						-- (interior.north west)
+						-- (interior.north east)
+						-- ([xshift=2mm]interior.east)
+						-- (interior.south east)
+						-- (interior.south west)-- cycle;
+					},
+				},
+				title={\parbox{\sb@titleWidth}{\normalfont\normalcolor\sb@labelthmfull}},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %5
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\settowidth\sb@titleWidth{\sb@labelthmshort}
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				sharp corners,
+				left skip=6mm,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				toprule=0pt, rightrule=0pt, bottomrule=0pt, leftrule=1mm,
+				colback=\sb@colback, 
+				colframe=\sb@colframe, 
+				detach title,
+				height from={\sb@titleWidth} to 99cm,
+				overlay unbroken and first ={
+					\node[rotate=90, minimum width=1cm, anchor=south] 
+					at (frame.west) {\sb@labelthmshort};
+				}]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %6
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\settowidth\sb@titleWidth{\normalfont\normalcolor\sb@labelthmfull}
+			\setlength\sb@titleMaxWidth{\dimexpr\linewidth-9mm\relax}
+			\ifdim\sb@titleWidth>\sb@titleMaxWidth\relax\setlength{\sb@titleWidth}{\sb@titleMaxWidth}\fi
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				frame hidden,
+				opacitybacktitle=0,
+				opacityback=0,
+				top=\tcboxedtitleheight,left=3mm,bottom=3mm,right=3mm,
+				colframe=\sb@colframe,
+				title={\parbox{\sb@titleWidth}{\normalfont\normalcolor\sb@labelthmfull}},
+				attach boxed title to top left={
+					xshift=3mm,
+					yshift=-\tcboxedtitleheight
+					},
+				boxed title style={
+					top=1mm, left=0mm, right=0mm, bottom=1mm,
+					opacityback=0,
+					frame hidden,
+					overlay={
+					\draw[\sb@colframe,line width=3pt] (frame.north west)--(frame.north east);
+				}},
+				frame code={
+					\fill[\sb@colback,rounded corners=6pt] 
+					(frame.north west) rectangle (frame.south east);
+				},
+				skin first is subskin of={emptyfirst}{%
+					top=\tcboxedtitleheight,
+					frame code={
+						\fill[\sb@colback,rounded corners=6pt] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback,rounded corners=6pt] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback,rounded corners=6pt] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %7
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\par\noindent{\normalfont\normalcolor\sb@labelthmfull}\par
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				frame hidden,
+				opacityback=0,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				frame code={
+					\fill[\sb@colback] 
+					(frame.north west) rectangle (frame.south east);
+					\fill[\sb@colframe] 
+					(frame.north west) rectangle ([xshift=1mm]frame.south west);
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code={
+						\fill[\sb@colback] 
+						(frame.north west) rectangle (frame.south east);
+						\fill[\sb@colframe] 
+						(frame.north west) rectangle ([xshift=1mm]frame.south west);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					frame code={
+						\fill[\sb@colback] 
+						(frame.north west) rectangle (frame.south east);
+						\fill[\sb@colframe] 
+						(frame.north west) rectangle ([xshift=1mm]frame.south west);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					frame code={
+						\fill[\sb@colback] 
+						(frame.north west) rectangle (frame.south east);
+						\fill[\sb@colframe] 
+						(frame.north west) rectangle ([xshift=1mm]frame.south west);
+					},
+				},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %8
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\par\noindent{\normalfont\normalcolor\sb@labelthmfull}\par
+			\begin{tcolorbox}[
+				breakable,
+				enhanced,
+				rounded corners=northeast,
+				arc=6pt,
+				boxrule=0.4mm,
+				left=3mm,
+				right=3mm,
+				colback=\sb@colback,
+				colframe=\sb@colframe
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %9
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\settowidth\sb@titleWidth{\normalfont\normalcolor\sb@labelthmfull}
+			\setlength\sb@titleMaxWidth{\linewidth-6mm}
+			\ifdim\sb@titleWidth>\sb@titleMaxWidth\relax\setlength{\sb@titleWidth}{\sb@titleMaxWidth}\fi
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				frame hidden,
+				opacitybacktitle=0,
+				opacityback=0,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=3mm,
+				title={\parbox{\sb@titleWidth}{\normalfont\normalcolor\sb@labelthmfull}},
+				attach boxed title to top left={
+					xshift=-3mm, 
+					yshift*=-\tcboxedtitleheight/2
+					},
+				boxed title style={
+					top=3pt,
+					right=3pt, 
+					bottom=3pt, 
+					overlay={
+						\fill[\sb@colbacktitle]
+						(frame.south west) -- (frame.north west) -- (frame.north east) --
+						(frame.south east) -- cycle;
+						\fill[left color=\sb@colframe, right color=\sb@colbacktitle]
+						(frame.south west) -- ([xshift=4mm]frame.south west) -- ([xshift=4mm,yshift=-4mm]frame.south west) -- cycle;
+					},
+					frame code={
+					},
+				},
+				frame code={
+					\fill[\sb@colback] 
+					([xshift=1mm]frame.north west) rectangle (frame.south east);
+					\fill[\sb@colframe] 
+					([xshift=1mm]frame.north west) rectangle ([xshift=2mm]frame.south west);
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code={
+						\fill[\sb@colback] 
+						([xshift=1mm]frame.north west) rectangle (frame.south east);
+						\fill[\sb@colframe] 
+						([xshift=1mm]frame.north west) rectangle ([xshift=2mm]frame.south west);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					frame code={
+						\fill[\sb@colback] 
+						([xshift=1mm]frame.north west) rectangle (frame.south east);
+						\fill[\sb@colframe] 
+						([xshift=1mm]frame.north west) rectangle ([xshift=2mm]frame.south west);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					frame code={
+						\fill[\sb@colback] 
+						([xshift=1mm]frame.north west) rectangle (frame.south east);
+						\fill[\sb@colframe] 
+						([xshift=1mm]frame.north west) rectangle ([xshift=2mm]frame.south west);
+					},
+				},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %10
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				colback=\sb@colback,
+				arc=0mm, 
+				boxrule=0.4mm,
+				colframe=\sb@colframe,
+				borderline west={3pt}{1pt}{\sb@colframe},
+				boxrule=0.4mm,
+				toptitle=1mm,bottomtitle=1mm,
+				colbacktitle=\sb@colbacktitle,
+				title={\normalfont\normalcolor\sb@labelthmfull},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %11
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				colback=\sb@colback,
+				arc=0mm, 
+				toptitle=1mm,bottomtitle=1mm,
+				boxrule=0.0mm,
+				leftrule=3pt,
+				colframe=\sb@colframe,
+				colbacktitle=\sb@colbacktitle,
+				borderline west={3pt}{1pt}{\sb@colframe},
+				title={\normalfont\normalcolor\sb@labelthmfull},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %12
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				frame hidden,
+				fonttitle=\normalfont\normalcolor,
+				top=\tcboxedtitleheight+3mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=1.5mm,
+				opacityback=0,
+				title={\normalfont\normalcolor\sb@labelthmshort},
+				attach boxed title to top left={
+					xshift=-1.5mm, 
+					yshift=-\tcboxedtitleheight-2.5mm
+				},
+				boxed title style={
+					opacityback=0,
+					frame hidden,
+					top=3pt,
+					right=3pt, 
+					bottom=3pt, 
+					overlay={
+						\draw[\sb@colframe,fill=\sb@colbacktitle, rounded corners=1mm,line width=0.4mm]
+						(frame.south west) -- (frame.north west) -- (frame.north east) --
+						([xshift=3mm]$(frame.north east)!0.5!(frame.south east)$) -- (frame.south east) -- cycle;
+					}
+				},
+				frame code={
+					\draw[\sb@colframe,fill=\sb@colback,rounded corners=3pt,line width=0.4mm] 
+					(frame.north west) rectangle (frame.south east);
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code={
+						\draw[\sb@colframe,fill=\sb@colback,rounded corners=3pt,line width=0.4mm] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code={
+						\draw[\sb@colframe,fill=\sb@colback,rounded corners=3pt,line width=0.4mm] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code={
+						\draw[\sb@colframe,fill=\sb@colback,rounded corners=3pt,line width=0.4mm] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %13
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				frame hidden,
+				top=\tcboxedtitleheight+3mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=1.5mm,
+				opacityback=0,
+				title={\normalfont\normalcolor\sb@labelthmshort},
+				attach boxed title to top left={
+					xshift=-1.5mm, 
+					yshift=-\tcboxedtitleheight-2.5mm
+				},
+				boxed title style={
+					opacityback=0,
+					frame hidden,
+					top=3pt,
+					right=3pt, 
+					bottom=3pt, 
+					overlay={
+						\fill[\sb@colbacktitle, rounded corners=1mm,line width=0.4mm]
+						(frame.south west) -- (frame.north west) -- (frame.north east) --
+						([xshift=3mm]$(frame.north east)!0.5!(frame.south east)$) -- (frame.south east) -- cycle;
+					}
+				},
+				frame code={
+					\fill[\sb@colback,rounded corners=3pt,line width=0.4mm] 
+					(frame.north west) rectangle (frame.south east);
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code={
+						\fill[\sb@colback,rounded corners=3pt,line width=0.4mm] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback,rounded corners=3pt,line width=0.4mm] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback,rounded corners=3pt,line width=0.4mm] 
+						(frame.north west) rectangle (frame.south east);
+					},
+				},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %14
+		\def\sb@begin{}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				frame hidden,
+				top=\tcboxedtitleheight+3mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=1.5mm,
+				opacityback=0,
+				frame code={
+					\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] (frame.north west) rectangle (frame.south east);
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] 
+						(frame.south west) -- (frame.north west) -- (frame.north east) -- (frame.south east);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north west) -- (frame.south west)
+						(frame.north east) -- (frame.south east);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north west) --  (frame.south west) -- (frame.south east) -- (frame.north east);
+					},
+				},
+				title={\normalfont\normalcolor\sb@labelthmshort},
+				attach boxed title to top left={
+					xshift=-1.5mm, 
+					yshift=-\tcboxedtitleheight-2.5mm
+				},
+				boxed title style={
+					opacityback=0,
+					frame hidden,
+					top=3pt,
+					right=3pt, 
+					bottom=3pt, 
+					overlay={
+						\draw[\sb@colframe,fill=\sb@colbacktitle, rounded corners=1mm,line width=0.4mm]
+						(frame.south west) -- (frame.north west) -- (frame.north east) --
+						([xshift=3mm]$(frame.north east)!0.5!(frame.south east)$) -- (frame.south east) -- cycle;
+					}
+				}
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %15
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				frame hidden,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				opacityback=0,
+				frame code={
+					\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] (frame.north west) rectangle (frame.south east);
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] 
+						(frame.south west) -- (frame.north west) -- (frame.north east) -- (frame.south east);
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north west) -- (frame.south west)
+						(frame.north east) -- (frame.south east);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=3pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north west) --  (frame.south west) -- (frame.south east) -- (frame.north east);
+					},
+				}
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %16
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				frame hidden,
+				top=3mm,left=3mm,bottom=3mm,right=3mm,
+				opacityback=0,
+				frame code ={
+					\pgfmathrandominteger{\nw}{2}{4}%
+					\pgfmathrandominteger{\ne}{2}{4}%
+					\pgfmathrandominteger{\sw}{2}{4}%
+					\pgfmathrandominteger{\se}{2}{4}%
+					\fill[\sb@colback, rounded corners=3mm] (frame.north west) rectangle (frame.south east);
+					\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+					([xshift=\nw mm]frame.north west) -- ([xshift=-\ne mm]frame.north east);
+					\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+					([yshift=-\ne mm]frame.north east) -- ([yshift=\se mm]frame.south east);
+					\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+					([xshift=-\se mm]frame.south east) -- ([xshift=\sw mm]frame.south west);
+					\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+					([yshift=-\nw mm]frame.north west) -- ([yshift=\sw mm]frame.south west);
+					\draw[\sb@colframe,line width=0.4mm] 
+					([xshift=-\ne mm]frame.north east) arc[start angle=90, end angle=0,radius=\ne mm]
+					([yshift=\se mm]frame.south east) arc[start angle=360, end angle=270,radius=\se mm]
+					([xshift=\sw mm]frame.south west) arc[start angle=270, end angle=180,radius=\sw mm]
+					([yshift=-\nw mm]frame.north west) arc[start angle=180, end angle=90,radius=\nw mm]
+					;
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code ={
+						\pgfmathrandominteger{\nw}{2}{4}%
+						\pgfmathrandominteger{\ne}{2}{4}%
+						\fill[\sb@colback] (frame.south west) -- ([yshift=-\nw mm]frame.north west) arc[start angle=180,end angle=90,radius=\nw mm] -- ([xshift=-\ne mm]frame.north east) arc[start angle=90,end angle=0,radius=\ne mm] -- (frame.south east) -- cycle;
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						([xshift=\nw mm]frame.north west) -- ([xshift=-\ne mm]frame.north east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						([yshift=-\ne mm]frame.north east) -- (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						([yshift=-\nw mm]frame.north west) -- (frame.south west);
+						\draw[\sb@colframe,line width=0.4mm] 
+						([xshift=-\ne mm]frame.north east) arc[start angle=90, end angle=0,radius=\ne mm]
+						([yshift=-\nw mm]frame.north west) arc[start angle=180, end angle=90,radius=\nw mm]
+						;
+					},
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north west) -- (frame.south west);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north east) -- (frame.south east);
+					},
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code ={
+						\pgfmathrandominteger{\sw}{2}{4}%
+						\pgfmathrandominteger{\se}{2}{4}%
+						\fill[\sb@colback] (frame.north west) -- ([yshift=\sw mm]frame.south west) arc[start angle=180,end angle=270,radius=\sw mm] -- ([xshift=-\se mm]frame.south east) arc[start angle=270,end angle=360,radius=\se mm] -- (frame.north east) -- cycle;
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm]
+						(frame.north east) -- ([yshift=\se mm]frame.south east);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						([xshift=-\se mm]frame.south east) -- ([xshift=\sw mm]frame.south west);
+						\draw[\sb@colframe,decorate, decoration={random steps,segment length=40pt,amplitude=1pt},line width=0.4mm] 
+						(frame.north west) -- ([yshift=\sw mm]frame.south west);
+						\draw[\sb@colframe,line width=0.4mm] 
+						([yshift=\se mm]frame.south east) arc[start angle=360, end angle=270,radius=\se mm]
+						([xshift=\sw mm]frame.south west) arc[start angle=270, end angle=180,radius=\sw mm]
+						;
+					},
+				},
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %17
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				top=4mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=3mm,
+				opacityback=0,
+				frame hidden,
+				notitle,
+				before skip=8mm,
+				frame code ={
+					\fill[\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
+					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{25pt}{25pt}\selectfont\color{\sb@colframe}\faPowerOff\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{25pt}{25pt}\selectfont\color{\sb@colframe}\faPowerOff\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+					}
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					}
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west) -- cycle;
+					}
+				}
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %18
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				top=4mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=3mm,
+				opacityback=0,
+				frame hidden,
+				notitle,
+				before skip=8mm,
+				frame code ={
+					\fill[\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
+					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faLightbulbO\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faLightbulbO\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+					}
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					}
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west) -- cycle;
+					}
+				}
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %19
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				top=7mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=3mm,
+				opacityback=0,
+				frame hidden,
+				notitle,
+				before skip=8mm,
+				frame code ={
+					\fill[\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
+					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faUnlockAlt\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faUnlockAlt\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+					}
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					}
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west) -- cycle;
+					}
+				}
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmshortDot}
+                \def\sb@beginbox{}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %20
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				top=10mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=2mm,
+				opacityback=0,
+				frame hidden,
+				notitle,
+				before skip=8mm,
+				frame code ={
+					\draw[\sb@colframe,fill=\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
+					\fill[\sb@colframe] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
+					\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
+					\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+					\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{\sb@colframe}\faThumbsUp};
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code ={
+						\fill[\sb@colback] (frame.south west) rectangle (frame.north east);
+						\draw[\sb@colframe, line width=0.4mm] (frame.south west) -- (frame.north west) -- (frame.north east) -- (frame.south east);
+						\fill[\sb@colframe] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
+						\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
+						\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+						\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{\sb@colframe}\faThumbsUp};
+					}
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.south west) rectangle (frame.north east);
+						\draw[\sb@colframe, line width=0.4mm] (frame.south west) -- (frame.north west) (frame.north east) -- (frame.south east);
+					}
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west) --cycle;
+						\draw[\sb@colframe, line width=0.4mm] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west);
+					}
+				}
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthm\theorem@separator}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %21
+		\def\sb@begin{}	
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}	
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				top=10mm,left=3mm,bottom=3mm,right=3mm,
+				left skip=2mm,
+				opacityback=0,
+				frame hidden,
+				notitle,
+				before skip=8mm,
+				frame code ={
+					\draw[\sb@colbacktitle,fill=\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
+					\fill[\sb@colbacktitle] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
+					\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
+					\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+					\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{white}\faThumbsUp};
+				},
+				skin first is subskin of={emptyfirst}{%
+					frame code ={
+						\fill[\sb@colback] (frame.south west) rectangle (frame.north east);
+						\draw[\sb@colbacktitle, line width=0.4mm] (frame.south west) -- (frame.north west) -- (frame.north east) -- (frame.south east);
+						\fill[\sb@colbacktitle] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
+						\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
+						\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+						\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{white}\faThumbsUp};
+					}
+				},
+				skin middle is subskin of={emptymiddle}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.south west) rectangle (frame.north east);
+						\draw[\sb@colbacktitle, line width=0.4mm] (frame.south west) -- (frame.north west) (frame.north east) -- (frame.south east);
+					}
+				},
+				skin last is subskin of={emptylast}{%
+					top=3mm,
+					frame code ={
+						\fill[\sb@colback] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west) --cycle;
+						\draw[\sb@colbacktitle, line width=0.4mm] (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- (frame.north west);
+					}
+				}
+				]
+			}
+		\def\endbox{\par\noindent\hfill\textit{\sb@sublabelthmBracket}\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthm\theorem@separator}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %22
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				breakable,
+				enhanced,
+				rounded corners=northeast,
+				arc=6pt,
+				boxrule=0.4mm,
+				left=3mm,
+				right=3mm,
+				colback=\sb@colback,
+				colframe=\sb@colframe
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %23
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{\begin{tcolorbox}[
+			breakable,
+			enhanced,
+			frame hidden,
+			rounded corners=west,
+			left=3mm,
+			right=3mm,
+			opacityback=0,
+			frame code={
+				\fill[\sb@colback] 
+				([xshift=1mm]frame.north west) rectangle (frame.south east);
+				\fill[\sb@colframe] 
+				(frame.north west) rectangle ([xshift=1mm]frame.south west);
+			},
+			skin first is subskin of={emptyfirst}{%
+				frame code={
+					\fill[\sb@colback] 
+					([xshift=1mm]frame.north west) rectangle (frame.south east);
+					\fill[\sb@colframe] 
+					(frame.north west) rectangle ([xshift=1mm]frame.south west);
+				},
+			},
+			skin middle is subskin of={emptymiddle}{%
+				frame code={
+					\fill[\sb@colback] 
+					([xshift=1mm]frame.north west) rectangle (frame.south east);
+					\fill[\sb@colframe] 
+					(frame.north west) rectangle ([xshift=1mm]frame.south west);
+				},
+			},
+			skin last is subskin of={emptylast}{%
+				frame code={
+					\fill[\sb@colback] 
+					([xshift=1mm]frame.north west) rectangle (frame.south east);
+					\fill[\sb@colframe] 
+					(frame.north west) rectangle ([xshift=1mm]frame.south west);
+				},
+			},
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %24
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{
+		\begin{tcolorbox}[
+			enhanced,
+			before skip=2mm,
+			after skip=3mm,
+			left=5mm, right=2mm, top=1mm, bottom=1mm,
+			colback=\sb@colback,
+			frame hidden,
+			sharp corners,
+			rounded corners=southeast,
+			arc is angular, 
+			arc=3mm,
+			height from=1cm to 99cm,
+			underlay={
+				\path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+				\path[fill=\sb@colframe,draw=none] (interior.south west) rectangle node[white]{\normalfont\Huge\bfseries !} ([xshift=4mm]interior.north west);
+			}
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %25
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{
+		\begin{tcolorbox}[
+			enhanced,
+			breakable,
+			fonttitle=\normalfont\normalcolor,
+			left=3mm, right=3mm, top=3mm, bottom=3mm,
+			colback=\sb@colback,
+			frame hidden,
+			opacityback=0,
+			height from=1.4cm to 99cm,
+			frame code={
+				\draw[\sb@colframe,line width=0.4mm,scale=0.5]
+				% góc trên trái
+				(frame.north west) --++(0.4,0) --++(0,-0.6) --++(-0.4,0) --++(0,-0.2) --++(0.2,0) arc[start angle=90,end angle=180,radius=0.2cm]
+				(frame.north west) --++(0,-0.4) --++(0.6,0) --++(0,0.4) --++(0.2,0) --++(0,-0.2) arc[start angle=180,end angle=90,radius=0.2cm]
+				% góc trên phải
+				(frame.north east) --++(-0.4,0) --++(0,-0.6) --++(0.4,0) --++(0,-0.2) --++(-0.2,0) arc[start angle=90,end angle=0,radius=0.2cm]
+				(frame.north east) --++(0,-0.4) --++(-0.6,0) --++(0,0.4) --++(-0.2,0) --++(0,-0.2) arc[start angle=0,end angle=90,radius=0.2cm]
+				% góc dưới trái
+				(frame.south west) --++(0.4,0) --++(0,0.6) --++(-0.4,0) --++(0,0.2) --++(0.2,0) arc[start angle=270,end angle=180,radius=0.2cm]
+				(frame.south west) --++(0,0.4) --++(0.6,0) --++(0,-0.4) --++(0.2,0) --++(0,0.2) arc[start angle=180,end angle=270,radius=0.2cm]
+				% góc dưới phải
+				(frame.south east) --++(-0.4,0) --++(0,0.6) --++(0.4,0) --++(0,0.2) --++(-0.2,0) arc[start angle=270,end angle=360,radius=0.2cm]
+				(frame.south east) --++(0,0.4) --++(-0.6,0) --++(0,-0.4) --++(-0.2,0) --++(0,0.2) arc[start angle=360,end angle=270,radius=0.2cm]
+				% cạnh trên
+				($(frame.north west)+(1.0,0)$) -- ($(frame.north east)+(-1.0,0)$)
+				% cạnh dưới
+				($(frame.south west)+(1.0,0)$) -- ($(frame.south east)+(-1.0,0)$)
+				% cạnh trái
+				($(frame.north west)+(0,-1.0)$) -- ($(frame.south west)+(0,1.0)$)
+				% cạnh phải
+				($(frame.north east)+(0,-1.0)$) -- ($(frame.south east)+(0,1.0)$)
+				;
+			},
+			skin first is subskin of={emptyfirst}{%
+				bottom=1mm,
+				frame code ={
+					\draw[\sb@colframe,line width=0.4mm,scale=0.5]
+					% góc trên trái
+					(frame.north west) --++(0.4,0) --++(0,-0.6) --++(-0.4,0) --++(0,-0.2) --++(0.2,0) arc[start angle=90,end angle=180,radius=0.2cm]
+					(frame.north west) --++(0,-0.4) --++(0.6,0) --++(0,0.4) --++(0.2,0) --++(0,-0.2) arc[start angle=180,end angle=90,radius=0.2cm]
+					% góc trên phải
+					(frame.north east) --++(-0.4,0) --++(0,-0.6) --++(0.4,0) --++(0,-0.2) --++(-0.2,0) arc[start angle=90,end angle=0,radius=0.2cm]
+					(frame.north east) --++(0,-0.4) --++(-0.6,0) --++(0,0.4) --++(-0.2,0) --++(0,-0.2) arc[start angle=0,end angle=90,radius=0.2cm]
+					% cạnh trên
+					($(frame.north west)+(1.0,0)$) -- ($(frame.north east)+(-1.0,0)$)
+					% cạnh trái
+					($(frame.north west)+(0,-1.0)$) -- (frame.south west)
+					% cạnh phải
+					($(frame.north east)+(0,-1.0)$) -- (frame.south east)
+					;
+				},
+			},
+			skin middle is subskin of={emptymiddle}{%
+				top=1mm,
+				bottom=1mm,
+				frame code ={
+					\draw[\sb@colframe,line width=0.4mm,scale=0.5]
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+				},
+			},
+			skin last is subskin of={emptylast}{%
+				top=1mm,
+				frame code ={
+					\draw[\sb@colframe,line width=0.4mm,scale=0.5]
+					% góc dưới trái
+					(frame.south west) --++(0.4,0) --++(0,0.6) --++(-0.4,0) --++(0,0.2) --++(0.2,0) arc[start angle=270,end angle=180,radius=0.2cm]
+					(frame.south west) --++(0,0.4) --++(0.6,0) --++(0,-0.4) --++(0.2,0) --++(0,0.2) arc[start angle=180,end angle=270,radius=0.2cm]
+					% góc dưới phải
+					(frame.south east) --++(-0.4,0) --++(0,0.6) --++(0.4,0) --++(0,0.2) --++(-0.2,0) arc[start angle=270,end angle=360,radius=0.2cm]
+					(frame.south east) --++(0,0.4) --++(-0.6,0) --++(0,-0.4) --++(-0.2,0) --++(0,0.2) arc[start angle=360,end angle=270,radius=0.2cm]
+					% cạnh dưới
+					($(frame.south west)+(1.0,0)$) -- ($(frame.south east)+(-1.0,0)$)
+					% cạnh trái
+					(frame.north west) -- ($(frame.south west)+(0,1.0)$)
+					% cạnh phải
+					(frame.north east) -- ($(frame.south east)+(0,1.0)$)
+					;
+				},
+			},
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %26
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{\begin{tcolorbox}[
+			breakable,
+			enhanced,
+			rounded corners=west,
+			left=3mm,
+			right=3mm,
+			top=3mm,
+			bottom=3mm,
+			frame hidden,
+			opacityback=0,
+			frame code={
+				\def\rad{3mm}
+				\draw[\sb@colframe,line width=0.4mm]
+				% góc trên trái
+				([xshift=\rad]frame.north west) arc[start angle=360, end angle=270, radius=\rad] 
+				% góc trên phải
+				([xshift=-\rad]frame.north east) arc[start angle=180, end angle=270, radius=\rad] 
+				% góc dưới trái
+				([xshift=\rad]frame.south west) arc[start angle=0, end angle=90, radius=\rad] 
+				% góc dưới phải
+				([xshift=-\rad]frame.south east) arc[start angle=180, end angle=90, radius=\rad] 
+				% cạnh trên
+				([xshift=\rad]frame.north west) -- ([xshift=-\rad]frame.north east)
+				% cạnh dưới
+				([xshift=\rad]frame.south west) -- ([xshift=-\rad]frame.south east)
+				% cạnh trái
+				([yshift=-\rad]frame.north west) -- ([yshift=\rad]frame.south west)
+				% cạnh phải
+				([yshift=-\rad]frame.north east) -- ([yshift=\rad]frame.south east)
+				;
+			},
+			skin first is subskin of={emptyfirst}{%
+				bottom=1mm,
+				frame code ={
+					\def\rad{3mm}
+					\draw[\sb@colframe,line width=0.4mm]
+					% góc trên trái
+					([xshift=\rad]frame.north west) arc[start angle=360, end angle=270, radius=\rad] 
+					% góc trên phải
+					([xshift=-\rad]frame.north east) arc[start angle=180, end angle=270, radius=\rad] 
+					% cạnh trên
+					([xshift=\rad]frame.north west) -- ([xshift=-\rad]frame.north east)
+					% cạnh trái
+					([yshift=-\rad]frame.north west) -- (frame.south west)
+					% cạnh phải
+					([yshift=-\rad]frame.north east) -- (frame.south east)
+					;
+				},
+			},
+			skin middle is subskin of={emptymiddle}{%
+				top=1mm,
+				bottom=1mm,
+				frame code ={
+					\draw[\sb@colframe,line width=0.4mm]
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+				},
+			},
+			skin last is subskin of={emptylast}{%
+				top=1mm,
+				frame code ={
+					\def\rad{3mm}
+					\draw[\sb@colframe,line width=0.4mm]
+					% cạnh trái
+					(frame.north west) -- ([yshift=\rad]frame.south west)
+					% cạnh phải
+					(frame.north east) -- ([yshift=\rad]frame.south east)
+					% góc dưới trái
+					([xshift=\rad]frame.south west) arc[start angle=0, end angle=90, radius=\rad] 
+					% góc dưới phải
+					([xshift=-\rad]frame.south east) arc[start angle=180, end angle=90, radius=\rad] 
+					% cạnh dưới
+					([xshift=\rad]frame.south west) -- ([xshift=-\rad]frame.south east)
+					;
+				},
+			},
+		]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %27
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{\begin{tcolorbox}[
+			breakable,
+			enhanced,
+			rounded corners=west,
+			left=3mm,
+			right=3mm,
+			top=3mm,
+			bottom=3mm,
+			frame hidden,
+			opacityback=0,
+			frame code={
+				\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+				\draw[\sb@colframe,line width=0.4mm]
+				(frame.north west) rectangle (frame.south east);
+			},
+			skin first is subskin of={emptyfirst}{%
+				bottom=1mm,
+				frame code ={
+					\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					\draw[\sb@colframe,line width=0.4mm]
+					% cạnh trên
+					(frame.north west) -- (frame.north east)
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+				},
+			},
+			skin middle is subskin of={emptymiddle}{%
+				top=1mm,
+				bottom=1mm,
+				frame code ={
+					\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					\draw[\sb@colframe,line width=0.4mm]
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+				},
+			},
+			skin last is subskin of={emptylast}{%
+				top=1mm,
+				frame code={
+					\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
+					\draw[\sb@colframe,line width=0.4mm]
+					% cạnh dưới
+					(frame.south west) -- (frame.south east)
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+				},
+			},
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %28
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{\begin{tcolorbox}[
+			breakable,
+			enhanced,
+			rounded corners=west,
+			left=5mm,
+			right=5mm,
+			top=5mm,
+			bottom=5mm,
+			frame hidden,
+			opacityback=0,
+			frame code={
+				\draw[\sb@colframe,line width=2pt]
+				(frame.north west) rectangle (frame.south east);
+				\draw[\sb@colframe,fill=\sb@colback,line width=0.5pt]
+				($(frame.north west)+(0.2,-0.2)$) rectangle ($(frame.south east)+(-0.2,0.2)$);
+			},
+			skin first is subskin of={emptyfirst}{%
+				bottom=1mm,
+				frame code ={
+					\fill[\sb@colback]
+					($(frame.north west)+(0.2,-0.2)$) rectangle ($(frame.south east)+(-0.2,0)$);
+					\draw[\sb@colframe,line width=2pt]
+					% cạnh trên
+					(frame.north west) -- (frame.north east)
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+					\draw[\sb@colframe,line width=0.5pt]
+					% cạnh trên
+					($(frame.north west)+(0.2,-0.2)$) -- ($(frame.north east)+(-0.2,-0.2)$)
+					% cạnh trái
+					($(frame.north west)+(0.2,-0.2)$) -- ($(frame.south west)+(0.2,0)$)
+					% cạnh phải
+					($(frame.north east)+(-0.2,-0.2)$) -- ($(frame.south east)+(-0.2,0)$)
+					;
+				},
+			},
+			skin middle is subskin of={emptymiddle}{%
+				top=1mm,
+				bottom=1mm,
+				frame code ={
+					\fill[\sb@colback]
+					($(frame.north west)+(0.2,0)$) rectangle ($(frame.south east)+(-0.2,0)$);
+					\draw[\sb@colframe,line width=2pt]
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+					\draw[\sb@colframe,line width=0.5pt]
+					% cạnh trái
+					($(frame.north west)+(0.2,0)$) -- ($(frame.south west)+(0.2,0)$)
+					% cạnh phải
+					($(frame.north east)+(-0.2,0)$) -- ($(frame.south east)+(-0.2,0)$)
+					;
+				},
+			},
+			skin last is subskin of={emptylast}{%
+				top=1mm,
+				frame code={
+					\fill[\sb@colback]
+					($(frame.north west)+(0.2,0)$) rectangle ($(frame.south east)+(-0.2,0.2)$);
+					\draw[\sb@colframe,line width=2pt]
+					% cạnh dưới
+					(frame.south west) -- (frame.south east)
+					% cạnh trái
+					(frame.north west) -- (frame.south west)
+					% cạnh phải
+					(frame.north east) -- (frame.south east)
+					;
+					\draw[\sb@colframe,line width=0.5pt]
+					% cạnh dưới
+					($(frame.south west)+(0.2,0.2)$) -- ($(frame.south east)+(-0.2,0.2)$)
+					% cạnh trái
+					($(frame.north west)+(0.2,0)$) -- ($(frame.south west)+(0.2,0.2)$)
+					% cạnh phải
+					($(frame.north east)+(-0.2,0)$) -- ($(frame.south east)+(-0.2,0.2)$)
+					;
+				},
+			},
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %29
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@end{}
+		\def\sb@beginbox{\begin{tcolorbox}[
+			breakable,
+			enhanced,
+			frame hidden,
+			left=3mm,
+			right=3mm,
+			top=3mm,
+			bottom=3mm,
+			opacityback=0,
+			frame code={
+				\fill[\sb@colback]
+				(frame.north west) rectangle (frame.south east);
+				% cạnh trái
+				\fill[\sb@colframe] (frame.north west) rectangle ([xshift=2pt]frame.south west);
+				\fill[\sb@colframe] ([xshift=4pt]frame.north west) rectangle ([xshift=5pt]frame.south west);
+			},
+			skin first is subskin of={emptyfirst}{%
+				frame code ={
+					\fill[\sb@colback]
+					(frame.north west) rectangle (frame.south east);
+					% cạnh trái
+					\fill[\sb@colframe] (frame.north west) rectangle ([xshift=2pt]frame.south west);
+					\fill[\sb@colframe] ([xshift=4pt]frame.north west) rectangle ([xshift=5pt]frame.south west);
+				},
+			},
+			skin middle is subskin of={emptymiddle}{%
+				frame code ={
+					\fill[\sb@colback]
+					(frame.north west) rectangle (frame.south east);
+					% cạnh trái
+					\fill[\sb@colframe] (frame.north west) rectangle ([xshift=2pt]frame.south west);
+					\fill[\sb@colframe] ([xshift=4pt]frame.north west) rectangle ([xshift=5pt]frame.south west);
+				},
+			},
+			skin last is subskin of={emptylast}{%
+				frame code={
+					\fill[\sb@colback]
+					(frame.north west) rectangle (frame.south east);
+					% cạnh trái
+					\fill[\sb@colframe] (frame.north west) rectangle ([xshift=2pt]frame.south west);
+					\fill[\sb@colframe] ([xshift=4pt]frame.north west) rectangle ([xshift=5pt]frame.south west);
+				},
+			},
+			]
+		}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+        \ifsb@InTcolorbox
+            \Ifsb@hideboxInTcb
+                \def\sb@begin{\sb@labelthmfullDot}
+				\def\sb@end{}
+                \def\sb@beginbox{}
+                \def\endbox{}
+            \fi
+        \fi
+	\or %30
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\settowidth\sb@titleWidth{\sb@labelthmshort}
+			\begin{tcolorbox}[
+				breakable,
+				enhanced,
+				fonttitle=\normalfont\normalcolor,
+				attach boxed title to top center={
+					xshift=0mm,
+					yshift=-\tcboxedtitleheight
+					},
+				top=8mm,left=3mm,bottom=3mm,right=3mm,
+				boxrule=0.4mm,
+				colframe=\sb@colframe,
+				colback=\sb@colback,
+				rounded corners=southeast,
+				arc=6pt,
+				arc is curved,
+				title={\makebox[\sb@titleWidth][c]{}},
+				boxed title style={
+					interior empty,
+					frame code={
+						\draw[\sb@colframe,fill=\sb@colframe,line width=0.4mm] ([xshift=5mm]frame.north east) coordinate (B) arc (180:0:1mm)
+						([xshift=3mm]frame.north west) coordinate (A) arc(0:180:1mm);
+						\draw[draw=\sb@colframe,fill=\sb@colbacktitle,line width=0.4mm]
+						([shift={(-.115,.1)}]A)--([shift={(.1cm,.1)}]B)[rounded corners=1mm]--([shift={(0,0)}]B)--([shift={(-0.1cm,-15pt)}]B)
+						--([shift={(0.1cm,-15pt)}]A)
+						--([shift={(0,0)}]A)[rounded corners=1mm]--([shift={(-.115,.1)}]A);
+						\path ([shift={(0pt,-6pt)}]A)--([shift={(0,-6pt)}]B) 
+						node[midway]{\sb@labelthmshort};
+						}
+					}	 	      
+				]
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %31
+		\def\sb@begin{}
+		\def\loxoh{%
+			\tikzpicture[transform shape,scale=0.6]
+			\node[circle,scale=1.35,draw=\sb@colframe,fill=white](1){};
+			\foreach \i in {0,2}{
+			\draw[\sb@colframe,line width=.4mm]([shift={(-0.\i,.02)}]1.north east)arc(-40:-352:1.3mm and 5.3mm);}
+			\endtikzpicture}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				before skip=6mm,
+				breakable,
+				enhanced,
+				fonttitle=\normalfont\normalcolor,
+				rounded corners=northeast,
+				arc=6pt,
+				boxrule=0.4mm,
+				left=3mm,
+				right=3mm,
+				top=8mm,
+				colback=\sb@colback,
+				colframe=\sb@colframe,
+				overlay unbroken and first={
+					\foreach \i in {0.1,0.2,...,0.9}
+						{
+						\node at ($([yshift=-1.4mm]frame.north east)!\i!([yshift=-1.4mm]frame.north west)$){\loxoh};
+						}
+				},
+				]%
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{}
+				\def\sb@end{}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %32
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				before skip=0.4cm,
+				after skip=0.4cm,
+				bottom=3mm,
+				colframe=\sb@colframe,
+				colback=\sb@colback,
+				boxrule=0.4mm,
+				arc=0mm,
+				leftrule=2mm,
+				attach boxed title to top left =
+					{xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+				boxed title style={
+					frame code={
+						\coordinate (A) at (frame.north east);
+						\coordinate (B) at (frame.south east);
+						\fill[\sb@colbacktitle](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+						\draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+						\fill[left color=\sb@colframe, right color=\sb@colbacktitle]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+						},
+					interior engine=empty,
+					},
+				title={\sb@labelthmshort}
+				]%
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %33
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				skin=enhancedlast jigsaw,
+				attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+				colbacktitle=\sb@colbacktitle,
+				colframe=\sb@colframe,
+				colback=\sb@colback,
+				boxrule=0.4mm,
+				boxed title style={
+					empty,
+					arc=0pt,
+					outer arc=0pt,
+					boxrule=0pt
+					},
+				underlay boxed title={
+					\fill[\sb@colbacktitle](title.north west) --
+					(title.north east) --
+					+(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+					--([xshift=3mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) --(title.south west) -- cycle;
+					\fill[left color=\sb@colframe, right color=\sb@colback]
+					([yshift=-0.5mm]frame.north west) --
+					+(-0.4,0) -- +(0,-0.3) -- cycle;
+					\fill[left color=\sb@colback, right color=\sb@colframe]
+					([yshift=-0.5mm]frame.north east) --
+					+(0,-0.3) -- +(0.3,0) -- cycle;
+					},
+				title={\sb@labelthmshort}
+				]%
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\or %34
+		\def\sb@begin{}
+		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+		\def\sb@beginbox{
+			\begin{tcolorbox}[
+				enhanced,
+				breakable,
+				fonttitle=\normalfont\normalcolor,
+				before skip=2mm,
+				after skip=0.3cm,
+				bottom=0.5cm,
+				colframe=\sb@colframe,
+				colback=\sb@colback,
+				boxrule=0.2mm,
+				arc=2mm,
+				attach boxed title to top left={
+					xshift=0cm,
+					yshift*=0mm-\tcboxedtitleheight
+					},
+				%varwidth boxed title*=-3cm,
+				boxed title style={
+					interior empty,
+					%interior engine=empty,
+					frame code={
+						\draw[\sb@colframe, fill=\sb@colbacktitle]
+						([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+						\draw[\sb@colframe]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+						},
+					%
+					},
+				title={\sb@labelthmshort}
+				]%
+			}
+		\def\endbox{\end{tcolorbox}}
+		%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+		\ifsb@InTcolorbox
+			\Ifsb@hideboxInTcb
+				\def\sb@begin{\sb@labelthmshortDot}
+				\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
+				\def\sb@beginbox{}
+				\def\endbox{}
+			\fi
+		\fi
+	\else %35 trở lên
+		\def\sb@begin{\sb@labelthmfullDot}
+		\def\sb@beginbox{}
+		\def\endbox{}
+	\fi
+}
+%%% Tạo biến để kiểm tra xem có vừa sử dụng \loigiai không
+\newif\ifsb@JustSolution
+%%% Hook vào cuối \loigiai để gán biến kiểm tra
+\apptocmd{\loigiai}{
+	\sb@JustSolutiontrue
+}
+{} % Hành động khi thành công
+{} % Hành động khi thất bại
+%%% Hàm hỗ trợ lấy counter chính xác khi dùng \newtheorem{dl}[dn]{Định lý}
+\def\getcountername#1{\expandafter\expandafter\expandafter\@extractcounter\csname mkheader@#1\endcsname}
+\def\@extractcounter\csname#1\endcsname#2#3#4#5{#4}
+%%% Tạo biến kiểm tra cấp độ của box
+\newcounter{sb@boxLevel}
+%%% Tạo lệnh lưu trữ các định dạng của tiêu đề
+\def\sb@labelthm{}
+\def\sb@sublabelthm{}
+\def\sb@sublabelthmBracket{}
+\def\sb@Currentlabel{}
+\def\sb@labelthmshort{}
+\def\sb@labelthmfull{}
+\def\sb@labelthmshortDot{}
+\def\sb@labelthmfullDot{}
+\def\sb@begin{}
+\def\sb@end{}
+\def\sb@colbacktitle{}
+\def\sb@colback{}
+\def\sb@colframe{}
+%%% Tạo box lưu tiêu đề để chèn \theorem@headerfont, tránh bị lỗi khi dùng trong tikz
+\newsavebox{\sb@labelthmshortBox}
+\newsavebox{\sb@labelthmshortDotBox}
+\newsavebox{\sb@labelthmfullBox}
+\newsavebox{\sb@labelthmfullDotBox}
+%%% Hàm hỗ trợ hiện label nếu không \immini và \sochc ở đầu nội dung
+%%% Nếu không thấy \sochc và \immini mới hiện tiêu đề, cần phải khai báo lại tiêu đề tương ứng trong các khai báo kiểu khung
+\def\sb@addBegin{%
+	\def\labelthmfull{\ifthenelse{\equal{\sb@begin}{}}{}{\sb@begin~}}%
+    \@ifnextchar\immini{%
+        \sb@check@immini%
+    }{%
+        \@ifnextchar\sochc%
+        {}%
+        {\ignorespaces{\ifthenelse{\equal{\sb@begin}{}}{}{\sb@begin~}}}%
+    }%
+}
+\def\sb@check@immini#1{% #1 là \immini
+    \@ifnextchar[%
+        {\sb@check@bracket{#1}}%
+        {\ignorespaces{\ifthenelse{\equal{\sb@begin}{}}{}{\sb@begin~}}#1}%
+}
+\def\sb@check@bracket#1[#2]{% #1 là \immini, #2 là nội dung trong []
+    \def\tmp@arg{#2}%
+    \def\tmp@thm{thm}%
+    \ifx\tmp@arg\tmp@thm
+        \expandafter\@firstoftwo%
+    \else
+        \expandafter\@secondoftwo%
+    \fi
+    {% TH1: nội dung là [thm]
+        #1[#2]%
+    }{% TH2: nội dung khác
+        \ignorespaces{\ifthenelse{\equal{\sb@begin}{}}{}{\sb@begin~}}#1[#2]%
+    }%
+}
+%%% Hàm hỗ trợ thêm nội dung cuối theorem
+\def\sb@addEnd{%
+	\sb@end
+}
+%%% Hàm kiểm tra tham số là số hay là command
+\newcommand{\IfIsCommand}[3]{%
+    \checkArg@aux#1\@nil{#2}{#3}%
+}
+% Hàm phụ trợ tách token đầu tiên
+\def\checkArg@aux#1#2\@nil{%
+    \ifcat\noexpand#1\relax%
+        \expandafter\@firstoftwo%
+    \else%
+        \expandafter\@secondoftwo%
+    \fi%
+}
+%%% Tạo lệnh đổi khung cho theorem
+\newcommand{\setTheoBox}{\@ifstar{\@setTheoBoxStar}{\@setTheoBoxNoStar}}
+%%% Tạo lệnh đổi khung cho theorem nếu có đánh số
+\newcommand{\@setTheoBoxNoStar}[2]{
+	% Cài đặt màu khung và nền của tcolorbox theo tên môi trường
+	\@ifundefined{sb@#1colframe}{\setboxColframe{#1}{\sb@defaultColframe}}{}
+	\@ifundefined{sb@#1colback}{\setboxColback{#1}{\sb@defaultColback}}{}
+	\@ifundefined{sb@#1colbacktitle}{\setboxColbacktitle{#1}{\sb@defaultColbacktitle}}{}
+	% Bật hiển thị khung khi dùng trong tcolorbox khác theo mặc định
+	\showboxInTcb{#1}
+	% Khai báo lại môi trường
+	\RenewEnviron{#1}[1][]{
+		% Nạp lại giá trị
+		\csname setparms@#1\endcsname
+		% Kiểm tra xem có bỏ qua không
+		\checkSkipFlag{#1}
+		% Tăng counter của môi trường #1 một đơn vị
+		\edef\tmpctr{\getcountername{#1}}
+		\stepcounter{\tmpctr}
+		% Tạo biến tạm thời để ẩn/hiện khung
+		\csname Ifsb@#1hideboxInTcb\endcsname
+			\sb@hideboxInTcbtrue
+		\else
+			\sb@hideboxInTcbfalse
+		\fi
+		% Tiến hành xử lý
+		\Ifsb@skipflag
+		\else
+			% Khai báo màu
+			\def\sb@colbacktitle{\csname sb@#1colbacktitle\endcsname}
+			\def\sb@colback{\csname sb@#1colback\endcsname}
+			\def\sb@colframe{\csname sb@#1colframe\endcsname}
+			% Khai báo số thứ tự
+			\def\sb@Currentlabel{\csname the#1\endcsname}
+			% Khai báo tiêu đề
+			\def\sb@labelthm{\csname #1Keyword\endcsname}
+			% Khai báo tiêu đề PHỤ
+			\def\sb@sublabelthm{##1}
+			% Khai báo tiêu đề PHỤ với ngoặc
+			\ifthenelse{\equal{##1}{}}{\def\sb@sublabelthmBracket{}}{\def\sb@sublabelthmBracket{(##1)}}
+			% Khai báo tiêu đề RÚT GỌN, không có tiêu đề phụ
+			% Ví dụ "Định nghĩa 1"
+			\sbox{\sb@labelthmshortBox}{\theorem@headerfont\sb@labelthm~\sb@Currentlabel}
+			\def\sb@labelthmshort{\usebox{\sb@labelthmshortBox}}
+			% Khai báo tiêu đề RÚT GỌN, có dấu "." ở cuối
+			% Ví dụ "Định nghĩa 1."
+			\sbox{\sb@labelthmshortDotBox}{\theorem@headerfont\sb@labelthm~\sb@Currentlabel\theorem@separator}
+			\def\sb@labelthmshortDot{\usebox{\sb@labelthmshortDotBox}}
+			% Khai báo tiêu đề ĐẦY ĐỦ, có tiêu đề phụ
+			% Ví dụ "Định nghĩa 1 (Tên định nghĩa)"
+			\ifthenelse{\equal{##1}{}}{%
+				\sbox{\sb@labelthmfullBox}{\theorem@headerfont\sb@labelthm~\sb@Currentlabel}%
+			}{%
+				\sbox{\sb@labelthmfullBox}{\theorem@headerfont\sb@labelthm~\sb@Currentlabel~(\sb@sublabelthm)}%
+			}
+			\def\sb@labelthmfull{\usebox{\sb@labelthmfullBox}}%
+			% Khai báo tiêu đề ĐẦY ĐỦ, có tiêu đề phụ, có dấu "." ở cuối
+			% Ví dụ "Định nghĩa 1 (Tên định nghĩa)."
+			\ifthenelse{\equal{##1}{}}{%
+				\sbox{\sb@labelthmfullDotBox}{\theorem@headerfont\sb@labelthm~\sb@Currentlabel\theorem@separator}%
+			}{%
+				\sbox{\sb@labelthmfullDotBox}{\theorem@headerfont\sb@labelthm~\sb@Currentlabel~(\sb@sublabelthm)\theorem@separator}%
+			}
+			\def\sb@labelthmfullDot{\usebox{\sb@labelthmfullDotBox}}
+			% Áp dụng khung
+			\IfIsCommand{#2}{#2}{\sb@applyTheoBox{#2}}
+			% Tăng cấp box
+			\addtocounter{sb@boxLevel}{1}
+			% Lưu \endbox theo cấp box
+			\expandafter\edef\csname sb@currBoxLevel\endcsname{\roman{sb@boxLevel}}
+			\expandafter\let\csname endbox\sb@currBoxLevel\endcsname\endbox
+			% Thêm khoảng cách
+			\addvspace{\theorempreskipamount}%
+			% Bắt đầu tcolorbox
+			\sb@beginbox%
+			% Xoá labelthm nếu có \immini ngay đầu \BODY
+			\par\noindent\expandafter\sb@addBegin%
+			% Nội dung
+			\BODY
+			% Thêm nội dung cuối theorem
+			\sb@end
+			% Kết thúc tcolorbox nếu còn trong tcolorbox
+			% Nếu môi trường ex đã đóng lại tcolorbox trước khi đến chc thì sẽ bỏ qua
+			\ifsb@InTcolorbox\endbox\fi\par%
+			% Thêm khoảng cách
+			\addvspace{\theorempostskipamount}%
+			% Giảm cấp box
+			\addtocounter{sb@boxLevel}{-1}
+			% Hoàn trả \endbox theo cấp box khi vừa dùng \loigiai
+			\ifsb@JustSolution
+				\sb@JustSolutionfalse
+				\expandafter\edef\csname sb@currBoxLevel\endcsname{\roman{sb@boxLevel}}
+				\gdef\endbox{\csname endbox\sb@currBoxLevel\endcsname}
+			\fi
+		\fi
+	}
+	% Chạy lệnh fix nếu đã khai báo ex_test
+	\@ifpackageloaded{ex_test}
+	{
+		\ifthenelse{\equal{#1}{ex}}
+		{
+			\setTheoBox{chc}{#2}
+		}{}
+		\fixshowans{#1}
+	}
+	{}
+}
+%%% Tạo lệnh đổi khung cho theorem nếu không đánh số
+\newcommand{\@setTheoBoxStar}[2]{
+	% Cài đặt màu khung và nền của tcolorbox theo tên môi trường
+	\@ifundefined{sb@#1colframe}{\setboxColframe{#1}{\sb@defaultColframe}}{}
+	\@ifundefined{sb@#1colback}{\setboxColback{#1}{\sb@defaultColback}}{}
+	\@ifundefined{sb@#1colbacktitle}{\setboxColbacktitle{#1}{\sb@defaultColbacktitle}}{}
+	% Bật hiển thị khung khi dùng trong tcolorbox khác theo mặc định
+	\showboxInTcb{#1}
+	% Khai báo lại môi trường
+	\RenewEnviron{#1}[1][]{
+		% Nạp lại giá trị
+		\csname setparms@#1\endcsname
+		% Kiểm tra xem có bỏ qua không
+		\checkSkipFlag{#1}
+		% Tăng counter của môi trường #1 một đơn vị
+		\edef\tmpctr{\getcountername{#1}}
+		\stepcounter{\tmpctr}
+		% Tạo biến tạm thời để ẩn/hiện khung
+		\csname Ifsb@#1hideboxInTcb\endcsname
+			\sb@hideboxInTcbtrue
+		\else
+			\sb@hideboxInTcbfalse
+		\fi
+		% Tiến hành xử lý
+		\Ifsb@skipflag
+		\else
+			% Khai báo màu
+			\def\sb@colbacktitle{\csname sb@#1colbacktitle\endcsname}
+			\def\sb@colback{\csname sb@#1colback\endcsname}
+			\def\sb@colframe{\csname sb@#1colframe\endcsname}
+			% Khai báo số thứ tự
+			\def\sb@Currentlabel{}
+			% Khai báo tiêu đề
+			\def\sb@labelthm{\csname #1Keyword\endcsname}
+			% Khai báo tiêu đề PHỤ
+			\def\sb@sublabelthm{##1}
+			% Khai báo tiêu đề PHỤ với ngoặc
+			\ifthenelse{\equal{##1}{}}{\def\sb@sublabelthmBracket{}}{\def\sb@sublabelthmBracket{(##1)}}
+			% Khai báo tiêu đề RÚT GỌN, không có tiêu đề phụ
+			% Ví dụ "Định nghĩa 1"
+			\sbox{\sb@labelthmshortBox}{\theorem@headerfont\sb@labelthm}
+			\def\sb@labelthmshort{\usebox{\sb@labelthmshortBox}}
+			% Khai báo tiêu đề RÚT GỌN, có dấu "." ở cuối
+			% Ví dụ "Định nghĩa 1."
+			\sbox{\sb@labelthmshortDotBox}{\theorem@headerfont\sb@labelthm\theorem@separator}
+			\def\sb@labelthmshortDot{\usebox{\sb@labelthmshortDotBox}}
+			% Khai báo tiêu đề ĐẦY ĐỦ, có tiêu đề phụ
+			% Ví dụ "Định nghĩa 1 (Tên định nghĩa)"
+			\ifthenelse{\equal{##1}{}}{%
+				\sbox{\sb@labelthmfullBox}{\theorem@headerfont\sb@labelthm}%
+			}{%
+				\sbox{\sb@labelthmfullBox}{\theorem@headerfont\sb@labelthm~(\sb@sublabelthm)}%
+			}
+			\def\sb@labelthmfull{\usebox{\sb@labelthmfullBox}}%
+			% Khai báo tiêu đề ĐẦY ĐỦ, có tiêu đề phụ, có dấu "." ở cuối
+			% Ví dụ "Định nghĩa 1 (Tên định nghĩa)."
+			\ifthenelse{\equal{##1}{}}{%
+				\sbox{\sb@labelthmfullDotBox}{\theorem@headerfont\sb@labelthm\theorem@separator}%
+			}{%
+				\sbox{\sb@labelthmfullDotBox}{\theorem@headerfont\sb@labelthm~(\sb@sublabelthm)\theorem@separator}%
+			}
+			\def\sb@labelthmfullDot{\usebox{\sb@labelthmfullDotBox}}
+			% Áp dụng khung
+			\IfIsCommand{#2}{#2}{\sb@applyTheoBox{#2}}
+			% Tăng cấp box
+			\addtocounter{sb@boxLevel}{1}
+			% Lưu \endbox theo cấp box
+			\ignorespaces\expandafter\edef\csname sb@currBoxLevel\endcsname{\roman{sb@boxLevel}}
+			\expandafter\let\csname endbox\sb@currBoxLevel\endcsname\endbox
+			% Thêm khoảng cách
+			\addvspace{\theorempreskipamount}%
+			% Bắt đầu tcolorbox
+			\sb@beginbox%
+			% Xoá labelthm nếu có \immini ngay đầu \BODY
+			\par\noindent\expandafter\sb@addBegin%
+			% Nội dung
+			\BODY
+			% Thêm nội dung cuối theorem
+			\sb@end
+			% Kết thúc tcolorbox nếu còn trong tcolorbox
+			% Nếu môi trường ex đã đóng lại tcolorbox trước khi đến chc thì sẽ bỏ qua
+			\ifsb@InTcolorbox\endbox\fi\par%
+			% Thêm khoảng cách
+			\addvspace{\theorempostskipamount}%
+			% Giảm cấp box
+			\addtocounter{sb@boxLevel}{-1}
+			% Hoàn trả \endbox theo cấp box khi vừa dùng \loigiai
+			\ifsb@JustSolution
+				\sb@JustSolutionfalse
+				\expandafter\edef\csname sb@currBoxLevel\endcsname{\roman{sb@boxLevel}}
+				\gdef\endbox{\csname endbox\sb@currBoxLevel\endcsname}
+			\fi
+		\fi
+	}
+	% Chạy lệnh fix nếu đã khai báo ex_test
+	\@ifpackageloaded{ex_test}
+	{
+		\ifthenelse{\equal{#1}{ex}}
+		{
+			\setTheoBox{chc}{#2}
+		}{}
+		\fixshowans{#1}
+	}
+	{}
+}
+%%% Lệnh kiểm tra cờ ẩn hiện môi trường
+\newif\Ifbreakloop
+\breakloopfalse
+\newif\Ifsb@skipflag
+\newcommand{\checkSkipFlag}[1]{
+	% Đặt lại cờ về false
+	\sb@skipflagfalse
+	\@ifundefined{Ifsb@#1skipallflag}{}{%
+		\csname Ifsb@#1skipallflag\endcsname
+			\sb@skipflagtrue
+		\fi
+	}
+	\Ifsb@skipflag\else
+		\@ifundefined{sb@#1HiddenList}{}{%
+			\edef\temphiddenlist{\csname sb@#1HiddenList\endcsname}%
+			\@for\t:=\temphiddenlist\do{%
+				\Ifbreakloop\else
+					\ifx\t\empty\else
+						% So sánh với giá trị hiện tại của bộ đếm
+						\ifnum\the\numexpr\t-1-\value{#1}=0\relax
+							\sb@skipflagtrue
+							\breaklooptrue
+						\fi
+					\fi
+				\fi
+			}%
+		}%
+	\fi
+}
+%%% Lệnh ẩn môi trường
+\newcommand{\setboxHide}[2][]{%
+	% Tạo cờ bỏ qua tất cả
+	\@ifundefined{Ifsb@#2skipallflag}{%
+		\expandafter\newif\csname Ifsb@#2skipallflag\endcsname
+	}{}
+	% Kiểm tra xem danh sách có được khai báo không
+	\ifthenelse{\equal{#1}{}}{
+		% Bật cờ bỏ qua tất cả
+		\csname sb@#2skipallflagtrue\endcsname
+	}{
+		% Tắt cờ bỏ qua tất cả
+		\csname sb@#2skipallflagfalse\endcsname
+		% Xử lý 0,1,...,4,6,...,9 của \foreach thành 0,1,2,3,4,6,7,8,9 dùng cho \@for
+		\def\tempresult{}%
+		\foreach\t in{#1}{%
+			\ifx\tempresult\empty
+				\xdef\tempresult{\t}%
+			\else
+				\xdef\tempresult{\tempresult,\t}%
+			\fi
+		}%
+		% Lưu danh sách cần ẩn
+		\expandafter\let\csname sb@#2HiddenList\endcsname\tempresult
+	}
+}
+%%% Tạo kiểu khung mới dựa trên \bgBOX của ex_test.sty
+\newcommand{\bgBOXnew}{%
+	\def\sb@begin{}
+	\def\sb@end{\par\noindent\hfill\textbf{\textit{\sb@sublabelthmBracket}}}
+	\def\sb@beginbox{
+		\begin{tcolorbox}[%
+			enhanced,
+			breakable,
+			drop fuzzy shadow southeast,
+			before skip=4mm,
+			after skip=4mm,
+			colback=yellow!7,
+			colframe=red!50!black,
+			boxrule=1pt,
+			attach boxed title to top left={
+				xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+				boxed title style={frame code={
+					\path[fill=red!30!black]
+					([yshift=-1mm,xshift=-1mm]frame.north west)
+					arc[start angle=0,end angle=180,radius=1mm]
+					([yshift=-1mm,xshift=1mm]frame.north east)
+					arc[start angle=180,end angle=0,radius=1mm];
+					\path[left color=red!60!black, 
+					right color=red!60!black,
+					middle color=red!85!black]
+					([xshift=-2mm]frame.north west) -- 
+					([xshift=2mm]frame.north east)
+					[rounded corners=1mm]-- 
+					([xshift=1mm,yshift=-1mm]frame.north east)
+					-- (frame.south east) -- (frame.south west)
+					-- ([xshift=-1mm,yshift=-1mm]frame.north west)
+					[sharp corners]-- cycle;
+					},
+				interior engine=empty},
+			fonttitle=\color{white}\bf\fontfamily{qag}\selectfont,
+			title={\sb@labelthm \sb@Currentlabel}
+			]
+		}
+	\def\endbox{\end{tcolorbox}}
+	%%% Nếu trong tcolorbox khác thì sẽ mất khung.
+	\ifsb@InTcolorbox
+		\Ifsb@hideboxInTcb
+			\def\sb@begin{\sb@labelthmshortDot}
+			\def\sb@end{\par\noindent\hfill\textbf{\textit{\sb@sublabelthmBracket}}}
+			\def\sb@beginbox{}
+			\def\endbox{}
+		\fi
+	\fi
+}
+%%% Kết thúc set_box.sty 
+\endinput

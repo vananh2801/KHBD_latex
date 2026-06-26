@@ -10,7 +10,8 @@
 \usepackage{fontawesome}
 \usepackage{tcolorbox}  
 \tcbuselibrary{breakable,most,many,skins}
-\usepackage{style/ex_test}
+\usepackage[loigiai]{style/ex_test}
+\usepackage{style/set_box}
 \usepackage{varwidth}
 \usepackage[version=4]{mhchem}
 \usepackage{needspace}
@@ -212,8 +213,8 @@
 		\item GV tổng kết rút ra khái niệm phương trình bậc nhất hai ẩn.
 		\buocbon
 		\item GV viết bảng hoặc trình chiếu nội dung trong Khung kiến thức:
-		\begin{tcolorbox}[colback=black!5, colframe=black!5]
-			\begin{itemize}[leftmargin=6pt]
+		\begin{kttt}
+			\begin{itemize}[leftmargin=10pt]
 				\item \textit{Phương trình bậc nhất hai ẩn $x$ và $y$} là hệ thức dạng
 				\begin{equation}
 					ax + by = c, \tag{1}
@@ -222,7 +223,7 @@
 				
 				\item Nếu tại $x = x_0$ và $y = y_0$ ta có $ax_0 + by_0 = c$ là một khẳng định đúng thì cặp số $(x_0; y_0)$ được gọi là một \textit{nghiệm} của phương trình (1).
 			\end{itemize}
-		\end{tcolorbox}
+		\end{kttt}
 	\end{tcth}
 	
 	\noindent\faBookmarkO~\textit{\textbf{Ví dụ 1:}}
@@ -440,8 +441,10 @@
 		\buocba
 		\item Các HS khác nhận xét.
 		\buocbon
-		\item GV nhận xét và rút ra Chú ý:\\
-		\thoai{``Mỗi phương trình bậc nhất hai ẩn đều có vô số nghiệm. Ví dụ dưới đây trình bày cách viết các nghiệm và biểu diễn hình học tất cả các nghiệm của một phương trình bậc nhất hai ẩn.''}
+		\item GV nhận xét và rút ra Chú ý:
+		\begin{chuy}
+			Mỗi phương trình bậc nhất hai ẩn đều có vô số nghiệm. Ví dụ dưới đây trình bày cách viết các nghiệm và biểu diễn hình học tất cả các nghiệm của một phương trình bậc nhất hai ẩn.
+		\end{chuy}
 	\end{tcth}
 	
 	\noindent\faBookmarkO~\textit{\textbf{Ví dụ 3:}}
@@ -457,8 +460,10 @@
 		\buocba
 		\item Các HS khác nhận xét.
 		\buocbon
-		\item GV nhận xét và rút ra Nhận xét:\\
-		\thoai{``Trong mặt phẳng tọa độ, tập hợp các điểm có tọa độ $(x; y)$ thỏa mãn phương trình bậc nhất hai ẩn $ax + by = c$ là một đường thẳng. Đường thẳng đó gọi là đường thẳng $ax + by = c$.''}
+		\item GV nhận xét và rút ra Nhận xét:
+		\begin{nhanxet}
+			Trong mặt phẳng tọa độ, tập hợp các điểm có tọa độ $(x; y)$ thỏa mãn phương trình bậc nhất hai ẩn $ax + by = c$ là một đường thẳng. Đường thẳng đó gọi là đường thẳng $ax + by = c$.
+		\end{nhanxet}
 	\end{tcth}
 	
 	\noindent\faBookmarkO~\textit{\textbf{Luện tập 2:}}

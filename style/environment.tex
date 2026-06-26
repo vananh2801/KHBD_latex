@@ -6,6 +6,20 @@
 \def\sbHD{}
 \newcommand{\doicot}{\switchcolumn\sbHD}
 
+%---- Cài đặt màu mặc định gói set_box ----
+\setboxColframeSetDefault{black}
+\setboxColbackSetDefault{black!5}
+\setboxColbacktitleSetDefault{brown!30}
+\theoremstyle{immini}
+
+% Kiến thức trọng tâm
+\newtheorem{kttt}{Kiến thức trọng tâm}
+\setTheoBox{kttt}{15}
+\newtheorem{chuy}{Chú ý}
+\setTheoBox*{chuy}{24}
+\newtheorem{nhanxet}{Nhận xét}
+\setTheoBox*{nhanxet}{22}
+
 % Tình huống gợi vấn đề
 \newenvironment{thgvd}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Mở đầu:}}\par}
@@ -15,11 +29,20 @@
 	\end{paracol}
 }
 
-% Tìm tòi - khám phá
+% Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
+	}{%
+	\end{paracol}
+}
+
+% Đọc hiểu - Nghe hiểu
+\newenvironment{dhnh}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
 	}{%
 	\end{paracol}
 }
