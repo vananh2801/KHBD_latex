@@ -2,6 +2,8 @@
 \columnratio{0.5}    % Tỷ lệ 2 cột (0.5 là mỗi bên 50%)
 \globalcounter{paragraph}
 \setlength{\columnseprule}{1pt}
+\newcommand{\kengang}{\hrule height 1pt}
+
 
 \def\sbHD{}
 \newcommand{\doicot}{\switchcolumn\sbHD}
@@ -34,7 +36,7 @@
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
-	}{%
+}{%
 	\end{paracol}
 }
 
@@ -42,8 +44,8 @@
 \newenvironment{dhnh}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
-		\sbHD%
-	}{%
+	\sbHD%
+}{%
 	\end{paracol}
 }
 
@@ -51,8 +53,8 @@
 \newenvironment{cauhoi}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
-		\sbHD%
-	}{%
+	\sbHD%
+}{%
 	\end{paracol}
 }
 
@@ -63,7 +65,7 @@
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
-	}{%
+}{%
 	\end{paracol}
 }
 
@@ -74,7 +76,7 @@
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
-	}{%
+}{%
 	\end{paracol}
 }
 
@@ -84,8 +86,8 @@
 	\refstepcounter{thuchanh}
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
-		\sbHD%
-	}{%
+	\sbHD%
+}{%
 	\end{paracol}
 }
 
@@ -95,8 +97,8 @@
 	\refstepcounter{vandung}
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
-		\sbHD%
-	}{%
+	\sbHD%
+}{%
 	\end{paracol}
 }
 
@@ -104,8 +106,8 @@
 \newenvironment{tranhluan}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
-		\sbHD%
-	}{%
+	\sbHD%
+}{%
 	\end{paracol}
 }
 
@@ -113,8 +115,8 @@
 \newenvironment{thuthachnho}{%
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
-		\sbHD%
-	}{%
+	\sbHD%
+}{%
 	\end{paracol}
 }
 
