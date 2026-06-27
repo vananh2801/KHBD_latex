@@ -522,7 +522,7 @@
 		\begin{kttt}
 			\begin{itemize}[leftmargin=13pt]
 				\item Một cặp gồm hai phương trình bậc nhất hai ẩn $ax + by = c$ và $a'x + b'y = c'$ được gọi là một \textit{hệ hai phương trình bậc nhất hai ẩn}. Ta thường viết hệ phương trình đó dưới dạng:
-				$$\heva{&ax + by = c\\&1a'x + b'y = c'.}\quad (*)$$
+				$$\heva{&ax + by = c\\&a'x + b'y = c'.}\quad (*)$$
 				\item Mỗi cặp số $(x_0; y_0)$ được gọi là một \textit{nghiệm} của hệ $(*)$ nếu nó đồng thời là nghiệm của cả hai phương trình của hệ $(*)$.
 			\end{itemize}
 		\end{kttt}
@@ -632,15 +632,15 @@
 					\foreach \y in {-1, 1, 2, 3}
 					\draw (2pt, \y) -- (-2pt, \y) node[left] {$\y$};
 					% Vẽ đường thẳng d1: 2x - y = 0  => y = 2x
-					\draw[thick, orange!80!black, domain=-0.6:2.1] plot (\x, {2*\x});
+					\draw[thick, blue, domain=-0.6:2.1] plot (\x, {2*\x});
 					\node[above, rotate=63.4] at (1.5, 3.5) {$2x - y = 0$};
 					% Vẽ đường thẳng d2: x + y = 3  => y = 3 - x
-					\draw[thick, red!80!black, domain=-1.2:4] plot (\x, {3-\x});
+					\draw[thick, blue, domain=-1.2:4] plot (\x, {3-\x});
 					\node[above, rotate=-45] at (2.8, 0.5) {$x + y = 3$};
 					% Vẽ điểm M và các đường gióng
 					\coordinate (M) at (1,2);
 					\draw[dashed] (1,0) -- (1,2) -- (0,2);
-					\filldraw (M) circle (1.5pt) node[right, xshift=2pt] {$M$};
+					\filldraw (M) circle (2pt) node[right, xshift=2pt] {$M$};
 				\end{tikzpicture}
 			}
 		\end{chuy}
