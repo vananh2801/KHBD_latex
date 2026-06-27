@@ -16,18 +16,25 @@
 {}
 {0em}
 {%
-	\begin{paracol}{2}
-		\textbf{Trường: \truong}\\
-		\textbf{Tổ: \tobomon}
-		\switchcolumn
-		\centerline{Họ và tên giáo viên:}
-		\centerline{\giaovien}
-	\end{paracol}
-	\begin{center}
-		\textbf{TÊN BÀI DẠY: #1}\\
-		Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
+\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt]
+    % Chia làm 2 cột bằng minipage
+    \begin{minipage}[t]{0.45\textwidth}
+        \textbf{Trường: \truong}\\
+        \textbf{Tổ: \tobomon}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        Họ và tên giáo viên:\\
+        \giaovien
+    \end{minipage}
+    \vspace{0.3cm} % Khoảng cách dòng
+    \begin{center}
+        \textbf{TÊN BÀI DẠY: #1}\\[0.3cm]
+        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
 		Thời gian thực hiện: \thoigian~(tiết)
-	\end{center}
+    \end{center}
+\end{tcolorbox}
 }
 
 \titlespacing{\subsection}{0mm}{2mm}{2mm}[0mm]
@@ -56,7 +63,7 @@
 \newcommand{\lesson}[1]{%
 	\needspace{3cm}
 	\refstepcounter{lesson}
-	\begin{tcolorbox}[colback=white, colframe=black]
+	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt]
 		\hfil\bf Tiết \thelesson. #1%
 	\end{tcolorbox}
 	\vspace{2mm}
