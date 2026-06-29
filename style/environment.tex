@@ -15,13 +15,15 @@
 \theoremstyle{immini}
 
 % Kiến thức trọng tâm
-\newtheorem{kttt}{Kiến thức trọng tâm}
+\newtheorem{kttt}{Kiến thức trọng tâm}[section]
+\renewcommand{\thekttt}{\arabic{kttt}}
 \setTheoBox{kttt}{15}
 \newtheorem{chuy}{Chú ý}
 \setTheoBox*{chuy}{24}
 \newtheorem{nhanxet}{Nhận xét}
 \setTheoBox*{nhanxet}{22}
-\renewcommand{\nameex}{\bf Câu}
+\renewtheorem{ex}{Câu}
+\setTheoBox{ex}{0}
 
 % Tình huống gợi vấn đề
 \newenvironment{thgvd}{%
@@ -61,6 +63,9 @@
 
 % Ví dụ
 \newcounter{vidu}
+\makeatletter
+\@addtoreset{vidu}{section}
+\makeatother
 \newenvironment{vidu}{%
 	\refstepcounter{vidu}
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Ví dụ \thevidu:}}\par}
@@ -72,6 +77,9 @@
 
 % Luyện tập
 \newcounter{luyentap}
+\makeatletter
+\@addtoreset{luyentap}{section}
+\makeatother
 \newenvironment{luyentap}{%
 	\refstepcounter{luyentap}
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Luyện tập \theluyentap:}}\par}
@@ -83,6 +91,9 @@
 
 % Thực hành
 \newcounter{thuchanh}
+\makeatletter
+\@addtoreset{thuchanh}{section}
+\makeatother
 \newenvironment{thuchanh}{%
 	\refstepcounter{thuchanh}
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thực hành \thethuchanh:}}\par}
@@ -94,6 +105,9 @@
 
 % Vận dụng
 \newcounter{vandung}
+\makeatletter
+\@addtoreset{vandung}{section}
+\makeatother
 \newenvironment{vandung}{%
 	\refstepcounter{vandung}
 	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Vận dụng \thevandung:}}\par}
