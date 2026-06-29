@@ -15,8 +15,7 @@
 \theoremstyle{immini}
 
 % Kiến thức trọng tâm
-\newtheorem{kttt}{Kiến thức trọng tâm}[section]
-\renewcommand{\thekttt}{\arabic{kttt}}
+\newtheorem{kttt}{Kiến thức trọng tâm}
 \setTheoBox{kttt}{15}
 \newtheorem{chuy}{Chú ý}
 \setTheoBox*{chuy}{24}
@@ -24,6 +23,14 @@
 \setTheoBox*{nhanxet}{22}
 \renewtheorem{ex}{Câu}
 \setTheoBox{ex}{0}
+
+\makeatletter
+\@addtoreset{kttt}{section}
+\@addtoreset{ex}{section}
+\@addtoreset{ex}{subsection}
+\@addtoreset{ex}{subsubsection}
+\@addtoreset{ex}{paragraph}
+\makeatother
 
 % Tình huống gợi vấn đề
 \newenvironment{thgvd}{%
@@ -135,6 +142,28 @@
 	\end{paracol}
 }
 
+% Phiếu học tập
+\newcounter{phieuhoctap}
+\makeatletter
+\@addtoreset{phieuhoctap}{section}
+\makeatother
+\newenvironment{phieuhoctap}{%
+	\refstepcounter{phieuhoctap}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
+	\begin{paracol}{2}%
+	\sbHD%
+}{%
+	\end{paracol}
+}
+
+% Bài tập
+\newenvironment{baitap}[1][]{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Bài\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
+	\begin{paracol}{2}%
+	\sbHD%
+}{%
+	\end{paracol}
+}
 
 % Tổ chức thực hiện
 \newenvironment{tcth}{%
