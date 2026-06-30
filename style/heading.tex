@@ -1,15 +1,27 @@
-\usepackage{titletoc}
 \usepackage[explicit]{titlesec}
 
 \setcounter{secnumdepth}{5}
-\setcounter{tocdepth}{3}
+
+\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\Roman{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}}
+\renewcommand{\theparagraph}{\arabic{paragraph}}
+\renewcommand{\thesubparagraph}{\alph{subparagraph}}
 
 % Chương
 \titleformat{\chapter}
 {\normalfont\bf\Huge}
 {}
 {0em}
-{\ifthenelse{\equal{\thechapter}{0}}{#1}{\chaptername~\thechapter\\[0.6cm]#1}}
+{\chaptername~\thechapter\\[0.6cm]#1}
+[\ifthenelse{\equal{\thechapter}{0}}{}{\vfill\clearpage}]
+%
+\titleformat{name=\chapter,numberless}
+{\normalfont\bf\Huge}
+{}
+{0em}
+{#1}
 [\ifthenelse{\equal{\thechapter}{0}}{}{\vfill\clearpage}]
 
 % Bải dạy
@@ -39,6 +51,37 @@
 			Thời gian thực hiện: \thoigian~(tiết)
 	    \end{center}
 	\end{tcolorbox}
+}
+
+\titleformat{name=\section,numberless}
+{\normalfont}
+{}
+{0em}
+{%
+    \setcounter{subsection}{0}
+    \setcounter{subsubsection}{0}
+	\setcounter{paragraph}{0}
+	\setcounter{subparagraph}{0}
+	\needspace{6\baselineskip}
+	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
+	    \begin{minipage}[t]{0.45\textwidth}
+	        \textbf{Trường: \truong}\\
+	        \textbf{Tổ: \tobomon}
+	    \end{minipage}
+	    \hfill
+	    \begin{minipage}[t]{0.45\textwidth}
+	        \centering
+	        Họ và tên giáo viên:\\
+	        \giaovien
+	    \end{minipage}
+	    \vspace{0.3cm}
+	    \begin{center}
+	        \textbf{TÊN BÀI DẠY: \MakeUppercase{#1}}\\[0.3cm]
+	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
+			Thời gian thực hiện: \thoigian~(tiết)
+	    \end{center}
+	\end{tcolorbox}
+    \addcontentsline{toc}{section}{#1}
 }
 
 % Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)

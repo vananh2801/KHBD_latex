@@ -1,1 +1,57 @@
 \usepackage[hidelinks]{hyperref}
+\usepackage{titletoc}
+
+\setcounter{tocdepth}{3}
+
+% Mục lục
+\renewcommand{\contentsname}{MỤC LỤC}
+
+% Chương
+\titlecontents{chapter}[0mm]
+{%
+    \bf
+    \ifthenelse{\equal{\thecontentslabel}{}}{%
+    }{%
+        Chương~\thecontentslabel.
+    }
+}
+{}
+{}
+{\hfill\contentspage}
+
+% Bải dạy
+\titlecontents{section}[7mm]
+{%
+    \faCaretRight~\bf
+    \ifthenelse{\equal{\thecontentslabel}{}}{%
+    }{%
+        Bài~\thecontentslabel.
+    }
+}
+{}
+{}
+{\titlerule*[0.3pc]{.}\quad\contentspage}
+
+% Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)
+\titlecontents{subsection}[14mm]
+{%
+    \ifthenelse{\equal{\thecontentslabel}{}}{%
+    }{%
+        \thecontentslabel.
+    }
+}
+{}
+{}
+{\titlerule*[0.3pc]{.}\quad\contentspage}
+
+% Tiết (1, 2, 3,...)
+\titlecontents{subsubsection}[21mm]
+{%
+    \ifthenelse{\equal{\thecontentslabel}{}}{%
+    }{%
+        Tiết~\thecontentslabel.
+    }
+}
+{}
+{}
+{\titlerule*[0.3pc]{.}\quad\contentspage}
