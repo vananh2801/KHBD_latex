@@ -36,7 +36,7 @@
 
 % Tình huống mở đầu (gợi vấn đề)
 \newenvironment{modau}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tình huống mở đầu:}}\par}
+	\def\sbHD{\noindent\faPagelines~\textit{\textbf{Tình huống mở đầu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -45,7 +45,7 @@
 
 % Ôn tập
 \newenvironment{ontap}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Ôn tập:}}\par}
+	\def\sbHD{\noindent\faPaperclip~\textit{\textbf{Ôn tập:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -54,7 +54,7 @@
 
 % Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
+	\def\sbHD{\noindent\faUnlock~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -63,7 +63,7 @@
 
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\def\sbHD{\noindent\faToggleOn~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -72,7 +72,7 @@
 
 % Câu hỏi
 \newenvironment{cauhoi}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Câu hỏi:}}\par}
+	\def\sbHD{\noindent\faQuestionCircleO~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -86,7 +86,7 @@
 \makeatother
 \newenvironment{vidu}{%
 	\refstepcounter{vidu}
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Ví dụ \thevidu:}}\par}
+	\def\sbHD{\noindent\faPencilSquareO~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -100,7 +100,7 @@
 \makeatother
 \newenvironment{luyentap}{%
 	\refstepcounter{luyentap}
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Luyện tập \theluyentap:}}\par}
+	\def\sbHD{\noindent\faUser~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -114,7 +114,7 @@
 \makeatother
 \newenvironment{thuchanh}{%
 	\refstepcounter{thuchanh}
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thực hành \thethuchanh:}}\par}
+	\def\sbHD{\noindent\faYelp~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -128,7 +128,7 @@
 \makeatother
 \newenvironment{vandung}{%
 	\refstepcounter{vandung}
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Vận dụng \thevandung:}}\par}
+	\def\sbHD{\noindent\faUsers~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -137,7 +137,7 @@
 
 % Tranh luận
 \newenvironment{tranhluan}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tranh luận:}}\par}
+	\def\sbHD{\noindent\faBullhorn~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -146,7 +146,7 @@
 
 % Thử thách nhỏ
 \newenvironment{thuthachnho}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Thử thách nhỏ:}}\par}
+	\def\sbHD{\noindent\faChild~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -160,7 +160,7 @@
 \makeatother
 \newenvironment{phieuhoctap}{%
 	\refstepcounter{phieuhoctap}
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
+	\def\sbHD{\noindent\faCopy~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -169,7 +169,7 @@
 
 % Bài tập
 \newenvironment{baitap}[1][]{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
+	\def\sbHD{\noindent\faCubes~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
