@@ -1,12 +1,14 @@
 \usepackage{paracol} % Gói lệnh chia cột song song
 \columnratio{0.5}    % Tỷ lệ 2 cột (0.5 là mỗi bên 50%)
-\globalcounter{paragraph}
+\globalcounter{subparagraph}
 \setlength{\columnseprule}{1pt}
 \newcommand{\kengang}{\hrule height 1pt}
 
 
 \def\sbHD{}
 \newcommand{\doicot}{\switchcolumn\sbHD}
+
+\newcommand{\huongdan}{\textit{Hướng dẫn: }}
 
 %---- Cài đặt màu mặc định gói set_box ----
 \setboxColframeSetDefault{black}
@@ -23,21 +25,30 @@
 \setTheoBox*{nhanxet}{22}
 \renewtheorem{ex}{Câu}
 \setTheoBox{ex}{0}
+\newtheorem{bt}{Bài}
+\setTheoBox{bt}{0}
 
 \makeatletter
 \@addtoreset{kttt}{section}
-\@addtoreset{ex}{section}
-\@addtoreset{ex}{subsection}
-\@addtoreset{ex}{subsubsection}
-\@addtoreset{ex}{paragraph}
+\@addtoreset{ex}{subparagraph}
+\@addtoreset{bt}{subparagraph}
 \makeatother
 
-% Tình huống gợi vấn đề
-\newenvironment{thgvd}{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tình huống gợi vấn đề:}}\par}
+% Tình huống mở đầu (gợi vấn đề)
+\newenvironment{modau}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Tình huống mở đầu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
+	\end{paracol}
+}
+
+% Ôn tập
+\newenvironment{ontap}{%
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Ôn tập:}}\par}
+	\begin{paracol}{2}%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -158,7 +169,7 @@
 
 % Bài tập
 \newenvironment{baitap}[1][]{%
-	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Bài\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
+	\def\sbHD{\noindent\faBookmarkO~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
