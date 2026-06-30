@@ -1,8 +1,10 @@
 \usepackage{titletoc}
 \usepackage[explicit]{titlesec}
 
-\setcounter{secnumdepth}{4}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{3}
 
+% Chương
 \titleformat{\chapter}
 {\normalfont\bf\Huge}
 {}
@@ -10,33 +12,36 @@
 {\ifthenelse{\equal{\thechapter}{0}}{#1}{\chaptername~\thechapter\\[0.6cm]#1}}
 [\ifthenelse{\equal{\thechapter}{0}}{}{\vfill\clearpage}]
 
+% Bải dạy
 \titlespacing{\section}{0mm}{0mm}{0mm}[0mm]
 \titleformat{\section}
 {\normalfont}
 {}
 {0em}
 {%
-\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt]
-    % Chia làm 2 cột bằng minipage
-    \begin{minipage}[t]{0.45\textwidth}
-        \textbf{Trường: \truong}\\
-        \textbf{Tổ: \tobomon}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\textwidth}
-        \centering
-        Họ và tên giáo viên:\\
-        \giaovien
-    \end{minipage}
-    \vspace{0.3cm} % Khoảng cách dòng
-    \begin{center}
-        \textbf{TÊN BÀI DẠY: #1}\\[0.3cm]
-        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
-		Thời gian thực hiện: \thoigian~(tiết)
-    \end{center}
-\end{tcolorbox}
+	\needspace{6\baselineskip}%
+	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
+	    % Chia làm 2 cột bằng minipage
+	    \begin{minipage}[t]{0.45\textwidth}
+	        \textbf{Trường: \truong}\\
+	        \textbf{Tổ: \tobomon}
+	    \end{minipage}
+	    \hfill
+	    \begin{minipage}[t]{0.45\textwidth}
+	        \centering
+	        Họ và tên giáo viên:\\
+	        \giaovien
+	    \end{minipage}
+	    \vspace{0.3cm} % Khoảng cách dòng
+	    \begin{center}
+	        \textbf{TÊN BÀI DẠY: #1}\\[0.3cm]
+	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
+			Thời gian thực hiện: \thoigian~(tiết)
+	    \end{center}
+	\end{tcolorbox}
 }
 
+% Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)
 \titlespacing{\subsection}{0mm}{2mm}{2mm}[0mm]
 \titleformat{\subsection}
 {\normalfont\bf}
@@ -44,32 +49,31 @@
 {0.5em}
 {\MakeUppercase{#1}}
 
-\titlespacing{\subsubsection}{0mm}{2mm}{2mm}[0mm]
+% Tiết (1, 2, 3,...)
+\titlespacing{\subsubsection}{0mm}{0mm}{0mm}[0mm]
 \titleformat{\subsubsection}[block]
 {\normalfont\bf}
-{\arabic{subsubsection}.}
-{0.5em}
-{#1}
+{}
+{0em}
+{%
+	\needspace{6\baselineskip}%
+	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
+		\hfil\bf Tiết \arabic{subsubsection}. #1%
+	\end{tcolorbox}
+}
 
+% Hoạt động (mở đầu, hình thành kiến thức, luyện tập, vận dụng)
 \titlespacing{\paragraph}{0mm}{2mm}{2mm}[0mm]
 \titleformat{\paragraph}[block]
 {\normalfont\bf}
-{\alph{paragraph})}
+{\arabic{paragraph}.}
 {0.5em}
 {#1}
 
-% Tiết
-\newcounter{lesson}
-\newcommand{\lesson}[1]{%
-	\needspace{3cm}
-	\refstepcounter{lesson}
-	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt]
-		\hfil\bf Tiết \thelesson. #1%
-	\end{tcolorbox}
-	\vspace{2mm}
-}
-\makeatletter
-\@addtoreset{lesson}{section}
-\@addtoreset{paragraph}{lesson}
-\@addtoreset{subsubsection}{lesson}
-\makeatother
+% Các phần của hoạt động (mục tiêu, nội dung, sản phẩm, tổ chức thực hiện)
+\titlespacing{\subparagraph}{0mm}{0mm}{0mm}[0mm]
+\titleformat{\subparagraph}[block]
+{\normalfont\bf}
+{\alph{subparagraph})}
+{0.5em}
+{#1}
