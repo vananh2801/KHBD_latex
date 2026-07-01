@@ -15,6 +15,7 @@
 \usepackage{varwidth}
 \usepackage[version=4]{mhchem}
 \usepackage{needspace}
+\usepackage{pdfpages}
 
 \input{style/enum}
 \input{style/font}
@@ -34,6 +35,10 @@
 
 
 \begin{document}
+	% Bìa
+	\thispagestyle{empty}
+	\includepdf{cover/cover.pdf}
+	% Mục lục
 	\pagestyle{plain}
 	\tableofcontents
 	%

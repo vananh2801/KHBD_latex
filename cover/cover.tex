@@ -1,0 +1,84 @@
+\documentclass[12pt,a4paper,twoside]{book}
+\usepackage[utf8]{vietnam}
+\usepackage{amsfonts,amsmath,graphicx}
+\usepackage[top=1.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm]{geometry}
+\usepackage{tikz}   
+\usetikzlibrary{angles,calc,fadings}
+\usepackage{calc}
+\usepackage[table]{xcolor}
+\usepackage{pdfpages}
+
+% Khai báo kích thước
+\newlength{\trai}
+\newlength{\phai}
+\newlength{\tren}
+\newlength{\duoi}
+% Gán giá trị
+\setlength{\trai}{\oddsidemargin + 1in}
+\setlength{\phai}{\paperwidth - \textwidth - \oddsidemargin - 1in}
+\setlength{\tren}{\voffset+1in+\topmargin+\headsep+\headheight}
+\setlength{\duoi}{\paperheight-\textheight-\voffset-1in-\topmargin-\headsep-\headheight}
+
+\begin{document}
+    \pagestyle{empty}
+    % Khai báo Toán 9
+    \begin{tikzfadingfrompicture}[name=toan9]
+	    \node{\includegraphics[width=20cm,decodearray={1 0 1 0 1 0}]{imgs/toan9.png}};
+    \end{tikzfadingfrompicture}
+    % Khai báo KHBD
+    \begin{tikzfadingfrompicture}[name=khbd]
+	    \node{\includegraphics[width=20cm,decodearray={1 0 1 0 1 0}]{imgs/khbd.png}};
+    \end{tikzfadingfrompicture}
+    % Vẽ nền
+    \begin{tikzpicture}[overlay, remember picture, line cap=round, line join=round, scale=1, font=\normalfont]
+        % Khai báo toạ độ, các toạ độ này thay đổi giữa trên căn lề
+		\coordinate (TB) at ($(current page.north west)+(\trai,-\tren)$); % Góc trên trái
+		\coordinate (TN) at ($(current page.south west)+(\trai,\duoi)$);  % Góc dưới phải
+		\coordinate (DB) at ($(current page.north east)+(-\phai,-\tren)$); % Góc trên phải
+		\coordinate (DN) at ($(current page.south east)+(-\phai,\duoi)$); % Góc dưới phải
+		\coordinate (B) at ($(TB)!0.5!(DB)$); % Giữa cạnh trên
+		\coordinate (N) at ($(TN)!0.5!(DN)$); % Giữa cạnh dưới
+		\coordinate (T) at ($(TB)!0.5!(TN)$); % Giữa cạnh trái
+		\coordinate (D) at ($(DB)!0.5!(DN)$); % Giữa cạnh phải
+		\coordinate (G) at ($(TB)!0.5!(DN)$); % Giữa trang
+        % Vẽ phần nền phía dưới
+        \coordinate (X) at (current page.south west);
+        \coordinate (Z) at(current page.south east);
+        \fill[top color=green!80!black, bottom color=white]
+        ([xshift=5cm,yshift=-1cm]$(X)+(0,4)$) .. controls ([xshift=5cm,yshift=-1cm]$(X)+(2,7)$) and ([xshift=5cm,yshift=-1cm]$(X)+(3,6)$) 
+        .. ([xshift=5cm,yshift=-1cm]$(X)+(5,4)$) .. controls ([xshift=5cm,yshift=-1cm]$(X)+(8,1)$) and ([xshift=5cm,yshift=-1cm]$(X)+(9,10)$) 
+        .. ([xshift=5cm,yshift=-1cm]$(X)+(12,6.5)$) .. controls ([xshift=5cm,yshift=-1cm]$(X)+(14,4)$) and ([xshift=5cm,yshift=-1cm]$(X)+(16,1)$) 
+        .. ([xshift=5cm,yshift=-1cm]$(X)+(18,3.5)$) .. controls ([xshift=5cm,yshift=-1cm]$(X)+(20,6)$) and ([xshift=5cm,yshift=-1cm]$(X)+(21,5)$)
+        .. ([xshift=5cm,yshift=-1cm]$(X)+(22,3)$) -- (Z) -- (X) -- cycle;
+        \fill[top color=green!60!black, bottom color=green!80!black] 
+        ($(X)+(0,4)$) .. controls ($(X)+(2,7)$) and ($(X)+(3,6)$) 
+        .. ($(X)+(5,4)$) .. controls ($(X)+(8,1)$) and ($(X)+(9,10)$) 
+        .. ($(X)+(12,6.5)$) .. controls ($(X)+(14,4)$) and ($(X)+(16,1)$) 
+        .. ($(X)+(18,3.5)$) .. controls ($(X)+(20,6)$) and ($(X)+(21,5)$)
+        .. ($(X)+(22,3)$) -- (Z) -- (X) -- cycle;
+        % Vẽ tên môn
+        \draw ($(TB)!0.5!(D)$)
+		node[scale=0.55]
+		{\begin{tikzpicture}
+            \fill[path fading=toan9, fit fading=false, green!70!black, overlay] (-10,-10) rectangle (10,10); 
+        \end{tikzpicture}};
+        % chèn KHBD
+        \draw ([yshift=-3.5cm]$(TB)!0.5!(D)$)
+		node[scale=0.55]
+		{\begin{tikzpicture}
+			\fill[path fading=khbd, fit fading=false, black, overlay] (-10,-10) rectangle (10,10); 
+		\end{tikzpicture}};
+        % Vẽ đường thẳng
+        \draw[green!40!black, line width=4pt] 
+        ([xshift=-3cm,yshift=-5.2cm]$(TB)!0.5!(D)$) -- ([xshift=3cm,yshift=-5.2cm]$(TB)!0.5!(D)$);
+        % Tên chương
+        \draw[green!40!black] ([yshift=-6.5cm]$(TB)!0.5!(D)$)
+        node {\bf\fontsize{15pt}{20pt}\fontfamily{lmss}\selectfont Chương 1. Phương trình và hệ phương trình bậc nhất hai ẩn};
+        % Tên tác giả
+        \draw[black] (B) node[below] 
+        {\fontsize{20pt}{20pt}\fontfamily{qag}\selectfont Phan Văn Anh};
+        % Tên nhà xuất bản
+        \draw[white] (N) node[above] 
+        {\fontsize{20pt}{20pt}\fontfamily{qag}\selectfont Lưu hành nội bộ};
+    \end{tikzpicture}
+\end{document}
