@@ -176,13 +176,39 @@
 	\end{paracol}
 }
 
+\usepackage{pgfkeys} % Hỗ trợ xử lý keyword cho tham số
+
+\newcommand{\buocmot}{\item[]\hspace{-\leftmargin}\textit{Bước 1.} Giao nhiệm vụ học tập}
+\newcommand{\buochai}{\item[]\hspace{-\leftmargin}\textit{Bước 2.} Thực hiện nhiệm vụ}
+\newcommand{\buocba}{\item[]\hspace{-\leftmargin}\textit{Bước 3.} Báo cáo, thảo luận}
+\newcommand{\buocbon}{\item[]\hspace{-\leftmargin}\textit{Bước 4.} Kết luận, nhận định}
+\newcommand{\itbf}[1]{\textit{\textbf{#1}}}
+\newcommand{\inTieuDeTCTH}[3]{%
+    \item[]\hspace{-\leftmargin}%
+    \noindent #1~\itbf{#2\ifthenelse{\equal{#3}{}}{}{ #3}:}%
+}
+\pgfkeys{
+    /tcth/.is family, /tcth,
+    .unknown/.code={\inTieuDeTCTH{}{\textcolor{red}{\Large\faWarning~Không tìm thấy tham số}}{}}, % Cảnh báo khi sai tham số.
+    % Định nghĩa từng loại
+    modau/.code={\inTieuDeTCTH{\faPagelines}{Tình huống mở đầu}{#1}},
+    ontap/.code={\inTieuDeTCTH{\faPaperclip}{Ôn tập}{#1}},
+    ttkp/.code={\inTieuDeTCTH{\faUnlock}{Tìm tòi - Khám phá}{#1}},
+    dhnh/.code={\inTieuDeTCTH{\faToggleOn}{Đọc hiểu - Nghe hiểu}{#1}},
+    cauhoi/.code={\inTieuDeTCTH{\faQuestionCircleO}{Câu hỏi}{#1}},
+    vidu/.code={\inTieuDeTCTH{\faPencilSquareO}{Ví dụ}{#1}},
+    luyentap/.code={\inTieuDeTCTH{\faUser}{Luyện tập}{#1}},
+    thuchanh/.code={\inTieuDeTCTH{\faYelp}{Thực hành}{#1}},
+    vandung/.code={\inTieuDeTCTH{\faUsers}{Vận dụng}{#1}},
+    tranhluan/.code={\inTieuDeTCTH{\faBullhorn}{Tranh luận}{#1}},
+    thuthachnho/.code={\inTieuDeTCTH{\faChild}{Thử thách nhỏ}{#1}},
+    phieuhoctap/.code={\inTieuDeTCTH{\faCopy}{Phần học tập}{#1}},
+    baitap/.code={\inTieuDeTCTH{\faCubes}{Bài tập}{#1}},
+}
 % Tổ chức thực hiện
-\newenvironment{tcth}{%
-	\begin{itemize}
+\newenvironment{tcth}[1][]{%
+	\begin{itemize}%
+	\ifthenelse{\equal{#1}{}}{}{\pgfkeys{/tcth, #1}}%
 }{%
 	\end{itemize}
 }
-\newcommand{\buocmot}{\item[]\hspace{-\leftmargin}\textbf{Bước 1.} Giao nhiệm vụ học tập}
-\newcommand{\buochai}{\item[]\hspace{-\leftmargin}\textbf{Bước 2.} Thực hiện nhiệm vụ}
-\newcommand{\buocba}{\item[]\hspace{-\leftmargin}\textbf{Bước 3.} Báo cáo, thảo luận}
-\newcommand{\buocbon}{\item[]\hspace{-\leftmargin}\textbf{Bước 4.} Kết luận, nhận định}
