@@ -36,6 +36,7 @@
 
 % Tình huống mở đầu (gợi vấn đề)
 \newenvironment{modau}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faPagelines~\textit{\textbf{Tình huống mở đầu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -45,6 +46,7 @@
 
 % Ôn tập
 \newenvironment{ontap}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faPaperclip~\textit{\textbf{Ôn tập:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -54,6 +56,7 @@
 
 % Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faUnlock~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -63,6 +66,7 @@
 
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faToggleOn~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -72,6 +76,7 @@
 
 % Câu hỏi
 \newenvironment{cauhoi}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faQuestionCircleO~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -85,6 +90,7 @@
 \@addtoreset{vidu}{section}
 \makeatother
 \newenvironment{vidu}{%
+	\needspace{2cm}%
 	\refstepcounter{vidu}
 	\def\sbHD{\noindent\faPencilSquareO~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
@@ -99,6 +105,7 @@
 \@addtoreset{luyentap}{section}
 \makeatother
 \newenvironment{luyentap}{%
+	\needspace{2cm}%
 	\refstepcounter{luyentap}
 	\def\sbHD{\noindent\faUser~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
@@ -113,6 +120,7 @@
 \@addtoreset{thuchanh}{section}
 \makeatother
 \newenvironment{thuchanh}{%
+	\needspace{2cm}%
 	\refstepcounter{thuchanh}
 	\def\sbHD{\noindent\faYelp~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
@@ -127,6 +135,7 @@
 \@addtoreset{vandung}{section}
 \makeatother
 \newenvironment{vandung}{%
+	\needspace{2cm}%
 	\refstepcounter{vandung}
 	\def\sbHD{\noindent\faUsers~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
@@ -137,6 +146,7 @@
 
 % Tranh luận
 \newenvironment{tranhluan}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faBullhorn~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -146,6 +156,7 @@
 
 % Thử thách nhỏ
 \newenvironment{thuthachnho}{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faChild~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -159,6 +170,7 @@
 \@addtoreset{phieuhoctap}{section}
 \makeatother
 \newenvironment{phieuhoctap}{%
+	\needspace{2cm}%
 	\refstepcounter{phieuhoctap}
 	\def\sbHD{\noindent\faCopy~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
 	\begin{paracol}{2}%
@@ -169,6 +181,7 @@
 
 % Bài tập
 \newenvironment{baitap}[1][]{%
+	\needspace{2cm}%
 	\def\sbHD{\noindent\faCubes~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
@@ -178,12 +191,25 @@
 
 \usepackage{pgfkeys} % Hỗ trợ xử lý keyword cho tham số
 
-\newcommand{\buocmot}{\item[]\hspace{-\leftmargin}\textit{Bước 1.} Giao nhiệm vụ học tập}
-\newcommand{\buochai}{\item[]\hspace{-\leftmargin}\textit{Bước 2.} Thực hiện nhiệm vụ}
-\newcommand{\buocba}{\item[]\hspace{-\leftmargin}\textit{Bước 3.} Báo cáo, thảo luận}
-\newcommand{\buocbon}{\item[]\hspace{-\leftmargin}\textit{Bước 4.} Kết luận, nhận định}
+\newcommand{\buocmot}{%
+	\needspace{1cm}%
+	\item[]\hspace{-\leftmargin}\textit{Bước 1.} Giao nhiệm vụ học tập%
+}
+\newcommand{\buochai}{%
+	\needspace{1cm}%
+	\item[]\hspace{-\leftmargin}\textit{Bước 2.} Thực hiện nhiệm vụ%
+}
+\newcommand{\buocba}{%
+	\needspace{1cm}%
+	\item[]\hspace{-\leftmargin}\textit{Bước 3.} Báo cáo, thảo luận%
+}
+\newcommand{\buocbon}{%
+	\needspace{1cm}%
+	\item[]\hspace{-\leftmargin}\textit{Bước 4.} Kết luận, nhận định%
+}
 \newcommand{\itbf}[1]{\textit{\textbf{#1}}}
 \newcommand{\inTieuDeTCTH}[3]{%
+	\needspace{3cm}%
     \item[]\hspace{-\leftmargin}%
     \noindent #1~\itbf{#2\ifthenelse{\equal{#3}{}}{}{ #3}:}%
 }
@@ -202,7 +228,7 @@
     vandung/.code={\inTieuDeTCTH{\faUsers}{Vận dụng}{#1}},
     tranhluan/.code={\inTieuDeTCTH{\faBullhorn}{Tranh luận}{#1}},
     thuthachnho/.code={\inTieuDeTCTH{\faChild}{Thử thách nhỏ}{#1}},
-    phieuhoctap/.code={\inTieuDeTCTH{\faCopy}{Phần học tập}{#1}},
+    phieuhoctap/.code={\inTieuDeTCTH{\faCopy}{Phiếu học tập}{#1}},
     baitap/.code={\inTieuDeTCTH{\faCubes}{Bài tập}{#1}},
 }
 % Tổ chức thực hiện
