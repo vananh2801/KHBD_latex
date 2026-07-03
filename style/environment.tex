@@ -47,7 +47,7 @@
 % Ôn tập
 \newenvironment{ontap}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faPaperclip~\textit{\textbf{Ôn tập:}}\par}
+	\def\sbHD{\noindent\faRefresh~\textit{\textbf{Ôn tập:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -57,7 +57,7 @@
 % Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faUnlock~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
+	\def\sbHD{\noindent\faSearch~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -67,7 +67,7 @@
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faToggleOn~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\def\sbHD{\noindent\faHeadphones~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -92,7 +92,7 @@
 \newenvironment{vidu}{%
 	\needspace{2cm}%
 	\refstepcounter{vidu}
-	\def\sbHD{\noindent\faPencilSquareO~\textit{\textbf{Ví dụ \thevidu:}}\par}
+	\def\sbHD{\noindent\faPencil~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -107,7 +107,7 @@
 \newenvironment{luyentap}{%
 	\needspace{2cm}%
 	\refstepcounter{luyentap}
-	\def\sbHD{\noindent\faUser~\textit{\textbf{Luyện tập \theluyentap:}}\par}
+	\def\sbHD{\noindent\faCube~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -122,7 +122,7 @@
 \newenvironment{thuchanh}{%
 	\needspace{2cm}%
 	\refstepcounter{thuchanh}
-	\def\sbHD{\noindent\faYelp~\textit{\textbf{Thực hành \thethuchanh:}}\par}
+	\def\sbHD{\noindent\faWrench~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -137,7 +137,7 @@
 \newenvironment{vandung}{%
 	\needspace{2cm}%
 	\refstepcounter{vandung}
-	\def\sbHD{\noindent\faUsers~\textit{\textbf{Vận dụng \thevandung:}}\par}
+	\def\sbHD{\noindent\faCubes~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -147,7 +147,7 @@
 % Tranh luận
 \newenvironment{tranhluan}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faBullhorn~\textit{\textbf{Tranh luận:}}\par}
+	\def\sbHD{\noindent\faCommentingO~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -157,7 +157,7 @@
 % Thử thách nhỏ
 \newenvironment{thuthachnho}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faChild~\textit{\textbf{Thử thách nhỏ:}}\par}
+	\def\sbHD{\noindent\faTrophy~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -172,7 +172,7 @@
 \newenvironment{phieuhoctap}{%
 	\needspace{2cm}%
 	\refstepcounter{phieuhoctap}
-	\def\sbHD{\noindent\faCopy~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
+	\def\sbHD{\noindent\faFileTextO~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -182,7 +182,7 @@
 % Bài tập
 \newenvironment{baitap}[1][]{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faCubes~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
+	\def\sbHD{\noindent\faEdit~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -218,18 +218,18 @@
     .unknown/.code={\inTieuDeTCTH{}{\textcolor{red}{\Large\faWarning~Không tìm thấy tham số}}{}}, % Cảnh báo khi sai tham số.
     % Định nghĩa từng loại
     modau/.code={\inTieuDeTCTH{\faPagelines}{Tình huống mở đầu}{#1}},
-    ontap/.code={\inTieuDeTCTH{\faPaperclip}{Ôn tập}{#1}},
-    ttkp/.code={\inTieuDeTCTH{\faUnlock}{Tìm tòi - Khám phá}{#1}},
-    dhnh/.code={\inTieuDeTCTH{\faToggleOn}{Đọc hiểu - Nghe hiểu}{#1}},
+    ontap/.code={\inTieuDeTCTH{\faRefresh}{Ôn tập}{#1}},
+    ttkp/.code={\inTieuDeTCTH{\faSearch}{Tìm tòi - Khám phá}{#1}},
+    dhnh/.code={\inTieuDeTCTH{\faHeadphones}{Đọc hiểu - Nghe hiểu}{#1}},
     cauhoi/.code={\inTieuDeTCTH{\faQuestionCircleO}{Câu hỏi}{#1}},
-    vidu/.code={\inTieuDeTCTH{\faPencilSquareO}{Ví dụ}{#1}},
-    luyentap/.code={\inTieuDeTCTH{\faUser}{Luyện tập}{#1}},
-    thuchanh/.code={\inTieuDeTCTH{\faYelp}{Thực hành}{#1}},
-    vandung/.code={\inTieuDeTCTH{\faUsers}{Vận dụng}{#1}},
-    tranhluan/.code={\inTieuDeTCTH{\faBullhorn}{Tranh luận}{#1}},
-    thuthachnho/.code={\inTieuDeTCTH{\faChild}{Thử thách nhỏ}{#1}},
-    phieuhoctap/.code={\inTieuDeTCTH{\faCopy}{Phiếu học tập}{#1}},
-    baitap/.code={\inTieuDeTCTH{\faCubes}{Bài tập}{#1}},
+    vidu/.code={\inTieuDeTCTH{\faPencil}{Ví dụ}{#1}},
+    luyentap/.code={\inTieuDeTCTH{\faCube}{Luyện tập}{#1}},
+    thuchanh/.code={\inTieuDeTCTH{\faWrench}{Thực hành}{#1}},
+    vandung/.code={\inTieuDeTCTH{\faCubes}{Vận dụng}{#1}},
+    tranhluan/.code={\inTieuDeTCTH{\faCommentingO}{Tranh luận}{#1}},
+    thuthachnho/.code={\inTieuDeTCTH{\faTrophy}{Thử thách nhỏ}{#1}},
+    phieuhoctap/.code={\inTieuDeTCTH{\faFileTextO}{Phiếu học tập}{#1}},
+    baitap/.code={\inTieuDeTCTH{\faEdit}{Bài tập}{#1}},
 }
 % Tổ chức thực hiện
 \newenvironment{tcth}[1][]{%
