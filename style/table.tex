@@ -1,8 +1,15 @@
+%%% Khai báo cho gói tabular
 \usepackage{multicol}
 \usepackage{multirow}
-
-\newlength\mylength
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-\setlength{\arrayrulewidth}{1pt}
-\renewcommand{\arraystretch}{1.3}
+
+%%% Khai báo cho gói cellspace, dùng Sl Sr Sc thay cho l r c nếu dùng tabular
+\usepackage[column=S]{cellspace}
+\setlength\cellspacetoplimit{5pt}
+\setlength\cellspacebottomlimit{5pt}
+
+%%% Khai báo tabularray, khuyên dùng thay cho tabular
+\usepackage{tabularray}
+\NewColumnType{C}[1]{Q[c, wd=#1]}
+
 
