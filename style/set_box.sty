@@ -1,5 +1,5 @@
 %%% Thông tin set_box.sty
-\ProvidesPackage{set_box}[06/07/2025 version 1.2026.03.06, Phan Van Anh]
+\ProvidesPackage{set_box}[06/07/2025 version 1.2026.07.03, Phan Van Anh]
 %%% Khai báo package
 \RequirePackage{xcolor}
 \RequirePackage{ifthen}
@@ -160,6 +160,13 @@
 	}{}
 }
 {}
+%%% Rest cấp của list khi lồng tcolorbox và itemize hoặc enumerate
+\tcbset{
+	resetlist/.style={
+		% Dùng phép gán trực tiếp của TeX thay vì \setcounter
+		before upper={\@itemdepth=0}
+	}
+}
 %%% Màu khung
 \def\sb@defaultColframe{blue}
 \newcommand{\setboxColframe}[2]{
@@ -243,6 +250,7 @@
 		\def\endbox{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				breakable,
 				enhanced,
 				rounded corners=northeast,
@@ -270,6 +278,7 @@
 		\def\sb@beginbox{
 			\settowidth\sb@titleWidth{\sb@labelthmshort}
 			\begin{tcolorbox}[
+				resetlist,
 				breakable,
 				enhanced,
 				fonttitle=\normalfont\normalcolor,
@@ -314,6 +323,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 		\begin{tcolorbox}[
+			resetlist,
 			breakable,
 			enhanced,
 			fonttitle=\normalfont\normalcolor,
@@ -358,6 +368,7 @@
 			\setlength\sb@titleMaxWidth{0.7\linewidth}
 			\ifdim\sb@titleWidth>\sb@titleMaxWidth\relax\setlength{\sb@titleWidth}{\sb@titleMaxWidth}\fi
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -409,6 +420,7 @@
 		\def\sb@beginbox{
 			\settowidth\sb@titleWidth{\sb@labelthmshort}
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -443,6 +455,7 @@
 			\setlength\sb@titleMaxWidth{\dimexpr\linewidth-9mm\relax}
 			\ifdim\sb@titleWidth>\sb@titleMaxWidth\relax\setlength{\sb@titleWidth}{\sb@titleMaxWidth}\fi
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -506,6 +519,7 @@
 		\def\sb@beginbox{
 			\par\noindent{\normalfont\normalcolor\sb@labelthmfull}\par
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				frame hidden,
@@ -559,6 +573,7 @@
 		\def\sb@beginbox{
 			\par\noindent{\normalfont\normalcolor\sb@labelthmfull}\par
 			\begin{tcolorbox}[
+				resetlist,
 				breakable,
 				enhanced,
 				rounded corners=northeast,
@@ -588,6 +603,7 @@
 			\setlength\sb@titleMaxWidth{\linewidth-6mm}
 			\ifdim\sb@titleWidth>\sb@titleMaxWidth\relax\setlength{\sb@titleWidth}{\sb@titleMaxWidth}\fi
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -662,6 +678,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -692,6 +709,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -722,6 +740,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				frame hidden,
@@ -787,6 +806,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -852,6 +872,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -921,6 +942,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				frame hidden,
@@ -971,6 +993,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				frame hidden,
@@ -1059,6 +1082,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				top=4mm,left=3mm,bottom=3mm,right=3mm,
@@ -1106,6 +1130,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				top=4mm,left=3mm,bottom=3mm,right=3mm,
@@ -1153,6 +1178,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				top=7mm,left=3mm,bottom=3mm,right=3mm,
@@ -1200,6 +1226,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				top=10mm,left=3mm,bottom=3mm,right=3mm,
@@ -1256,6 +1283,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}	
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				top=10mm,left=3mm,bottom=3mm,right=3mm,
@@ -1312,6 +1340,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				breakable,
 				enhanced,
 				rounded corners=northeast,
@@ -1337,6 +1366,7 @@
 		\def\sb@begin{\sb@labelthmfullDot}
 		\def\sb@end{}
 		\def\sb@beginbox{\begin{tcolorbox}[
+			resetlist,
 			breakable,
 			enhanced,
 			frame hidden,
@@ -1391,6 +1421,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 		\begin{tcolorbox}[
+			resetlist,
 			enhanced,
 			before skip=2mm,
 			after skip=3mm,
@@ -1423,6 +1454,7 @@
 		\def\sb@end{}
 		\def\sb@beginbox{
 		\begin{tcolorbox}[
+			resetlist,
 			enhanced,
 			breakable,
 			fonttitle=\normalfont\normalcolor,
@@ -1521,6 +1553,7 @@
 		\def\sb@begin{\sb@labelthmfullDot}
 		\def\sb@end{}
 		\def\sb@beginbox{\begin{tcolorbox}[
+			resetlist,
 			breakable,
 			enhanced,
 			rounded corners=west,
@@ -1615,6 +1648,7 @@
 		\def\sb@begin{\sb@labelthmfullDot}
 		\def\sb@end{}
 		\def\sb@beginbox{\begin{tcolorbox}[
+			resetlist,
 			breakable,
 			enhanced,
 			rounded corners=west,
@@ -1686,6 +1720,7 @@
 		\def\sb@begin{\sb@labelthmfullDot}
 		\def\sb@end{}
 		\def\sb@beginbox{\begin{tcolorbox}[
+			resetlist,
 			breakable,
 			enhanced,
 			rounded corners=west,
@@ -1783,6 +1818,7 @@
 		\def\sb@begin{\sb@labelthmfullDot}
 		\def\sb@end{}
 		\def\sb@beginbox{\begin{tcolorbox}[
+			resetlist,
 			breakable,
 			enhanced,
 			frame hidden,
@@ -1843,6 +1879,7 @@
 		\def\sb@beginbox{
 			\settowidth\sb@titleWidth{\sb@labelthmshort}
 			\begin{tcolorbox}[
+				resetlist,
 				breakable,
 				enhanced,
 				fonttitle=\normalfont\normalcolor,
@@ -1893,6 +1930,7 @@
 			\endtikzpicture}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				before skip=6mm,
 				breakable,
 				enhanced,
@@ -1928,6 +1966,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -1969,6 +2008,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -2014,6 +2054,7 @@
 		\def\sb@end{\par\noindent\hfill\textit{\sb@sublabelthmBracket}}
 		\def\sb@beginbox{
 			\begin{tcolorbox}[
+				resetlist,
 				enhanced,
 				breakable,
 				fonttitle=\normalfont\normalcolor,
@@ -2410,6 +2451,7 @@
 	\def\sb@end{\par\noindent\hfill\textbf{\textit{\sb@sublabelthmBracket}}}
 	\def\sb@beginbox{
 		\begin{tcolorbox}[%
+			resetlist,
 			enhanced,
 			breakable,
 			drop fuzzy shadow southeast,
