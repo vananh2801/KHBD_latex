@@ -6,13 +6,18 @@
 \RequirePackage{tikz}
 \usetikzlibrary{shadows,angles,calc,positioning,shapes,shapes,decorations.pathmorphing, decorations.pathreplacing,decorations.shapes}
 \RequirePackage{calc}
-\RequirePackage{fontawesome}
 \@ifpackageloaded{tcolorbox}{}{
 	\RequirePackage{tcolorbox}
 }
 \tcbuselibrary{breakable,most,many,skins}
 \RequirePackage{etoolbox}
 \RequirePackage{environ}
+%%% Xử lý cho gói fontawasome và fontawasome5
+\@ifpackageloaded{fontawesome}{}{
+	% Nếu đã load bản Pro của fontawasome5 thì không load lại
+	\@ifpackageloaded{fontawesome5}{}{\RequirePackage{fontawesome5}}
+}
+\newcommand{\sb@ifFaws}[2]{\@ifpackageloaded{fontawesome}{#1}{#2}}
 %%% Xử lý bổ sung cho gói ex_test
 \@ifpackageloaded{ex_test}
 {
@@ -1141,12 +1146,12 @@
 				before skip=8mm,
 				frame code ={
 					\fill[\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
-					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faLightbulbO\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\sb@ifFaws{\faLightbulbO}{\faLightbulb[regular]}\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
 				},
 				skin first is subskin of={emptyfirst}{%
 					frame code ={
 						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
-						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faLightbulbO\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\sb@ifFaws{\faLightbulbO}{\faLightbulb[regular]}\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
 					}
 				},
 				skin middle is subskin of={emptymiddle}{%
@@ -1189,12 +1194,12 @@
 				before skip=8mm,
 				frame code ={
 					\fill[\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
-					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faUnlockAlt\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+					\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\sb@ifFaws{\faUnlockAlt}{\faUnlock}\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
 				},
 				skin first is subskin of={emptyfirst}{%
 					frame code ={
 						\fill[\sb@colback] (frame.north west) rectangle (frame.south east);
-						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\faUnlockAlt\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
+						\draw ([xshift=-4mm,yshift=-1mm]frame.north west) node[right] {\fontsize{30pt}{30pt}\selectfont\color{\sb@colframe}\sb@ifFaws{\faUnlockAlt}{\faUnlock}\,\fontsize{11pt}{11pt}\fontfamily{lmss}\selectfont\bf\sb@Currentlabel};
 					}
 				},
 				skin middle is subskin of={emptymiddle}{%
@@ -1238,8 +1243,8 @@
 				frame code ={
 					\draw[\sb@colframe,fill=\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
 					\fill[\sb@colframe] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
-					\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
-					\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+					\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (7mm);
+					\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
 					\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{\sb@colframe}\faThumbsUp};
 				},
 				skin first is subskin of={emptyfirst}{%
@@ -1247,8 +1252,8 @@
 						\fill[\sb@colback] (frame.south west) rectangle (frame.north east);
 						\draw[\sb@colframe, line width=0.4mm] (frame.south west) -- (frame.north west) -- (frame.north east) -- (frame.south east);
 						\fill[\sb@colframe] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
-						\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
-						\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+						\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (7mm);
+						\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
 						\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{\sb@colframe}\faThumbsUp};
 					}
 				},
@@ -1295,8 +1300,8 @@
 				frame code ={
 					\draw[\sb@colbacktitle,fill=\sb@colback, line width=0.4mm] (frame.north west) -- (frame.north east) -- ([yshift=3mm]frame.south east) arc[start angle=360, end angle=270,radius=3mm] -- (frame.south west)  -- cycle;
 					\fill[\sb@colbacktitle] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
-					\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
-					\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+					\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (7mm);
+					\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
 					\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{white}\faThumbsUp};
 				},
 				skin first is subskin of={emptyfirst}{%
@@ -1304,8 +1309,8 @@
 						\fill[\sb@colback] (frame.south west) rectangle (frame.north east);
 						\draw[\sb@colbacktitle, line width=0.4mm] (frame.south west) -- (frame.north west) -- (frame.north east) -- (frame.south east);
 						\fill[\sb@colbacktitle] (frame.north west) rectangle ([yshift=-7mm]frame.north east);
-						\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
-						\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (5mm);
+						\fill[\sb@colbacktitle] ($(frame.north west)+(0.35,-0.35)$) circle (7mm);
+						\fill[\sb@colframe] ($(frame.north west)+(0.35,-0.35)$) circle (6mm);
 						\draw ($(frame.north west)+(0.35,-0.35)$) node{\LARGE\color{white}\faThumbsUp};
 					}
 				},
