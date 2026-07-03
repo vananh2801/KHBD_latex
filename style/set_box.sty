@@ -12,9 +12,9 @@
 \tcbuselibrary{breakable,most,many,skins}
 \RequirePackage{etoolbox}
 \RequirePackage{environ}
-%%% Xử lý cho gói fontawasome và fontawasome5
+%%% Xử lý cho gói fontawesome và fontawesome5
 \@ifpackageloaded{fontawesome}{}{
-	% Nếu đã load bản Pro của fontawasome5 thì không load lại
+	% Nếu đã load bản Pro của fontawesome5 thì không load lại
 	\@ifpackageloaded{fontawesome5}{}{\RequirePackage{fontawesome5}}
 }
 \newcommand{\sb@ifFaws}[2]{\@ifpackageloaded{fontawesome}{#1}{#2}}
