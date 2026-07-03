@@ -1,14 +1,38 @@
-\usepackage{paracol} % Gói lệnh chia cột song song
-\columnratio{0.5}    % Tỷ lệ 2 cột (0.5 là mỗi bên 50%)
-\globalcounter{subparagraph}
-\setlength{\columnseprule}{1pt}
-\newcommand{\kengang}{\hrule height 1pt}
-
-
-\def\sbHD{}
-\newcommand{\doicot}{\switchcolumn\sbHD}
-
-\newcommand{\huongdan}{\textit{Hướng dẫn: }}
+% Khai báo fontawasome(5) để định nghĩa icon
+\makeatletter
+\@ifpackageloaded{fontawesome}
+{
+	\def\iconMoDau{\faPagelines}
+	\def\iconOnTap{\faRefresh}
+	\def\iconTTKP{\faSearch}
+	\def\iconDHNH{\faHeadphones}
+	\def\iconCauHoi{\faQuestionCircleO}
+	\def\iconViDu{\faPencil}
+	\def\iconLuyenTap{\faCube}
+	\def\iconThucHanh{\faWrench}
+	\def\iconVanDung{\faCubes}
+	\def\iconTranhLuan{\faCommentingO}
+	\def\iconThuThachNho{\faTrophy}
+	\def\iconPhieuHocTap{\faFileTextO}
+	\def\iconBaiTap{\faEdit}
+}
+{
+	\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+	\def\iconMoDau{\faSeedling} %
+	\def\iconOnTap{\faSync*} %
+	\def\iconTTKP{\faSearch} %
+	\def\iconDHNH{\faHeadphones*} %
+	\def\iconCauHoi{\faQuestion} %
+	\def\iconViDu{\faPen} %
+	\def\iconLuyenTap{\faCube} %
+	\def\iconThucHanh{\faPencilRuler} %
+	\def\iconVanDung{\faCubes} %
+	\def\iconTranhLuan{\faComments[regular]} %
+	\def\iconThuThachNho{\faHotjar} %%%
+	\def\iconPhieuHocTap{\faFile*[regular]} %
+	\def\iconBaiTap{\faEdit[regular]} %
+}
+\makeatother
 
 %---- Cài đặt màu mặc định gói set_box ----
 \setboxColframeSetDefault{black}
@@ -34,10 +58,24 @@
 \@addtoreset{bt}{subparagraph}
 \makeatother
 
+% Khai báo các lệnh dùng với paracol
+\usepackage{paracol} % Gói lệnh chia cột song song
+\columnratio{0.5}    % Tỷ lệ 2 cột (0.5 là mỗi bên 50%)
+\globalcounter{subparagraph}
+
+% Lệnh đổi cột
+\def\sbHD{}
+\newcommand{\doicot}{\switchcolumn\sbHD}
+% Lệnh kẻ ngang
+\setlength{\columnseprule}{1pt}
+\newcommand{\kengang}{\hrule height 1pt}
+% Lệnh tắt "Hướng dẫn:"
+\newcommand{\huongdan}{\textit{Hướng dẫn: }}
+
 % Tình huống mở đầu (gợi vấn đề)
 \newenvironment{modau}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faPagelines~\textit{\textbf{Tình huống mở đầu:}}\par}
+	\def\sbHD{\noindent\iconMoDau~\textit{\textbf{Tình huống mở đầu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -47,7 +85,7 @@
 % Ôn tập
 \newenvironment{ontap}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faRefresh~\textit{\textbf{Ôn tập:}}\par}
+	\def\sbHD{\noindent\iconOnTap~\textit{\textbf{Ôn tập:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -57,7 +95,7 @@
 % Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faSearch~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
+	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -67,7 +105,7 @@
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faHeadphones~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -77,7 +115,7 @@
 % Câu hỏi
 \newenvironment{cauhoi}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faQuestionCircleO~\textit{\textbf{Câu hỏi:}}\par}
+	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -92,7 +130,7 @@
 \newenvironment{vidu}{%
 	\needspace{2cm}%
 	\refstepcounter{vidu}
-	\def\sbHD{\noindent\faPencil~\textit{\textbf{Ví dụ \thevidu:}}\par}
+	\def\sbHD{\noindent\iconViDu~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -107,7 +145,7 @@
 \newenvironment{luyentap}{%
 	\needspace{2cm}%
 	\refstepcounter{luyentap}
-	\def\sbHD{\noindent\faCube~\textit{\textbf{Luyện tập \theluyentap:}}\par}
+	\def\sbHD{\noindent\iconLuyenTap~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -122,7 +160,7 @@
 \newenvironment{thuchanh}{%
 	\needspace{2cm}%
 	\refstepcounter{thuchanh}
-	\def\sbHD{\noindent\faWrench~\textit{\textbf{Thực hành \thethuchanh:}}\par}
+	\def\sbHD{\noindent\iconThucHanh~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -137,7 +175,7 @@
 \newenvironment{vandung}{%
 	\needspace{2cm}%
 	\refstepcounter{vandung}
-	\def\sbHD{\noindent\faCubes~\textit{\textbf{Vận dụng \thevandung:}}\par}
+	\def\sbHD{\noindent\iconVanDung~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -147,7 +185,7 @@
 % Tranh luận
 \newenvironment{tranhluan}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faCommentingO~\textit{\textbf{Tranh luận:}}\par}
+	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -157,7 +195,7 @@
 % Thử thách nhỏ
 \newenvironment{thuthachnho}{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faTrophy~\textit{\textbf{Thử thách nhỏ:}}\par}
+	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -172,7 +210,7 @@
 \newenvironment{phieuhoctap}{%
 	\needspace{2cm}%
 	\refstepcounter{phieuhoctap}
-	\def\sbHD{\noindent\faFileTextO~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
+	\def\sbHD{\noindent\iconPhieuHocTap~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -182,7 +220,7 @@
 % Bài tập
 \newenvironment{baitap}[1][]{%
 	\needspace{2cm}%
-	\def\sbHD{\noindent\faEdit~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
+	\def\sbHD{\noindent\iconBaiTap~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 	\sbHD%
 }{%
@@ -217,19 +255,19 @@
     /tcth/.is family, /tcth,
     .unknown/.code={\inTieuDeTCTH{}{\textcolor{red}{\Large\faWarning~Không tìm thấy tham số}}{}}, % Cảnh báo khi sai tham số.
     % Định nghĩa từng loại
-    modau/.code={\inTieuDeTCTH{\faPagelines}{Tình huống mở đầu}{#1}},
-    ontap/.code={\inTieuDeTCTH{\faRefresh}{Ôn tập}{#1}},
-    ttkp/.code={\inTieuDeTCTH{\faSearch}{Tìm tòi - Khám phá}{#1}},
-    dhnh/.code={\inTieuDeTCTH{\faHeadphones}{Đọc hiểu - Nghe hiểu}{#1}},
-    cauhoi/.code={\inTieuDeTCTH{\faQuestionCircleO}{Câu hỏi}{#1}},
-    vidu/.code={\inTieuDeTCTH{\faPencil}{Ví dụ}{#1}},
-    luyentap/.code={\inTieuDeTCTH{\faCube}{Luyện tập}{#1}},
-    thuchanh/.code={\inTieuDeTCTH{\faWrench}{Thực hành}{#1}},
-    vandung/.code={\inTieuDeTCTH{\faCubes}{Vận dụng}{#1}},
-    tranhluan/.code={\inTieuDeTCTH{\faCommentingO}{Tranh luận}{#1}},
-    thuthachnho/.code={\inTieuDeTCTH{\faTrophy}{Thử thách nhỏ}{#1}},
-    phieuhoctap/.code={\inTieuDeTCTH{\faFileTextO}{Phiếu học tập}{#1}},
-    baitap/.code={\inTieuDeTCTH{\faEdit}{Bài tập}{#1}},
+    modau/.code={\inTieuDeTCTH{\iconMoDau}{Tình huống mở đầu}{#1}},
+    ontap/.code={\inTieuDeTCTH{\iconOnTap}{Ôn tập}{#1}},
+    ttkp/.code={\inTieuDeTCTH{\iconTTKP}{Tìm tòi - Khám phá}{#1}},
+    dhnh/.code={\inTieuDeTCTH{\iconDHNH}{Đọc hiểu - Nghe hiểu}{#1}},
+    cauhoi/.code={\inTieuDeTCTH{\iconCauHoi}{Câu hỏi}{#1}},
+    vidu/.code={\inTieuDeTCTH{\iconViDu}{Ví dụ}{#1}},
+    luyentap/.code={\inTieuDeTCTH{\iconLuyenTap}{Luyện tập}{#1}},
+    thuchanh/.code={\inTieuDeTCTH{\iconThucHanh}{Thực hành}{#1}},
+    vandung/.code={\inTieuDeTCTH{\iconVanDung}{Vận dụng}{#1}},
+    tranhluan/.code={\inTieuDeTCTH{\iconTranhLuan}{Tranh luận}{#1}},
+    thuthachnho/.code={\inTieuDeTCTH{\iconThuThachNho}{Thử thách nhỏ}{#1}},
+    phieuhoctap/.code={\inTieuDeTCTH{\iconPhieuHocTap}{Phiếu học tập}{#1}},
+    baitap/.code={\inTieuDeTCTH{\iconBaiTap}{Bài tập}{#1}},
 }
 % Tổ chức thực hiện
 \newenvironment{tcth}[1][]{%
