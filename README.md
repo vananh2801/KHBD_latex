@@ -22,7 +22,14 @@
     \def\thoigian{2}
     \section
     [<Tên bài trên mục lục>]
-    {<TÊN BÀI>}
+    {<TÊN BÀI>} % Template sẽ KHÔNG tự động in hoa
+    ```
+
+- Dối với các bài dạy không đánh số, chẳng hạn Luyện tập chung, Ôn tập cuối chương,... thầy cô dùng 
+
+    ```latex
+    \def\thoigian{2}
+    \section*{<Tên bài>} % Template sẽ tự động in hoa
     ```
 
 ### Phần Mục tiêu và Thiết bị dạy học và học liệu
