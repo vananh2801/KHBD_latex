@@ -92,8 +92,34 @@
 	\AtBeginEnvironment{\x}{\needspace{2cm}}
 }
 
+\newcommand{\setupEnv}{%
+	\setlist[itemize]{%
+		leftmargin=*, 
+		topsep=3pt,
+		itemsep=0pt
+	}%
+	% Nếu dùng "--" dễ nhầm lẫn với dấu trừ.
+	\renewcommand{\labelitemi}{$\bullet$} 
+	\renewcommand{\labelitemii}{\faAngleRight}
+	\setlist[enumerate]{%
+		leftmargin=*, 
+		topsep=3pt,
+		itemsep=0pt
+	}%
+	\setlist[cacbuoc]{%
+		label=\textit{\faCaretRight~Bước \arabic*.},
+		wide=0pt,
+		leftmargin=0pt, 
+		labelsep=0.5em,
+		itemsep=0pt, 
+		topsep=3pt,
+		before=\leavevmode
+	}%
+}
+
 % Tình huống mở đầu (gợi vấn đề)
 \newenvironment{modau}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconMoDau~\textit{\textbf{Tình huống mở đầu:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -103,6 +129,7 @@
 
 % Ôn tập
 \newenvironment{ontap}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconOnTap~\textit{\textbf{Ôn tập:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -112,6 +139,7 @@
 
 % Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -121,6 +149,7 @@
 
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -130,6 +159,7 @@
 
 % Câu hỏi
 \newenvironment{cauhoi}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -143,6 +173,7 @@
 \@addtoreset{vidu}{section}
 \makeatother
 \newenvironment{vidu}{%
+	\setupEnv
 	\refstepcounter{vidu}
 	\def\sbHD{\noindent\iconViDu~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
@@ -157,6 +188,7 @@
 \@addtoreset{luyentap}{section}
 \makeatother
 \newenvironment{luyentap}{%
+	\setupEnv
 	\refstepcounter{luyentap}
 	\def\sbHD{\noindent\iconLuyenTap~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
@@ -171,6 +203,7 @@
 \@addtoreset{thuchanh}{section}
 \makeatother
 \newenvironment{thuchanh}{%
+	\setupEnv
 	\refstepcounter{thuchanh}
 	\def\sbHD{\noindent\iconThucHanh~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
@@ -185,6 +218,7 @@
 \@addtoreset{vandung}{section}
 \makeatother
 \newenvironment{vandung}{%
+	\setupEnv
 	\refstepcounter{vandung}
 	\def\sbHD{\noindent\iconVanDung~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
@@ -195,6 +229,7 @@
 
 % Tranh luận
 \newenvironment{tranhluan}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -204,6 +239,7 @@
 
 % Thử thách nhỏ
 \newenvironment{thuthachnho}{%
+	\setupEnv
 	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
@@ -217,6 +253,7 @@
 \@addtoreset{phieuhoctap}{section}
 \makeatother
 \newenvironment{phieuhoctap}{%
+	\setupEnv
 	\refstepcounter{phieuhoctap}
 	\def\sbHD{\noindent\iconPhieuHocTap~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
 	\begin{paracol}{2}%
@@ -227,6 +264,7 @@
 
 % Bài tập
 \newenvironment{baitap}[1][]{%
+	\setupEnv
 	\def\sbHD{\noindent\iconBaiTap~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
