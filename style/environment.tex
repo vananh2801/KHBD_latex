@@ -65,10 +65,26 @@
 
 % Lệnh đổi cột
 \def\sbHD{}
-\newcommand{\doicot}{\switchcolumn\sbHD}
-% Lệnh kẻ ngang
+\newcommand{\doicot}{%
+	\vspace{2mm}% Thêm khoảng trống ở cuối cột 1
+	\switchcolumn%
+	\sbHD%
+}
+
+% Thêm khoảng trống ở cuối cột 2 (trước \end{paracol})
+\expandafter\let\expandafter\oldendparacol\csname endparacol\endcsname
+\expandafter\def\csname endparacol\endcsname{\vspace{2mm}\oldendparacol}
+
+% Lệnh kẻ ngang (nếu ở cuối trang thì sẽ không hiện)
 \setlength{\columnseprule}{1pt}
-\newcommand{\kengang}{\hrule height 1pt}
+\newcommand{\kengang}{%
+  \filbreak % Gợi ý ngắt trang tại đây nếu phía dưới quá chật
+  \begingroup
+    \prevdepth=-1000pt
+    \leaders\hrule height 1pt\vskip 1pt
+  \endgroup
+}
+
 % Lệnh tắt "Hướng dẫn:"
 \newcommand{\huongdan}{\textit{Hướng dẫn: }}
 
@@ -77,8 +93,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconMoDau~\textit{\textbf{Tình huống mở đầu:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -97,8 +113,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -107,8 +123,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -117,8 +133,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -132,8 +148,8 @@
 	\refstepcounter{vidu}
 	\def\sbHD{\noindent\iconViDu~\textit{\textbf{Ví dụ \thevidu:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -147,8 +163,8 @@
 	\refstepcounter{luyentap}
 	\def\sbHD{\noindent\iconLuyenTap~\textit{\textbf{Luyện tập \theluyentap:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -162,8 +178,8 @@
 	\refstepcounter{thuchanh}
 	\def\sbHD{\noindent\iconThucHanh~\textit{\textbf{Thực hành \thethuchanh:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -177,8 +193,8 @@
 	\refstepcounter{vandung}
 	\def\sbHD{\noindent\iconVanDung~\textit{\textbf{Vận dụng \thevandung:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -187,8 +203,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -197,8 +213,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -212,8 +228,8 @@
 	\refstepcounter{phieuhoctap}
 	\def\sbHD{\noindent\iconPhieuHocTap~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
@@ -222,8 +238,8 @@
 	\needspace{2cm}%
 	\def\sbHD{\noindent\iconBaiTap~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
-	\sbHD%
-}{%
+		\sbHD%
+	}{%
 	\end{paracol}
 }
 
