@@ -12,11 +12,11 @@
 \usepackage{tabularray}
 \NewColumnType{C}[1]{Q[c, wd=#1]}
 
-% Khai báo lệnh tạo hệ phương trình
+%%% Khai báo lệnh tạo hệ phương trình
 \newcommand{\hoac}[1]{\left[\begin{aligned}#1\end{aligned}\right.}
 \newcommand{\heva}[1]{\left\{\begin{aligned}#1\end{aligned}\right.}
 
-% Khai báo thông tin mặc định
+%%% Khai báo thông tin mặc định
 \def\truong{THCS XXX}
 \def\tobomon{Toán}
 \def\giaovien{Phan Văn Anh}
@@ -24,16 +24,35 @@
 \def\lophoc{9AX}
 \def\thoigian{}
 
+%%% Khai báo cho định dạng đoạn
 \usepackage{indentfirst}
 \setlength{\parindent}{0pt} % Thiết lập độ thụt đầu dòng bằng 0
 \setlength{\parskip}{2mm} % Tạo khoảng cách nhỏ giữa các đoạn văn
 \AtBeginDocument{\sloppy} % Giúp xuống dòng tốt hơn 
 
-\usepackage{enumerate}
+%%% Khai báo cho môi trường danh sách
 \usepackage{enumitem}
-\setlist[itemize]{itemsep=0pt, topsep=3pt}
-\setlist[enumerate]{itemsep=0pt, topsep=3pt}
+\setlist[itemize]{
+    itemsep=0pt, 
+    topsep=3pt,
+}
+\setlist[enumerate]{
+    itemsep=0pt, 
+    topsep=3pt,
+}
 \renewcommand{\labelitemi}{--}
 \renewcommand{\labelitemii}{\faAngleRight}
-%\renewcommand{\labelenumi}{\faCaretRight}
 
+% Định nghĩa môi trường các bước dùng để liệt kê Bước 1, Bước 2...
+\newlength{\cacbuocLeftMargin}
+\setlength{\cacbuocLeftMargin}{0.5\leftmargini} % Mặc định là \leftmargini
+\newlist{cacbuoc}{enumerate}{1}
+\setlist[cacbuoc]{
+    label=\textit{\faCaretRight~Bước \arabic*.},
+    wide=\cacbuocLeftMargin,
+    leftmargin=\cacbuocLeftMargin, 
+    labelsep=0.5em,
+    itemsep=0pt, 
+    topsep=3pt,
+    before=\leavevmode
+}
