@@ -129,8 +129,9 @@
 	\subparagraph{Mục tiêu}%
 }
 
-\newcommand{\noidungsanpham}{%
+\newcommand{\noidungsanpham}[1][0.5]{%
 	\needspace{4cm}%
+	\columnratio{#1}
 	\begin{paracol}{2}
 		\subparagraph{Nội dung}
 		\switchcolumn
