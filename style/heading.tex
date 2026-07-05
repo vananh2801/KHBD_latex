@@ -45,42 +45,43 @@
 	    \end{minipage}
 	    \vspace{0.3cm} % Khoảng cách dòng
 	    \begin{center}
-	        \textbf{TÊN BÀI DẠY: #1}\\[0.3cm]
+	        \textbf{\fontsize{14pt}{14pt}\selectfont TÊN BÀI DẠY: #1}\\[0.3cm]
 	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
 			Thời gian thực hiện: \thoigian~(tiết)
 	    \end{center}
 	\end{tcolorbox}
 }
 
-\titleformat{name=\section,numberless}
-{\normalfont}
-{}
-{0em}
-{%
-    \setcounter{subsection}{0}
-    \setcounter{subsubsection}{0}
-	\setcounter{paragraph}{0}
-	\setcounter{subparagraph}{0}
-	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
-	    \begin{minipage}[t]{0.45\textwidth}
-	        \textbf{Trường: \truong}\\
-	        \textbf{Tổ: \tobomon}
-	    \end{minipage}
-	    \hfill
-	    \begin{minipage}[t]{0.45\textwidth}
-	        \centering
-	        Họ và tên giáo viên:\\
-	        \giaovien
-	    \end{minipage}
-	    \vspace{0.3cm}
-	    \begin{center}
-	        \textbf{TÊN BÀI DẠY: \MakeUppercase{#1}}\\[0.3cm]
-	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
-			Thời gian thực hiện: \thoigian~(tiết)
-	    \end{center}
-	\end{tcolorbox}
-    \addcontentsline{toc}{section}{#1}
-}
+%%%% \section không đánh số
+% \titleformat{name=\section,numberless}
+% {\normalfont}
+% {}
+% {0em}
+% {%
+%     \setcounter{subsection}{0}
+%     \setcounter{subsubsection}{0}
+% 	\setcounter{paragraph}{0}
+% 	\setcounter{subparagraph}{0}
+% 	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
+% 	    \begin{minipage}[t]{0.45\textwidth}
+% 	        \textbf{Trường: \truong}\\
+% 	        \textbf{Tổ: \tobomon}
+% 	    \end{minipage}
+% 	    \hfill
+% 	    \begin{minipage}[t]{0.45\textwidth}
+% 	        \centering
+% 	        Họ và tên giáo viên:\\
+% 	        \giaovien
+% 	    \end{minipage}
+% 	    \vspace{0.3cm}
+% 	    \begin{center}
+% 	        \textbf{TÊN BÀI DẠY: \MakeUppercase{#1}}\\[0.3cm]
+% 	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
+% 			Thời gian thực hiện: \thoigian~(tiết)
+% 	    \end{center}
+% 	\end{tcolorbox}
+%     \addcontentsline{toc}{section}{#1}
+% }
 
 % Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)
 % Do các mục ở Mục I thường nằm ở trang đầu nên không thêm \needspace

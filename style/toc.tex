@@ -23,10 +23,11 @@
 \titlecontents{section}[7mm]
 {%
     \faCaretRight~\bf
-    \ifthenelse{\equal{\thecontentslabel}{}}{%
-    }{%
-        Bài~\thecontentslabel.
-    }
+    %%% \section không đánh số thì sẽ không in Bài 
+    % \ifthenelse{\equal{\thecontentslabel}{}}{%
+    % }{%
+    %     Bài~\thecontentslabel.
+    % }
 }
 {}
 {}
