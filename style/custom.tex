@@ -29,30 +29,3 @@
 \setlength{\parindent}{0pt} % Thiết lập độ thụt đầu dòng bằng 0
 \setlength{\parskip}{2mm} % Tạo khoảng cách nhỏ giữa các đoạn văn
 \AtBeginDocument{\sloppy} % Giúp xuống dòng tốt hơn 
-
-%%% Khai báo cho môi trường danh sách
-\usepackage{enumitem}
-\setlist[itemize]{
-    itemsep=0pt, 
-    topsep=3pt,
-}
-\setlist[enumerate]{
-    itemsep=0pt, 
-    topsep=3pt,
-}
-\setlist[itemize,1]{label=--}
-\setlist[itemize,2]{label=\faAngleRight}
-
-% Định nghĩa môi trường các bước dùng để liệt kê Bước 1, Bước 2...
-\newlength{\cacbuocLeftMargin}
-\setlength{\cacbuocLeftMargin}{0.5\leftmargini} % Mặc định là \leftmargini
-\newlist{cacbuoc}{enumerate}{1}
-\setlist[cacbuoc]{
-    label=\textit{\faCaretRight~Bước \arabic*.},
-    wide=\cacbuocLeftMargin,
-    leftmargin=\cacbuocLeftMargin, 
-    labelsep=0.5em,
-    itemsep=0pt, 
-    topsep=3pt,
-    before=\leavevmode
-}

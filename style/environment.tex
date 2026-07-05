@@ -1,3 +1,54 @@
+%%% Khai báo cho môi trường danh sách
+\usepackage{enumitem}
+\setlist[itemize]{
+    itemsep=0pt, 
+    topsep=3pt,
+}
+\setlist[enumerate]{
+    itemsep=0pt, 
+    topsep=3pt,
+}
+\setlist[itemize,1]{label=--}
+\setlist[itemize,2]{label=\faAngleRight}
+
+\newcommand{\setupEnv}{%
+	\setlist[itemize]{%
+		leftmargin=*, 
+		topsep=3pt,
+		itemsep=0pt
+	}%
+	\setlist[itemize,1]{label=\textbullet} % Tránh nhầm lẫn với dấu trừ.
+	\setlist[itemize,2]{label=\faAngleRight}
+	\setlist[enumerate]{%
+		leftmargin=*, 
+		topsep=3pt,
+		itemsep=0pt
+	}%
+	\setlist[cacbuoc]{%
+		label=\textit{\faCaretRight~Bước \arabic*.},
+		wide=0pt,
+		leftmargin=0pt, 
+		labelsep=0.5em,
+		itemsep=0pt, 
+		topsep=3pt,
+		before=\leavevmode
+	}%
+}
+
+% Định nghĩa môi trường các bước dùng để liệt kê Bước 1, Bước 2...
+\newlength{\cacbuocLeftMargin}
+\setlength{\cacbuocLeftMargin}{0.5\leftmargini} % Mặc định là \leftmargini
+\newlist{cacbuoc}{enumerate}{1}
+\setlist[cacbuoc]{
+    label=\textit{\faCaretRight~Bước \arabic*.},
+    wide=\cacbuocLeftMargin,
+    leftmargin=\cacbuocLeftMargin, 
+    labelsep=0.5em,
+    itemsep=0pt, 
+    topsep=3pt,
+    before=\leavevmode
+}
+
 % Khai báo fontawasome(5) để định nghĩa icon
 \makeatletter
 \@ifpackageloaded{fontawesome}
@@ -90,30 +141,6 @@
 % Tự qua trang khi gần hết trang, tránh tiêu đề trang trước nội dung trang sau
 \foreach \x in {modau, ontap, ttkp, dhnh, vidu, luyentap, vandung, baitap, cauhoi, tranhluan, thuthachnho, phieuhoctap, thuchanh} {
 	\AtBeginEnvironment{\x}{\needspace{2cm}}
-}
-
-\newcommand{\setupEnv}{%
-	\setlist[itemize]{%
-		leftmargin=*, 
-		topsep=3pt,
-		itemsep=0pt
-	}%
-	\setlist[itemize,1]{label=\textbullet} % Tránh nhầm lẫn với dấu trừ.
-	\setlist[itemize,2]{label=\faAngleRight}
-	\setlist[enumerate]{%
-		leftmargin=*, 
-		topsep=3pt,
-		itemsep=0pt
-	}%
-	\setlist[cacbuoc]{%
-		label=\textit{\faCaretRight~Bước \arabic*.},
-		wide=0pt,
-		leftmargin=0pt, 
-		labelsep=0.5em,
-		itemsep=0pt, 
-		topsep=3pt,
-		before=\leavevmode
-	}%
 }
 
 % Tình huống mở đầu (gợi vấn đề)
