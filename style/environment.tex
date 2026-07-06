@@ -143,10 +143,18 @@
 	\AtBeginEnvironment{\x}{\needspace{2cm}}
 }
 
+% Lệnh in counter nếu trong section có trên 1 lần dùng
+\makeatletter
+\newcommand{\showCounter}[1]{\ifthenelse{\equal{\@printCounter{#1}}{1}}{}{~\number\value{#1}}}
+\makeatother
 % Tình huống mở đầu (gợi vấn đề)
+\newcounter{modau}
+\counterwithin*{modau}{section}
 \newenvironment{modau}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconMoDau~\textit{\textbf{Tình huống mở đầu:}}\par}
+	\refstepcounter{modau}
+	\saveCounter{modau}%
+	\def\sbHD{\noindent\iconMoDau~\textit{\textbf{Tình huống mở đầu\showCounter{modau}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -154,9 +162,13 @@
 }
 
 % Ôn tập
+\newcounter{ontap}
+\counterwithin*{ontap}{section}
 \newenvironment{ontap}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconOnTap~\textit{\textbf{Ôn tập:}}\par}
+	\refstepcounter{ontap}
+	\saveCounter{ontap}%
+	\def\sbHD{\noindent\iconOnTap~\textit{\textbf{Ôn tập\showCounter{ontap}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -164,9 +176,13 @@
 }
 
 % Tìm tòi - Khám phá
+\newcounter{ttkp}
+\counterwithin*{ttkp}{section}
 \newenvironment{ttkp}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
+	\refstepcounter{ttkp}
+	\saveCounter{ttkp}%
+	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá\showCounter{ttkp}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -174,9 +190,13 @@
 }
 
 % Đọc hiểu - Nghe hiểu
+\newcounter{dhnh}
+\counterwithin*{dhnh}{section}
 \newenvironment{dhnh}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\refstepcounter{dhnh}
+	\saveCounter{dhnh}%
+	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu\showCounter{dhnh}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -184,9 +204,13 @@
 }
 
 % Câu hỏi
+\newcounter{cauhoi}
+\counterwithin*{cauhoi}{section}
 \newenvironment{cauhoi}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi:}}\par}
+	\refstepcounter{cauhoi}
+	\saveCounter{cauhoi}%
+	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi\showCounter{cauhoi}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -195,13 +219,12 @@
 
 % Ví dụ
 \newcounter{vidu}
-\makeatletter
-\@addtoreset{vidu}{section}
-\makeatother
+\counterwithin*{vidu}{section}
 \newenvironment{vidu}{%
 	\setupEnv
 	\refstepcounter{vidu}
-	\def\sbHD{\noindent\iconViDu~\textit{\textbf{Ví dụ \thevidu:}}\par}
+	\saveCounter{vidu}%
+	\def\sbHD{\noindent\iconViDu~\textit{\textbf{Ví dụ\showCounter{vidu}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -210,13 +233,12 @@
 
 % Luyện tập
 \newcounter{luyentap}
-\makeatletter
-\@addtoreset{luyentap}{section}
-\makeatother
+\counterwithin*{luyentap}{section}
 \newenvironment{luyentap}{%
 	\setupEnv
 	\refstepcounter{luyentap}
-	\def\sbHD{\noindent\iconLuyenTap~\textit{\textbf{Luyện tập \theluyentap:}}\par}
+	\saveCounter{luyentap}
+	\def\sbHD{\noindent\iconLuyenTap~\textit{\textbf{Luyện tập\showCounter{luyentap}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -225,13 +247,12 @@
 
 % Thực hành
 \newcounter{thuchanh}
-\makeatletter
-\@addtoreset{thuchanh}{section}
-\makeatother
+\counterwithin*{thuchanh}{section}
 \newenvironment{thuchanh}{%
 	\setupEnv
 	\refstepcounter{thuchanh}
-	\def\sbHD{\noindent\iconThucHanh~\textit{\textbf{Thực hành \thethuchanh:}}\par}
+	\saveCounter{thuchanh}
+	\def\sbHD{\noindent\iconThucHanh~\textit{\textbf{Thực hành\showCounter{thuchanh}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -240,13 +261,12 @@
 
 % Vận dụng
 \newcounter{vandung}
-\makeatletter
-\@addtoreset{vandung}{section}
-\makeatother
+\counterwithin*{vandung}{section}
 \newenvironment{vandung}{%
 	\setupEnv
 	\refstepcounter{vandung}
-	\def\sbHD{\noindent\iconVanDung~\textit{\textbf{Vận dụng \thevandung:}}\par}
+	\saveCounter{vandung}
+	\def\sbHD{\noindent\iconVanDung~\textit{\textbf{Vận dụng\showCounter{vandung}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -254,9 +274,13 @@
 }
 
 % Tranh luận
+\newcounter{tranhluan}
+\counterwithin*{tranhluan}{section}
 \newenvironment{tranhluan}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận:}}\par}
+	\refstepcounter{tranhluan}
+	\saveCounter{tranhluan}%
+	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận\showCounter{tranhluan}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -264,9 +288,13 @@
 }
 
 % Thử thách nhỏ
+\newcounter{thuthachnho}
+\counterwithin*{thuthachnho}{section}
 \newenvironment{thuthachnho}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ:}}\par}
+	\refstepcounter{thuthachnho}
+	\saveCounter{thuthachnho}%
+	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ\showCounter{thuthachnho}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -275,13 +303,12 @@
 
 % Phiếu học tập
 \newcounter{phieuhoctap}
-\makeatletter
-\@addtoreset{phieuhoctap}{section}
-\makeatother
+\counterwithin*{phieuhoctap}{section}
 \newenvironment{phieuhoctap}{%
 	\setupEnv
 	\refstepcounter{phieuhoctap}
-	\def\sbHD{\noindent\iconPhieuHocTap~\textit{\textbf{Phiếu học tập \thephieuhoctap:}}\par}
+	\saveCounter{phieuhoctap}
+	\def\sbHD{\noindent\iconPhieuHocTap~\textit{\textbf{Phiếu học tập\showCounter{phieuhoctap}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%

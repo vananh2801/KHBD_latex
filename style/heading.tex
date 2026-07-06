@@ -99,6 +99,8 @@
 {}
 {0em}
 {%
+	\saveCounter{subsubsection}%
+	\saveTitle{subsubsection}{#1}
 	\needspace{4cm}%
 	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
 		\bf\centering Tiết \arabic{subsubsection}. #1%
@@ -125,11 +127,13 @@
 {0.5em}
 {#1}
 
+% Mục tiêu
 \newcommand{\muctieu}{%
 	\needspace{2cm}%
 	\subparagraph{Mục tiêu}%
 }
 
+% Nội dung và sản phẩm
 \newcommand{\noidungsanpham}[1][0.5]{%
 	\needspace{4cm}%
 	\columnratio{#1}
@@ -140,7 +144,77 @@
 	\end{paracol}
 }
 
+% Tổ chức thực hiện
 \newcommand{\tochucthuchien}{%
 	\needspace{4cm}%
 	\subparagraph{Tổ chức thực hiện}%
 }
+
+%%% Tạo lệnh in số tiết ở đầu mục "III. Tiến trình dạy học"
+\usepackage{etoolbox}
+
+% Biến đếm (không dùng trực tiếp biến có sẵn sẽ gây lỗi trùng lặp với \section*{})
+\makeatletter
+\newcounter{sb@part}
+\newcounter{sb@chapter}
+\newcounter{sb@section}
+\pretocmd{\part}{\refstepcounter{sb@part}}{}{}
+\pretocmd{\chapter}{\refstepcounter{sb@chapter}}{}{}
+\pretocmd{\section}{%
+	\refstepcounter{sb@section}%
+}{}{}
+% Lưu số lượng
+% Arg: counter
+\newcommand{\saveCounter}[1]{%
+	\immediate\write\@auxout{%
+		\string\@importCounter%
+		{#1}%
+		{\number\value{sb@part}}%
+		{\number\value{sb@chapter}}%
+		{\number\value{sb@section}}%
+		{\number\value{#1}}%
+	}%
+}
+% Arg: sb@part / sb@chapter / sb@section / counter
+\newcommand{\@importCounter}[5]{% 
+	\expandafter\xdef\csname counter@#1@#2@#3@#4\endcsname{#5}%
+}
+
+% Lưu tiêu đề tiết
+\newcommand{\saveTitle}[2]{%
+	\immediate\write\@auxout{%
+		\string\@importTitle%
+		{#1}%
+		{\number\value{sb@part}}%
+		{\number\value{sb@chapter}}%
+		{\number\value{sb@section}}%
+		{\number\value{subsubsection}}%
+		{#2}%
+	}%
+}
+\newcommand{\@importTitle}[6]{%
+	\expandafter\xdef\csname title@#1@#2@#3@#4@#5\endcsname{#6}%
+}
+
+% Lệnh lấy số tiết trong section hiện tại
+\newcommand{\@printCounter}[1]{%
+	\ifcsname counter@#1@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}\endcsname
+	\csname counter@#1@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}\endcsname
+	\else
+	0%
+	\fi
+}
+% Lưu nốt section cuối cùng
+\AtEndDocument{\saveCounter{subsubsection}} 
+\newcommand{\tientrinhdayhoc}{%
+	Bài học này dạy trong \@printCounter{subsubsection}~tiết:
+	\@tempcnta=0\relax
+	\begin{itemize}
+		\@whilenum\@tempcnta<\@printCounter{subsubsection}\relax\do{%
+			\advance\@tempcnta by 1\relax
+			\edef\@keytiet{title@subsubsection@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}@\the\@tempcnta}%
+			\item Tiết \the\@tempcnta: \csname\@keytiet\endcsname.
+		}%
+	\end{itemize}
+}
+\makeatother
