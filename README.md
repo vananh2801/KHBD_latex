@@ -84,7 +84,7 @@
     ```latex
     \subsection{Tiến trình dạy học}
 
-    \tientrinhdayhoc
+    \danhsachtiet
     ```
     Nội dung sẽ hiện như sau:
 

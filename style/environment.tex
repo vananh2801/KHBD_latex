@@ -145,7 +145,7 @@
 
 % Lệnh in counter nếu trong section có trên 1 lần dùng
 \makeatletter
-\newcommand{\showCounter}[1]{\ifthenelse{\equal{\@printCounter{#1}}{1}}{}{~\number\value{#1}}}
+\newcommand{\showCounter}[1]{\ifthenelse{\equal{\@getCounter{#1}}{1}}{}{~\number\value{#1}}}
 \makeatother
 % Tình huống mở đầu (gợi vấn đề)
 \newcounter{modau}

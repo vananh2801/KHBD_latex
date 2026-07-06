@@ -158,29 +158,37 @@
 \newcounter{sb@part}
 \newcounter{sb@chapter}
 \newcounter{sb@section}
-\pretocmd{\part}{\refstepcounter{sb@part}}{}{}
-\pretocmd{\chapter}{\refstepcounter{sb@chapter}}{}{}
-\pretocmd{\section}{%
-	\refstepcounter{sb@section}%
-}{}{}
-% Lưu số lượng
+\pretocmd{\part}{\refstepcounter{sb@part}}{}{} % giá trị nhỏ nhất là 1
+\pretocmd{\chapter}{\refstepcounter{sb@chapter}}{}{} % giá trị nhỏ nhất là 1
+\pretocmd{\section}{\refstepcounter{sb@section}}{}{} % giá trị nhỏ nhất là 1
+
+% Lưu số lượng #1 trong section
 % Arg: counter
 \newcommand{\saveCounter}[1]{%
+	% Nếu không có thì tạo counter mới
+	\@ifundefined{c@#1@insection}{%
+		\newcounter{#1@insection}
+		\counterwithin*{#1@insection}{section}
+	}{}%
+	% Nếu có counter rồi thì tăng 1 đơn vị (giá trị nhỏ nhất là 1)
+	\refstepcounter{#1@insection}%
+	% Xuất lệnh \@importCounter ra .aux
 	\immediate\write\@auxout{%
 		\string\@importCounter%
 		{#1}%
 		{\number\value{sb@part}}%
 		{\number\value{sb@chapter}}%
 		{\number\value{sb@section}}%
-		{\number\value{#1}}%
+		{\number\value{#1@insection}}%
 	}%
 }
-% Arg: sb@part / sb@chapter / sb@section / counter
+% Lệnh này để gán bộ đếm của lần biên dịch trước bằng cách chạy lệnh từ .aux
+% Arg: tên môi trường / sb@part / sb@chapter / sb@section / counter
 \newcommand{\@importCounter}[5]{% 
 	\expandafter\xdef\csname counter@#1@#2@#3@#4\endcsname{#5}%
 }
 
-% Lưu tiêu đề tiết
+% Lưu tiêu đề của môi trường
 \newcommand{\saveTitle}[2]{%
 	\immediate\write\@auxout{%
 		\string\@importTitle%
@@ -188,35 +196,43 @@
 		{\number\value{sb@part}}%
 		{\number\value{sb@chapter}}%
 		{\number\value{sb@section}}%
-		{\number\value{subsubsection}}%
+		{\number\value{#1@insection}}%
 		{#2}%
 	}%
 }
+% Lệnh này để gán tiêu đề của lần biên dịch trước bằng cách chạy lệnh từ .aux
+% Arg: tên môi trường / sb@part / sb@chapter / sb@section / nội dung tiêu đề
 \newcommand{\@importTitle}[6]{%
 	\expandafter\xdef\csname title@#1@#2@#3@#4@#5\endcsname{#6}%
 }
 
-% Lệnh lấy số tiết trong section hiện tại
-\newcommand{\@printCounter}[1]{%
+% Lệnh lấy số lần dùng môi trường trong section hiện tại
+% Trả về giá trị lớn nhất của #1@insection ở \saveCounter
+\newcommand{\@getCounter}[1]{%
 	\ifcsname counter@#1@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}\endcsname
-	\csname counter@#1@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}\endcsname
+		\csname counter@#1@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}\endcsname%
 	\else
-	0%
+		0%
 	\fi
 }
-% Lưu nốt section cuối cùng
-\AtEndDocument{\saveCounter{subsubsection}} 
-\newcommand{\tientrinhdayhoc}{%
-	Bài học này dạy trong \@printCounter{subsubsection}~tiết:
+
+% Danh sách tiết
+\newcommand{\danhsachtiet}{%
 	\@tempcnta=0\relax
-	\begin{itemize}
-		\@whilenum\@tempcnta<\@printCounter{subsubsection}\relax\do{%
-			\advance\@tempcnta by 1\relax
-			\edef\@keytiet{title@subsubsection@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}@\the\@tempcnta}%
-			\item Tiết \the\@tempcnta: \xoaxuongdong{\csname\@keytiet\endcsname}.
-		}%
-	\end{itemize}
+	\ifthenelse{\equal{\@getCounter{subsubsection}}{0}}{%
+		\textcolor{red}{\Large Thầy cô vui lòng soạn các tiết dạy ở phía sau hoặc biên dịch PDF 1 lần nữa để cập nhật danh sách tiết!}
+	}{%
+		Bài học này dạy trong \@getCounter{subsubsection}~tiết:
+		\begin{itemize}
+			\@whilenum\@tempcnta<\@getCounter{subsubsection}\relax\do{%
+				\advance\@tempcnta by 1\relax
+				\edef\@keytiet{title@subsubsection@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}@\the\@tempcnta}%
+				\item Tiết \the\@tempcnta: \xoaxuongdong{\csname\@keytiet\endcsname}.
+			}%
+		\end{itemize}
+	}
 }
+
 % Xoá \\ trong nội dung
 \newcommand{\xoaxuongdong}[1]{%
 	\begingroup
