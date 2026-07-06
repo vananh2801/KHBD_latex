@@ -25,21 +25,15 @@
     {<TÊN BÀI>} % Template sẽ KHÔNG tự động in hoa
     ```
 
-- Dối với các bài dạy không đánh số, chẳng hạn Luyện tập chung, Ôn tập cuối chương,... thầy cô dùng 
-
-    ```latex
-    \def\thoigian{2}
-    \section*{<Tên bài>} % Template sẽ tự động in hoa
-    ```
-
 ### Phần Mục tiêu và Thiết bị dạy học và học liệu
 
 - Thầy cô lưu ý dùng ```\subsection``` cho đề mục lớn và ```\paragraph``` cho tiêu đề nhỏ. 
 - Trong template này, lệnh ```\subsubsection``` chỉ dùng để chia Tiết 1, 2, 3,... Đối với thầy cô cần soạn riêng kế hoạch bài dạy cho từng tiết thì bỏ qua lệnh ```\subsubsection```.
 
-
     ```latex
-    \subsection{MỤC TIÊU}
+    \subsection
+    [Mục tiêu]
+    {MỤC TIÊU}
 
     \paragraph{Về kiến thức, kĩ năng}
 
@@ -62,7 +56,9 @@
         \item ...
     \end{itemize}
 
-    \subsection{THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU}
+    \subsection
+    [Thiết bị dạy học và học liệu]
+    {THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU}
 
     \paragraph{Giáo viên}
 
@@ -82,7 +78,9 @@
 - Ở đây thầy cô ghi rõ là chia thành mấy tiết.
 
     ```latex
-    \subsection{TIẾN TRÌNH DẠY HỌC}
+    \subsection
+    [Tiến trình dạy học]
+    {TIẾN TRÌNH DẠY HỌC}
 
     \danhsachtiet
     ```
@@ -130,7 +128,7 @@
 
 3. Đối với hai phẩn **Nội dung** và **Sản phẩm**, ta soạn song song hai cột. 
 
-    Ta soạn theo cấu trúc như sau, các đánh số sẽ tự động:
+    Ta soạn theo cấu trúc như sau, các đánh số sẽ tự động (Đối với một số môi trường sẽ không đánh số nếu chỉ dùng 1 lần trong bài):
 
     ```latex
     \noidungsanpham
@@ -222,7 +220,9 @@
 5. Phần **Phụ lục**, thầy cô dùng như sau:
     
     ```latex
-    \subsection{PHỤ LỤC}
+    \subsection
+    [Phụ lục]
+    {PHỤ LỤC}
     
     \paragraph{Phiếu học tập 1}
 
