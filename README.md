@@ -39,7 +39,7 @@
 
 
     ```latex
-    \subsection{Mục tiêu}
+    \subsection{MỤC TIÊU}
 
     \paragraph{Về kiến thức, kĩ năng}
 
@@ -62,7 +62,7 @@
         \item ...
     \end{itemize}
 
-    \subsection{Thiết bị dạy học và học liệu}
+    \subsection{THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU}
 
     \paragraph{Giáo viên}
 
@@ -82,7 +82,7 @@
 - Ở đây thầy cô ghi rõ là chia thành mấy tiết.
 
     ```latex
-    \subsection{Tiến trình dạy học}
+    \subsection{TIẾN TRÌNH DẠY HỌC}
 
     \danhsachtiet
     ```
@@ -222,7 +222,7 @@
 5. Phần **Phụ lục**, thầy cô dùng như sau:
     
     ```latex
-    \subsection{Phụ lục}
+    \subsection{PHỤ LỤC}
     
     \paragraph{Phiếu học tập 1}
 
