@@ -84,12 +84,14 @@
     ```latex
     \subsection{Tiến trình dạy học}
 
-    Bài học này dạy trong 02 tiết:
+    \tientrinhdayhoc
+    ```
+    Nội dung sẽ hiện như sau:
 
-    \begin{itemize}
-        \item Tiết 1: ...
-        \item Tiết 2: ...
-    \end{itemize}
+    ```
+    Bài học này dạy trong 02 tiết:
+    - Tiết 1: ...
+    - Tiết 2: ...
     ```
 
 ### Giới thiệu về cách soạn
@@ -150,6 +152,11 @@
         %%% 
         Sản phảm dự kiến...
     \end{<tên môi trường 2>}
+    ```
+
+    Nếu muốn thay đổi tỉ lệ 2 cột (mặc định bên trái 0.5). Ta dùng lệnh:
+    ```latex
+    \noidungsanpham[0.4] % Cột 1 lấy 0.4, cột 2 lấy 0.6
     ```
 
     Một số môi trường đã được khai báo sẵn theo mẫu SGK Kết nối tri thức đã được thống nhất sử dụng toàn quốc từ năm học 2027-2028:
