@@ -176,13 +176,9 @@
 }
 
 % Tìm tòi - Khám phá
-\newcounter{ttkp}
-\counterwithin*{ttkp}{section}
 \newenvironment{ttkp}{%
 	\setupEnv
-	\refstepcounter{ttkp}
-	\saveCounter{ttkp}%
-	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá\showCounter{ttkp}:}}\par}
+	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -190,13 +186,9 @@
 }
 
 % Đọc hiểu - Nghe hiểu
-\newcounter{dhnh}
-\counterwithin*{dhnh}{section}
 \newenvironment{dhnh}{%
 	\setupEnv
-	\refstepcounter{dhnh}
-	\saveCounter{dhnh}%
-	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu\showCounter{dhnh}:}}\par}
+	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -204,13 +196,9 @@
 }
 
 % Câu hỏi
-\newcounter{cauhoi}
-\counterwithin*{cauhoi}{section}
 \newenvironment{cauhoi}{%
 	\setupEnv
-	\refstepcounter{cauhoi}
-	\saveCounter{cauhoi}%
-	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi\showCounter{cauhoi}:}}\par}
+	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -274,13 +262,9 @@
 }
 
 % Tranh luận
-\newcounter{tranhluan}
-\counterwithin*{tranhluan}{section}
 \newenvironment{tranhluan}{%
 	\setupEnv
-	\refstepcounter{tranhluan}
-	\saveCounter{tranhluan}%
-	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận\showCounter{tranhluan}:}}\par}
+	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -288,13 +272,9 @@
 }
 
 % Thử thách nhỏ
-\newcounter{thuthachnho}
-\counterwithin*{thuthachnho}{section}
 \newenvironment{thuthachnho}{%
 	\setupEnv
-	\refstepcounter{thuthachnho}
-	\saveCounter{thuthachnho}%
-	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ\showCounter{thuthachnho}:}}\par}
+	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
