@@ -113,7 +113,7 @@
 - Thầy cô dùng ```\subsubsection``` để khai báo tên tiết và dùng ```\paragraph``` để khai báo tên hoạt động.
 
     ```latex
-    \subsubsection{<Tên tiết>}
+    \subsubsection{<Tên tiết>} % Cuối tiêu đề không thêm dấu .
 
     \paragraph{<Tên hoạt động>}
     ```

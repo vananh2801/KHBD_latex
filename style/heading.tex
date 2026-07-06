@@ -213,8 +213,16 @@
 		\@whilenum\@tempcnta<\@printCounter{subsubsection}\relax\do{%
 			\advance\@tempcnta by 1\relax
 			\edef\@keytiet{title@subsubsection@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}@\the\@tempcnta}%
-			\item Tiết \the\@tempcnta: \csname\@keytiet\endcsname.
+			\item Tiết \the\@tempcnta: \xoaxuongdong{\csname\@keytiet\endcsname}.
 		}%
 	\end{itemize}
+}
+% Xoá \\ trong nội dung
+\newcommand{\xoaxuongdong}[1]{%
+	\begingroup
+	\let\\=\space      % Biến \\ thành dấu cách
+	\let\newline=\space % Biến \newline thành dấu cách (nếu cần)
+	#1%                % In tham số ra
+	\endgroup
 }
 \makeatother
