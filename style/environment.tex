@@ -53,37 +53,54 @@
 \makeatletter
 \@ifpackageloaded{fontawesome}
 {
-	\def\iconMoDau{\faPagelines}
-	\def\iconOnTap{\faRefresh}
-	\def\iconTTKP{\faSearch}
-	\def\iconDHNH{\faHeadphones}
-	\def\iconCauHoi{\faQuestionCircleO}
-	\def\iconViDu{\faPencil}
-	\def\iconLuyenTap{\faCube}
-	\def\iconThucHanh{\faWrench}
-	\def\iconVanDung{\faCubes}
-	\def\iconTranhLuan{\faCommentingO}
-	\def\iconThuThachNho{\faTrophy}
-	\def\iconPhieuHocTap{\faFileTextO}
-	\def\iconBaiTap{\faEdit}
+	\def\iconMoDau{\faPagelines~}
+	\def\iconOnTap{\faRefresh~}
+	\def\iconTTKP{\faSearch~}
+	\def\iconDHNH{\faHeadphones~}
+	\def\iconCauHoi{\faQuestionCircleO~}
+	\def\iconViDu{\faPencil~}
+	\def\iconLuyenTap{\faCube~}
+	\def\iconThucHanh{\faWrench~}
+	\def\iconVanDung{\faCubes~}
+	\def\iconTranhLuan{\faCommentingO~}
+	\def\iconThuThachNho{\faTrophy~}
+	\def\iconPhieuHocTap{\faFileTextO~}
+	\def\iconBaiTap{\faEdit~}
 }
 {
 	\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
-	\def\iconMoDau{\faSeedling} %
-	\def\iconOnTap{\faSync*} %
-	\def\iconTTKP{\faSearch} %
-	\def\iconDHNH{\faHeadphones*} %
-	\def\iconCauHoi{\faQuestion} %
-	\def\iconViDu{\faPen} %
-	\def\iconLuyenTap{\faCube} %
-	\def\iconThucHanh{\faPencilRuler} %
-	\def\iconVanDung{\faCubes} %
-	\def\iconTranhLuan{\faComments[regular]} %
-	\def\iconThuThachNho{\faHotjar} %%%
-	\def\iconPhieuHocTap{\faFile*[regular]} %
-	\def\iconBaiTap{\faEdit[regular]} %
+	\def\iconMoDau{\faSeedling~}
+	\def\iconOnTap{\faSync*~}
+	\def\iconTTKP{\faSearch~}
+	\def\iconDHNH{\faHeadphones*~}
+	\def\iconCauHoi{\faQuestion~}
+	\def\iconViDu{\faPen~}
+	\def\iconLuyenTap{\faCube~}
+	\def\iconThucHanh{\faPencilRuler~}
+	\def\iconVanDung{\faCubes~}
+	\def\iconTranhLuan{\faComments[regular]~}
+	\def\iconThuThachNho{\faHotjar~}
+	\def\iconPhieuHocTap{\faFile*[regular]~}
+	\def\iconBaiTap{\faEdit[regular]~}
 }
 \makeatother
+
+% Lệnh tắt biểu tượng
+\newcommand{\tatBieuTuong}{
+	\def\iconMoDau{}
+	\def\iconOnTap{}
+	\def\iconTTKP{}
+	\def\iconDHNH{}
+	\def\iconCauHoi{}
+	\def\iconViDu{}
+	\def\iconLuyenTap{}
+	\def\iconThucHanh{}
+	\def\iconVanDung{}
+	\def\iconTranhLuan{}
+	\def\iconThuThachNho{}
+	\def\iconPhieuHocTap{}
+	\def\iconBaiTap{}
+}
 
 %---- Cài đặt màu mặc định gói set_box ----
 \setboxColframeSetDefault{black}
@@ -154,7 +171,7 @@
 	\setupEnv
 	\refstepcounter{modau}
 	\saveCounter{modau}%
-	\def\sbHD{\noindent\iconMoDau~\textit{\textbf{Tình huống mở đầu\showCounter{modau}:}}\par}
+	\def\sbHD{\noindent\iconMoDau\textit{\textbf{Tình huống mở đầu\showCounter{modau}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -168,7 +185,7 @@
 	\setupEnv
 	\refstepcounter{ontap}
 	\saveCounter{ontap}%
-	\def\sbHD{\noindent\iconOnTap~\textit{\textbf{Ôn tập\showCounter{ontap}:}}\par}
+	\def\sbHD{\noindent\iconOnTap\textit{\textbf{Ôn tập\showCounter{ontap}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -178,7 +195,7 @@
 % Tìm tòi - Khám phá
 \newenvironment{ttkp}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconTTKP~\textit{\textbf{Tìm tòi - Khám phá:}}\par}
+	\def\sbHD{\noindent\iconTTKP\textit{\textbf{Tìm tòi - Khám phá:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -188,7 +205,7 @@
 % Đọc hiểu - Nghe hiểu
 \newenvironment{dhnh}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconDHNH~\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
+	\def\sbHD{\noindent\iconDHNH\textit{\textbf{Đọc hiểu - Nghe hiểu:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -198,7 +215,7 @@
 % Câu hỏi
 \newenvironment{cauhoi}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconCauHoi~\textit{\textbf{Câu hỏi:}}\par}
+	\def\sbHD{\noindent\iconCauHoi\textit{\textbf{Câu hỏi:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -212,7 +229,7 @@
 	\setupEnv
 	\refstepcounter{vidu}
 	\saveCounter{vidu}%
-	\def\sbHD{\noindent\iconViDu~\textit{\textbf{Ví dụ\showCounter{vidu}:}}\par}
+	\def\sbHD{\noindent\iconViDu\textit{\textbf{Ví dụ\showCounter{vidu}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -226,7 +243,7 @@
 	\setupEnv
 	\refstepcounter{luyentap}
 	\saveCounter{luyentap}
-	\def\sbHD{\noindent\iconLuyenTap~\textit{\textbf{Luyện tập\showCounter{luyentap}:}}\par}
+	\def\sbHD{\noindent\iconLuyenTap\textit{\textbf{Luyện tập\showCounter{luyentap}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -240,7 +257,7 @@
 	\setupEnv
 	\refstepcounter{thuchanh}
 	\saveCounter{thuchanh}
-	\def\sbHD{\noindent\iconThucHanh~\textit{\textbf{Thực hành\showCounter{thuchanh}:}}\par}
+	\def\sbHD{\noindent\iconThucHanh\textit{\textbf{Thực hành\showCounter{thuchanh}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -254,7 +271,7 @@
 	\setupEnv
 	\refstepcounter{vandung}
 	\saveCounter{vandung}
-	\def\sbHD{\noindent\iconVanDung~\textit{\textbf{Vận dụng\showCounter{vandung}:}}\par}
+	\def\sbHD{\noindent\iconVanDung\textit{\textbf{Vận dụng\showCounter{vandung}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -264,7 +281,7 @@
 % Tranh luận
 \newenvironment{tranhluan}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconTranhLuan~\textit{\textbf{Tranh luận:}}\par}
+	\def\sbHD{\noindent\iconTranhLuan\textit{\textbf{Tranh luận:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -274,7 +291,7 @@
 % Thử thách nhỏ
 \newenvironment{thuthachnho}{%
 	\setupEnv
-	\def\sbHD{\noindent\iconThuThachNho~\textit{\textbf{Thử thách nhỏ}}\par}
+	\def\sbHD{\noindent\iconThuThachNho\textit{\textbf{Thử thách nhỏ}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -288,7 +305,7 @@
 	\setupEnv
 	\refstepcounter{phieuhoctap}
 	\saveCounter{phieuhoctap}
-	\def\sbHD{\noindent\iconPhieuHocTap~\textit{\textbf{Phiếu học tập\showCounter{phieuhoctap}:}}\par}
+	\def\sbHD{\noindent\iconPhieuHocTap\textit{\textbf{Phiếu học tập\showCounter{phieuhoctap}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
@@ -298,7 +315,7 @@
 % Bài tập
 \newenvironment{baitap}[1][]{%
 	\setupEnv
-	\def\sbHD{\noindent\iconBaiTap~\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
+	\def\sbHD{\noindent\iconBaiTap\textit{\textbf{Bài tập\ifthenelse{\equal{#1}{}}{}{ #1}:}}\par}
 	\begin{paracol}{2}%
 		\sbHD%
 	}{%
