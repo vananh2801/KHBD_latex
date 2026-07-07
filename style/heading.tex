@@ -9,20 +9,30 @@
 \renewcommand{\theparagraph}{\arabic{paragraph}}
 \renewcommand{\thesubparagraph}{\alph{subparagraph}}
 
+% Lệnh xuống dòng khi soạn tiêu đề
+\def\xuongdong{ }
+
 % Chương
 \titleformat{\chapter}
 {\normalfont\bf\Huge}
 {}
 {0em}
-{\chaptername~\thechapter\\[0.6cm]#1}
-[\ifthenelse{\equal{\thechapter}{0}}{}{\vfill\clearpage}]
+{%
+	\def\xuongdong{\protect\\}%
+	\chaptername~\thechapter\\[0.6cm]
+	\MakeTextUppercase{#1}%
+}
+[]
 %
 \titleformat{name=\chapter,numberless}
 {\normalfont\bf\Huge}
 {}
 {0em}
-{#1}
-[\ifthenelse{\equal{\thechapter}{0}}{}{\vfill\clearpage}]
+{%
+	\def\xuongdong{\protect\\}%
+	\MakeTextUppercase{#1}%
+}
+[]
 
 % Bải dạy
 \titlespacing{\section}{0mm}{0mm}{0mm}[0mm]
@@ -30,7 +40,8 @@
 {\normalfont}
 {}
 {0em}
-{%
+{%	
+	\def\xuongdong{\protect\\}%
 	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
 	    % Chia làm 2 cột bằng minipage
 	    \begin{minipage}[t]{0.45\textwidth}
@@ -45,43 +56,12 @@
 	    \end{minipage}
 	    \vspace{0.3cm} % Khoảng cách dòng
 	    \begin{center}
-	        \textbf{\fontsize{14pt}{14pt}\selectfont TÊN BÀI DẠY: #1}\\[0.3cm]
+	        \textbf{\fontsize{14pt}{14pt}\selectfont TÊN BÀI DẠY: \MakeTextUppercase{#1}}\\[0.3cm]
 	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
 			Thời gian thực hiện: \thoigian~(tiết)
 	    \end{center}
 	\end{tcolorbox}
 }
-
-%%%% \section không đánh số
-% \titleformat{name=\section,numberless}
-% {\normalfont}
-% {}
-% {0em}
-% {%
-%     \setcounter{subsection}{0}
-%     \setcounter{subsubsection}{0}
-% 	\setcounter{paragraph}{0}
-% 	\setcounter{subparagraph}{0}
-% 	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
-% 	    \begin{minipage}[t]{0.45\textwidth}
-% 	        \textbf{Trường: \truong}\\
-% 	        \textbf{Tổ: \tobomon}
-% 	    \end{minipage}
-% 	    \hfill
-% 	    \begin{minipage}[t]{0.45\textwidth}
-% 	        \centering
-% 	        Họ và tên giáo viên:\\
-% 	        \giaovien
-% 	    \end{minipage}
-% 	    \vspace{0.3cm}
-% 	    \begin{center}
-% 	        \textbf{TÊN BÀI DẠY: #1}\\[0.3cm]
-% 	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
-% 			Thời gian thực hiện: \thoigian~(tiết)
-% 	    \end{center}
-% 	\end{tcolorbox}
-%     \addcontentsline{toc}{section}{#1}
-% }
 
 % Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)
 % Do các mục ở Mục I thường nằm ở trang đầu nên không thêm \needspace
@@ -90,7 +70,10 @@
 {\normalfont\fontsize{14pt}{14pt}\selectfont\bf}
 {\Roman{subsection}.}
 {0.5em}
-{#1}
+{%
+	\def\xuongdong{\protect\\}%
+	\MakeTextUppercase{#1}%
+}
 
 % Tiết (1, 2, 3,...)
 \titlespacing{\subsubsection}{0mm}{0mm}{0mm}[0mm]
@@ -103,6 +86,7 @@
 	\saveTitle{subsubsection}{#1}
 	\needspace{4cm}%
 	\begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, before skip=0pt, after skip=0pt, top=2mm, bottom=2mm]
+		\def\xuongdong{\protect\\}%
 		\bf\centering Tiết \arabic{subsubsection}. #1%
 	\end{tcolorbox}
 }
@@ -117,7 +101,10 @@
 }
 {\arabic{paragraph}.}
 {0.5em}
-{#1}
+{%
+	\def\xuongdong{\protect\\}%
+	#1%
+}
 
 % Các phần của hoạt động (mục tiêu, nội dung, sản phẩm, tổ chức thực hiện)
 \titlespacing{\subparagraph}{0mm}{0mm}{0mm}[0mm]
@@ -125,7 +112,10 @@
 {\normalfont\bf}
 {\alph{subparagraph})}
 {0.5em}
-{#1}
+{%
+	\def\xuongdong{\protect\\}%
+	#1%
+}
 
 % Mục tiêu
 \newcommand{\muctieu}{%
@@ -155,11 +145,16 @@
 
 % Biến đếm (không dùng trực tiếp biến có sẵn sẽ gây lỗi trùng lặp với \section*{})
 \makeatletter
+% Phần
 \newcounter{sb@part}
-\newcounter{sb@chapter}
-\newcounter{sb@section}
 \pretocmd{\part}{\refstepcounter{sb@part}}{}{} % giá trị nhỏ nhất là 1
+% Chương
+\newcounter{sb@chapter}
+\counterwithin*{sb@chapter}{sb@part}
 \pretocmd{\chapter}{\refstepcounter{sb@chapter}}{}{} % giá trị nhỏ nhất là 1
+% Bài dạy
+\newcounter{sb@section}
+\counterwithin*{sb@section}{sb@chapter}
 \pretocmd{\section}{\refstepcounter{sb@section}}{}{} % giá trị nhỏ nhất là 1
 
 % Lưu số lượng #1 trong section
@@ -227,18 +222,9 @@
 			\@whilenum\@tempcnta<\@getCounter{subsubsection}\relax\do{%
 				\advance\@tempcnta by 1\relax
 				\edef\@keytiet{title@subsubsection@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}@\the\@tempcnta}%
-				\item Tiết \the\@tempcnta: \xoaxuongdong{\csname\@keytiet\endcsname}.
+				\item Tiết \the\@tempcnta: \csname\@keytiet\endcsname.
 			}%
 		\end{itemize}
 	}
-}
-
-% Xoá \\ trong nội dung
-\newcommand{\xoaxuongdong}[1]{%
-	\begingroup
-	\let\\=\space      % Biến \\ thành dấu cách
-	\let\newline=\space % Biến \newline thành dấu cách (nếu cần)
-	#1%                % In tham số ra
-	\endgroup
 }
 \makeatother
