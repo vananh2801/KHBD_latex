@@ -8,51 +8,30 @@
 
 % Chương
 \titlecontents{chapter}[0mm]
-{%
-    \bf
-    \ifthenelse{\equal{\thecontentslabel}{}}{%
-    }{%
-        Chương~\thecontentslabel.
-    }
-}
-{}
-{}
+{\normalfont\normalcolor\bf}
+{Chương~\thecontentslabel.~\MakeTextUppercase}
+{\MakeTextUppercase}
 {\hfill\contentspage}
 
-% Bải dạy
+% Bài dạy
 \titlecontents{section}[7mm]
-{%
-    \faCaretRight~\bf
-    %%% \section không đánh số thì sẽ không in Bài 
-    % \ifthenelse{\equal{\thecontentslabel}{}}{%
-    % }{%
-    %     Bài~\thecontentslabel.
-    % }
-}
+{\normalfont\normalcolor\faCaretRight~\bf}
+{~}
 {}
-{}
-{\titlerule*[0.3pc]{.}\quad\contentspage}
+{\titlerule*[0.5pc]{.}\quad\contentspage}
 
 % Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)
 \titlecontents{subsection}[14mm]
-{%
-    \ifthenelse{\equal{\thecontentslabel}{}}{%
-    }{%
-        \thecontentslabel.
-    }
-}
+{\normalfont\normalcolor}
+{\thecontentslabel.~}
 {}
-{}
-{\titlerule*[0.3pc]{.}\quad\contentspage}
+{\titlerule*[0.5pc]{.}\quad\contentspage}
 
 % Tiết (1, 2, 3,...)
 \titlecontents{subsubsection}[21mm]
-{%
-    \ifthenelse{\equal{\thecontentslabel}{}}{%
-    }{%
-        Tiết~\thecontentslabel.
-    }
-}
+{\normalfont\normalcolor}
+{Tiết~\thecontentslabel.~}
 {}
-{}
-{\titlerule*[0.3pc]{.}\quad\contentspage}
+{\titlerule*[0.5pc]{.}\quad\contentspage}
+
+
