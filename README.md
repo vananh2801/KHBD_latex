@@ -132,8 +132,6 @@
 
 - Thầy cô vui lòng soạn các tiết dạy ở phía sau hoặc biên dịch lần thứ 2 để cập nhật danh sách tiết. 
 
-- Khi dùng lệnh `\subsubsection`, ở cuối tên tiết thầy cô không thêm dấu chấm.
-
 ### Phần Tiết dạy
 
 1. Hiện tại một tiết dạy học đầy đủ chia làm 4 hoạt động:

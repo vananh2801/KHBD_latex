@@ -224,9 +224,18 @@
 			\@whilenum\@tempcnta<\@getCounter{subsubsection}\relax\do{%
 				\advance\@tempcnta by 1\relax
 				\edef\@keytiet{title@subsubsection@\number\value{sb@part}@\number\value{sb@chapter}@\number\value{sb@section}@\the\@tempcnta}%
-				\item Tiết \the\@tempcnta: \csname\@keytiet\endcsname.
+				\item Tiết \the\@tempcnta: \@themDauCham{\csname\@keytiet\endcsname}
 			}%
 		\end{itemize}
 	}
+}
+\makeatother
+
+\usepackage{xstring} % Gói xử lý string
+
+% Tự thêm dấu chấm nếu cần
+\makeatletter
+\newcommand{\@themDauCham}[1]{%
+	\IfEndWith{#1}{.}{#1}{#1.}%
 }
 \makeatother
