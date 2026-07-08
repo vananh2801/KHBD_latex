@@ -32,7 +32,6 @@
 - Thầy cô dùng lệnh sau để tạo khung tên bài dạy:
 
     ```latex
-    \def\thoigian{2} % Số tiết
     \section{<Tên bài>}
     ```
 

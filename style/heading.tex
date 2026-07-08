@@ -34,6 +34,7 @@
 }
 []
 
+\makeatletter
 % Bải dạy
 \titlespacing{\section}{0mm}{0mm}{0mm}[0mm]
 \titleformat{\section}
@@ -58,10 +59,11 @@
 	    \begin{center}
 	        \textbf{\fontsize{14pt}{14pt}\selectfont TÊN BÀI DẠY: \MakeTextUppercase{#1}}\\[0.3cm]
 	        Môn học/Hoạt động giáo dục: \monhoc; lớp: \lophoc\\
-			Thời gian thực hiện: \thoigian~(tiết)
+			Thời gian thực hiện: \@getCounter{subsubsection}~(tiết)
 	    \end{center}
 	\end{tcolorbox}
 }
+\makeatother
 
 % Mục lớn (mục tiêu, thiết bị dạy học, tiến trình dạy học, phụ lục...)
 % Do các mục ở Mục I thường nằm ở trang đầu nên không thêm \needspace
