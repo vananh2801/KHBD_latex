@@ -1,0 +1,143 @@
+\def\nangluctoanhocTieuDe{}
+\def\nangluctoanhocNoiDung{}
+
+\newcommand{\nangluctoanhoc}[2][]{%
+    \ifblank{#1}{% #1 trống
+        \ifblank{#2}{% #2 trống
+            \textcolor{red}{\Large\faWarning~Không tìm thấy tham số cho lệnh $\backslash$nangluctoanhoc}\par
+        }{% #2 không trống
+            \begin{itemize}
+                #2
+            \end{itemize}
+        }
+    }{% #1 không trống
+        \pgfkeys{/nangluctoanhoc, #1}
+        \ifblank{#2}{% #2 trống
+            \begin{itemize}
+                \nangluctoanhocTieuDe
+                \nangluctoanhocNoiDung
+            \end{itemize}
+        }{% #2 không trống
+            \begin{itemize}
+                \nangluctoanhocTieuDe
+                #2
+            \end{itemize}
+        }
+    }        
+}
+
+\pgfkeys{
+    /nangluctoanhoc/.is family, /nangluctoanhoc,
+    % Cảnh báo khi sai tham số.
+    .unknown/.code={}, 
+    % Năng lực tư duy và lập luận toán học
+    THCS/tuduylapluan/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực tư duy và lập luận toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Thực hiện được các thao tác tư duy, đặc biệt biết quan sát, giải thích được sự tương đồng và khác biệt trong nhiều tình huống và thể hiện được kết quả của việc quan sát.
+            \item Thực hiện được việc lập luận hợp lí khi giải quyết vấn đề.
+            \item Nêu và trả lời được câu hỏi khi lập luận, giải quyết vấn đề. Chứng minh được mệnh đề toán học không quá phức tạp.
+        }
+    },
+    THPT/tuduylapluan/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực tư duy và lập luận toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Thực hiện được tương đối thành thạo các thao tác tư duy, đặc biệt phát hiện được sự tương đồng và khác biệt trong những tình huống tương đối phức tạp và lí giải được kết quả của việc quan sát.
+            \item Sử dụng được các phương pháp lập luận, quy nạp và suy diễn để nhìn ra những cách thức khác nhau trong việc giải quyết vấn đề.
+            \item Nêu và trả lời được câu hỏi khi lập luận, giải quyết vấn đề. Giải thích, chứng minh, điều chỉnh được giải pháp thực hiện về phương diện toán học.
+        }
+    },
+    % Năng lực mô hình hoá toán học
+    THCS/mohinhhoa/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực mô hình hoá toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Sử dụng được các mô hình toán học (gồm công thức toán học, sơ đồ, bảng biểu, hình vẽ, phương trình, hình biểu diễn,...) để mô tả tình huống xuất hiện trong một số bài toán thực tiễn không quá phức tạp.
+            \item Giải quyết được những vấn đề toán học trong mô hình được thiết lập.
+            \item Thể hiện được lời giải toán học vào ngữ cảnh thực tiễn và làm quen với việc kiểm chứng tính đúng đắn của lời giải.
+        }
+    },
+    THPT/mohinhhoa/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực mô hình hoá toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Thiết lập được mô hình toán học (gồm công thức, phương trình, sơ đồ, hình vẽ, bảng biểu, đồ thị,...) để mô tả tình huống đặt ra trong một số bài toán thực tiễn.
+            \item Giải quyết được những vấn đề toán học trong mô hình được thiết lập.
+            \item  Lí giải được tính đúng đắn của lời giải (những kết luận thu được từ các tính toán là có ý nghĩa, phù hợp với thực tiễn hay không). Đặc biệt, nhận biết được cách đơn giản hoá, cách điều chỉnh những yêu cầu thực tiễn (xấp xỉ, bổ sung thêm giả thiết, tổng quát hoá,...) để đưa đến những bài toán giải được.
+        }
+    },
+    % Năng lực giải quyết vấn đề toán học
+    THCS/giaiquyetvande/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực giải quyết vấn đề toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Phát hiện được vấn đề cần giải quyết.
+            \item Xác định được cách thức, giải pháp giải quyết vấn đề.
+            \item Sử dụng được các kiến thức, kĩ năng toán học tương thích để giải quyết vấn đề.
+            \item Giải thích được giải pháp đã thực hiện.
+        }
+    },
+    THPT/giaiquyetvande/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực giải quyết vấn đề toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Xác định được tình huống có vấn đề; thu thập, sắp xếp, giải thích và đánh giá được độ tin cậy của thông tin; chia sẻ sự am hiểu vấn đề với người khác.
+            \item Lựa chọn và thiết lập được cách thức, quy trình giải quyết vấn đề.
+            \item Thực hiện và trình bày được giải pháp giải quyết vấn đề.
+            \item Đánh giá được giải pháp đã thực hiện; phản ánh được giá trị của giải pháp; khái quát hoá được cho vấn đề tương tự.
+        }
+    },
+    % Năng lực giao tiếp toán học
+    THCS/giaotiep/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực giao tiếp toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Nghe hiểu, đọc hiểu và ghi chép (tóm tắt) được các thông tin toán học cơ bản, trọng tâm trong văn bản (ở dạng văn bản nói hoặc viết). Từ đó phân tích, lựa chọn, trích xuất được các thông tin toán học cần thiết từ văn bản (ở dạng văn bản nói hoặc viết).
+            \item Thực hiện được việc trình bày, diễn đạt, nêu câu hỏi, thảo luận, tranh luận các nội dung, ý tưởng, giải pháp toán học trong sự tương tác với người khác (ở mức tương đối đầy đủ, chính xác).
+            \item Sử dụng được ngôn ngữ toán học kết hợp với ngôn ngữ thông thường để biểu đạt các nội dung toán học cũng như thể hiện chứng cứ, cách thức và kết quả lập luận.
+            \item Thể hiện được sự tự tin khi trình bày, diễn đạt, thảo luận, tranh luận, giải thích các nội dung toán học trong một số tình huống không quá phức tạp.
+        }
+    },
+    THPT/giaotiep/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực giao tiếp toán học:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Nghe hiểu, đọc hiểu và ghi chép (tóm tắt) được tương đối thành thạo các thông tin toán học cơ bản, trọng tâm trong văn bản nói hoặc viết. Từ đó phân tích, lựa chọn, trích xuất được các thông tin toán học cần thiết từ văn bản nói hoặc viết.
+            \item Lí giải được (một cách hợp lí) việc trình bày, diễn đạt, thảo luận, tranh luận các nội dung, ý tưởng, giải pháp toán học trong sự tương tác với người khác.
+            \item Sử dụng được một cách hợp lí ngôn ngữ toán học kết hợp với ngôn ngữ thông thường để biểu đạt cách suy nghĩ, lập luận, chứng minh các khẳng định toán học.
+            \item Thể hiện được sự tự tin khi trình bày, diễn đạt, thảo luận, tranh luận, giải thích các nội dung toán học trong nhiều tình huống không quá phức tạp.
+        }
+    },
+    % Năng lực sử dụng công cụ, phương tiện hoc toán
+    THCS/congcuphuongtien/.code={%
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực sử dụng công cụ, phương tiện hoc toán:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Nhận biết được tên gọi, tác dụng, quy cách sử dụng, cách thức bảo quản các công cụ, phương tiện học toán (mô hình hình học phẳng và không gian, thước đo góc, thước cuộn, tranh ảnh, biểu đồ,...).
+            \item Trình bày được cách sử dụng công cụ, phương tiện học toán để thực hiện nhiệm vụ học tập hoặc để diễn tả những lập luận, chứng minh toán học.
+            \item Sử dụng được máy tính cầm tay, một số phần mềm tin học và phương tiện công nghệ hỗ trợ học tập.
+            \item  Chỉ ra được các ưu điểm, hạn chế của những công cụ, phương tiện hỗ trợ để có cách sử dụng hợp lí.
+        }
+    },
+    THPT/congcuphuongtien/.code={
+        \def\nangluctoanhocTieuDe{%
+            \item[] \textit{Năng lực sử dụng công cụ, phương tiện hoc toán:}
+        }
+        \def\nangluctoanhocNoiDung{%
+            \item Nhận biết được tác dụng, quy cách sử dụng, cách thức bảo quản các công cụ, phương tiện học toán (bảng tổng kết về các dạng hàm số, mô hình góc và cung lượng giác, mô hình các hình khối, bộ dụng cụ tạo mặt tròn xoay,...).
+            \item Sử dụng được máy tính cầm tay, phần mềm, phương tiện công nghệ, nguồn tài nguyên trên mạng Internet để giải quyết một số vấn đề toán học.
+            \item Đánh giá được cách thức sử dụng các công cụ, phương tiện học toán trong tìm tòi, khám phá và giải quyết vấn đề toán học.
+        }
+    },
+}
