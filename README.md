@@ -45,7 +45,7 @@
 - Thầy cô dùng ```\subsubsection``` cho tiêu đề của tiết học (Tiết 1, Tiết 2,...)
 
 - Thầy cô dùng ```\paragraph``` cho tiêu đề nhỏ đánh số Ả rập (1, 2, 3,...):
-    - Về kiến thức, kĩ năng
+    - Về kiến thức
     - Về năng lực
     - Về phẩm chất
     - Hoạt động khởi động
@@ -70,7 +70,7 @@
     ```latex
     \subsection{Mục tiêu}
 
-    \paragraph{Về kiến thức, kĩ năng}
+    \paragraph{Về kiến thức}
 
     \begin{itemize}
         \item ...
